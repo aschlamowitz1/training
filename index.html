@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE LOG — Daily Intake Protocol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0907;
+    --bg-elevated: #131210;
+    --bg-card: #1a1815;
+    --border: #2a2722;
+    --border-strong: #3a362f;
+    --text: #f5f1e8;
+    --text-dim: #a8a292;
+    --text-faint: #6b665c;
+    --accent: #f4a523;
+    --accent-dim: #c98718;
+    --accent-glow: rgba(244, 165, 35, 0.15);
+    --success: #7a9b6e;
+    --danger: #c5564a;
+    --grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3CfeColorMatrix values='0 0 0 0 0.2 0 0 0 0 0.18 0 0 0 0 0.15 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: var(--grain);
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: overlay;
+  }
+
+  .app {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 20px 120px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* HEADER */
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+  }
+  .brand-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* HERO */
+  .hero {
+    margin-bottom: 36px;
+    position: relative;
+  }
+  .day-meta {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .day-meta .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; display: inline-block; }
+  .day-name {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(56px, 14vw, 96px);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .session-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: var(--accent-glow);
+    border: 1px solid var(--accent-dim);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .session-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  /* MACROS PANEL */
+  .macros {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    padding: 24px 20px;
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .macros::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 32px; height: 1px;
+    background: var(--accent);
+  }
+  .macros-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .macros-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .macros-target {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+  }
+  .macro-row {
+    margin-bottom: 16px;
+  }
+  .macro-row:last-child { margin-bottom: 0; }
+  .macro-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+  }
+  .macro-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .macro-values {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .macro-values .target {
+    color: var(--text-faint);
+    font-weight: 400;
+  }
+  .macro-bar {
+    height: 6px;
+    background: var(--bg-card);
+    position: relative;
+    overflow: hidden;
+  }
+  .macro-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+  }
+  .macro-fill.protein { background: linear-gradient(90deg, var(--accent), #ffc857); }
+  .macro-fill.cal { background: linear-gradient(90deg, #d97757, var(--accent)); }
+  .macro-fill.water { background: linear-gradient(90deg, #4a90c2, #6ab0d8); }
+
+  /* SECTION HEADERS */
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 32px 0 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .section-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.15em;
+  }
+
+  /* MEAL CARDS */
+  .meal {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    margin-bottom: 12px;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .meal.complete {
+    background: var(--bg-elevated);
+    border-color: var(--border);
+  }
+  .meal.complete .meal-header {
+    opacity: 0.5;
+  }
+  .meal.complete::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--success);
+  }
+  .meal-header {
+    display: flex;
+    align-items: center;
+    padding: 16px 18px;
+    cursor: pointer;
+    gap: 14px;
+    transition: opacity 0.2s;
+  }
+  .check-btn {
+    width: 26px;
+    height: 26px;
+    border: 1.5px solid var(--border-strong);
+    background: transparent;
+    cursor: pointer;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+  .check-btn:hover {
+    border-color: var(--accent);
+  }
+  .meal.complete .check-btn {
+    background: var(--success);
+    border-color: var(--success);
+  }
+  .check-btn::after {
+    content: '';
+    width: 12px; height: 7px;
+    border-left: 2px solid var(--text);
+    border-bottom: 2px solid var(--text);
+    transform: rotate(-45deg) translate(2px, -1px);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .meal.complete .check-btn::after {
+    opacity: 1;
+  }
+  .meal-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .meal-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .meal-name {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .meal-toggle {
+    color: var(--text-faint);
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+  .meal.open .meal-toggle {
+    transform: rotate(180deg);
+    color: var(--accent);
+  }
+  .meal-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .meal.open .meal-body {
+    max-height: 1200px;
+  }
+  .options {
+    padding: 0 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .option {
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--bg-elevated);
+    position: relative;
+  }
+  .option:hover {
+    border-color: var(--border-strong);
+  }
+  .option.selected {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, var(--accent-glow) 0%, transparent 60%);
+  }
+  .option.selected::after {
+    content: '✓ SELECTED';
+    position: absolute;
+    top: 8px; right: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    font-weight: 600;
+  }
+  .option-letter {
+    display: inline-block;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .option-desc {
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  .option-macros {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+  }
+  .macro-pill {
+    text-align: center;
+  }
+  .macro-pill-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .macro-pill-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .macro-pill.protein .macro-pill-value { color: var(--accent); }
+
+  /* SUPPLEMENTS */
+  .supplements {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 20px;
+  }
+  .supp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .supp {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .supp:last-child { border-bottom: none; }
+  .supp-check {
+    width: 22px; height: 22px;
+    border: 1.5px solid var(--border-strong);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+  .supp.done .supp-check {
+    background: var(--success);
+    border-color: var(--success);
+  }
+  .supp-check::after {
+    content: '';
+    width: 10px; height: 6px;
+    border-left: 2px solid var(--text);
+    border-bottom: 2px solid var(--text);
+    transform: rotate(-45deg) translate(2px, -1px);
+    opacity: 0;
+  }
+  .supp.done .supp-check::after { opacity: 1; }
+  .supp-info { flex: 1; }
+  .supp-name {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .supp.done .supp-name { color: var(--text-dim); text-decoration: line-through; text-decoration-color: var(--text-faint); }
+  .supp-dose {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.05em;
+  }
+  .supp-timing {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* WATER */
+  .water-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 20px;
+  }
+  .water-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+  }
+  .water-count {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 42px;
+    line-height: 1;
+    color: var(--text);
+  }
+  .water-count .target {
+    color: var(--text-faint);
+    font-size: 20px;
+  }
+  .water-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .water-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .water-cup {
+    aspect-ratio: 1;
+    border: 1.5px solid var(--border-strong);
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    border-radius: 2px;
+  }
+  .water-cup:hover { border-color: var(--accent); }
+  .water-cup.filled {
+    background: linear-gradient(180deg, #4a90c2, #2c6588);
+    border-color: #4a90c2;
+  }
+  .water-cup.filled::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+  }
+  .water-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .water-btn {
+    flex: 1;
+    padding: 12px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .water-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* WEEK STRIP */
+  .week-strip {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+  }
+  .week-day {
+    text-align: center;
+    padding: 10px 4px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .week-day:hover {
+    border-color: var(--border-strong);
+  }
+  .week-day.active {
+    border-color: var(--accent);
+    background: var(--accent-glow);
+  }
+  .week-day-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .week-day.active .week-day-name { color: var(--accent); }
+  .week-day-num {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    margin-top: 2px;
+  }
+
+  /* FOOTER */
+  .footer-note {
+    margin-top: 40px;
+    padding: 16px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    line-height: 1.8;
+  }
+  .footer-note .accent { color: var(--accent); }
+
+  /* LOADING */
+  .loading {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+  .loading.hidden { opacity: 0; visibility: hidden; }
+  .loading-text {
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 480px) {
+    .app { padding: 20px 16px 100px; }
+    .water-grid { grid-template-columns: repeat(8, 1fr); }
+    .option-macros { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  /* SUBTLE ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .meal, .macros, .supplements, .water-panel, .week-strip {
+    animation: fadeUp 0.4s ease-out backwards;
+  }
+  .meal:nth-child(1) { animation-delay: 0.05s; }
+  .meal:nth-child(2) { animation-delay: 0.1s; }
+  .meal:nth-child(3) { animation-delay: 0.15s; }
+  .meal:nth-child(4) { animation-delay: 0.2s; }
+  .meal:nth-child(5) { animation-delay: 0.25s; }
+
+</style>
+</head>
+<body>
+
+<div class="loading" id="loading"><div class="loading-text">LOADING PROTOCOL...</div></div>
+
+<div class="app">
+  <div class="top-bar">
+    <div>
+      <div class="brand">THE LOG</div>
+      <div class="brand-sub">Intake Protocol · Wk Rotation</div>
+    </div>
+    <div class="brand-sub" id="dateStamp">—</div>
+  </div>
+
+  <div class="hero">
+    <div class="day-meta">
+      <span class="dot"></span>
+      <span id="weekTag">WEEK 01</span>
+      <span>·</span>
+      <span id="trainingSplit">UPPER · PUSH/PULL</span>
+    </div>
+    <div class="day-name" id="dayName">MONDAY</div>
+    <div class="session-tag" id="sessionTag">2,400 KCAL · 220G PROTEIN</div>
+  </div>
+
+  <div class="macros">
+    <div class="macros-head">
+      <div class="macros-title">Daily Totals</div>
+      <div class="macros-target">live tracking</div>
+    </div>
+
+    <div class="macro-row">
+      <div class="macro-label-row">
+        <div class="macro-label">Protein</div>
+        <div class="macro-values"><span id="proteinCurrent">0</span><span class="target">/220g</span></div>
+      </div>
+      <div class="macro-bar"><div class="macro-fill protein" id="proteinBar" style="width:0%"></div></div>
+    </div>
+
+    <div class="macro-row">
+      <div class="macro-label-row">
+        <div class="macro-label">Calories</div>
+        <div class="macro-values"><span id="calCurrent">0</span><span class="target">/2400</span></div>
+      </div>
+      <div class="macro-bar"><div class="macro-fill cal" id="calBar" style="width:0%"></div></div>
+    </div>
+
+    <div class="macro-row">
+      <div class="macro-label-row">
+        <div class="macro-label">Water</div>
+        <div class="macro-values"><span id="waterCurrent">0</span><span class="target">/16 cups · 1 gal</span></div>
+      </div>
+      <div class="macro-bar"><div class="macro-fill water" id="waterBar" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <div class="section-head">
+    <div class="section-title">Meals</div>
+    <div class="section-count" id="mealCount">0/5 LOGGED</div>
+  </div>
+
+  <div id="mealsList"></div>
+
+  <div class="section-head">
+    <div class="section-title">Supplements</div>
+    <div class="section-count">DAILY STACK</div>
+  </div>
+
+  <div class="supplements">
+    <div class="supp-list" id="suppList"></div>
+  </div>
+
+  <div class="section-head">
+    <div class="section-title">Hydration</div>
+    <div class="section-count">1 GAL TARGET</div>
+  </div>
+
+  <div class="water-panel">
+    <div class="water-head">
+      <div>
+        <div class="water-count"><span id="waterMain">0</span><span class="target">/16</span></div>
+        <div class="water-label">8 oz cups · ~1 gallon total</div>
+      </div>
+    </div>
+    <div class="water-grid" id="waterGrid"></div>
+    <div class="water-actions">
+      <button class="water-btn" onclick="addWater()">+ 1 Cup</button>
+      <button class="water-btn" onclick="removeWater()">− 1 Cup</button>
+    </div>
+  </div>
+
+  <div class="week-strip">
+    <div class="section-head" style="margin-top:0;border-bottom:none;padding-bottom:0;">
+      <div class="section-title" style="font-size:16px;">Week View</div>
+      <div class="section-count">TAP TO PREVIEW</div>
+    </div>
+    <div style="margin-top:16px;" class="week-grid" id="weekGrid"></div>
+  </div>
+
+  <div class="footer-note">
+    Resets daily at 00:00 · <span class="accent">consistency &gt; perfection</span><br>
+    No dairy · 220g protein · ~2,400 kcal · 1 gal water
+  </div>
+</div>
+
+<script>
+// ============================================================
+// MEAL PLAN DATA — 7-day rotation, dairy-minimized, ~2400cal/220p
+// ============================================================
+const WEEK_PLAN = {
+  monday: {
+    name: 'MONDAY',
+    split: 'UPPER · PUSH/PULL',
+    meals: [
+      { id: 'm1', time: '06:00 · Pre-Workout (if 4am training)', name: 'Pre-Lift Fuel',
+        options: [
+          { letter: 'A', desc: '1 scoop whey isolate in water + ½ banana + creatine + caffeine pill', p: 25, c: 18, f: 1, k: 180 },
+          { letter: 'B', desc: 'Rice cake w/ PB & banana slices + black coffee + creatine', p: 12, c: 35, f: 10, k: 260 }
+        ] },
+      { id: 'm2', time: '07:30 · Breakfast', name: 'Morning Anchor',
+        options: [
+          { letter: 'A', desc: '4 whole eggs + 2 egg whites scrambled in olive oil, 1 cup oats cooked in unsweetened soy milk, 1 banana, cinnamon', p: 48, c: 65, f: 22, k: 640 },
+          { letter: 'B', desc: 'Overnight oats: ½ cup oats, 1 scoop whey, 1 tbsp chia, ¾ cup soy milk, blueberries, 1 tbsp PB', p: 45, c: 60, f: 20, k: 600 },
+          { letter: 'C', desc: '5-egg veggie scramble + sourdough toast w/ avocado + black coffee', p: 38, c: 35, f: 28, k: 540 }
+        ] },
+      { id: 'm3', time: '11:00 · Mid-Morning', name: 'Bridge Snack',
+        options: [
+          { letter: 'A', desc: 'Whey shake (1 scoop in water) + apple + 1 oz almonds', p: 30, c: 30, f: 15, k: 360 },
+          { letter: 'B', desc: '3 hard-boiled eggs + 1 oz almonds + small apple', p: 25, c: 18, f: 20, k: 340 }
+        ] },
+      { id: 'm4', time: '12:30 · Lunch (Prepped)', name: 'Work Block',
+        options: [
+          { letter: 'A', desc: '7 oz grilled chicken breast + 1.5 cups jasmine rice + roasted broccoli + drizzle olive oil + hot sauce', p: 55, c: 70, f: 10, k: 610 },
+          { letter: 'B', desc: '7 oz lean ground beef (93/7) + 1 large baked potato + sautéed kale w/ garlic', p: 52, c: 60, f: 16, k: 600 }
+        ] },
+      { id: 'm5', time: '16:00 · Afternoon', name: 'Pre-Dinner Hold',
+        options: [
+          { letter: 'A', desc: 'Whey shake in water + 1 banana', p: 30, c: 35, f: 2, k: 290 },
+          { letter: 'B', desc: 'Tuna packet on 4 rice cakes + cucumber slices', p: 30, c: 30, f: 3, k: 280 }
+        ] },
+      { id: 'm6', time: '19:00 · Dinner', name: 'Recovery Meal',
+        options: [
+          { letter: 'A', desc: '7 oz salmon fillet + medium sweet potato + roasted asparagus w/ olive oil', p: 50, c: 45, f: 22, k: 600 },
+          { letter: 'B', desc: '7 oz chicken thighs (boneless skinless) + jasmine rice + bok choy stir-fry', p: 52, c: 55, f: 18, k: 620 },
+          { letter: 'C', desc: '8 oz lean steak + roasted fingerling potatoes + spinach salad', p: 56, c: 35, f: 22, k: 580 }
+        ] }
+    ]
+  },
+  tuesday: {
+    name: 'TUESDAY',
+    split: 'LOWER · LEGS',
+    meals: [
+      { id: 'm1', time: '06:00 · Pre-Workout (optional)', name: 'Pre-Lift Fuel',
+        options: [
+          { letter: 'A', desc: 'Whey shake + ½ banana + creatine + caffeine', p: 25, c: 18, f: 1, k: 180 },
+          { letter: 'B', desc: '2 rice cakes w/ PB + black coffee + creatine', p: 10, c: 30, f: 12, k: 260 }
+        ] },
+      { id: 'm2', time: '07:30 · Breakfast', name: 'Morning Anchor',
+        options: [
+          { letter: 'A', desc: 'Overnight oats: ½ cup oats, 1 scoop whey, chia, soy milk, mixed berries, 1 tbsp PB', p: 45, c: 60, f: 20, k: 600 },
+          { letter: 'B', desc: '4 eggs + 2 whites scrambled w/ spinach + 2 slices sourdough toast w/ avocado', p: 42, c: 38, f: 24, k: 540 },
+          { letter: 'C', desc: 'Protein pancakes: 1 scoop whey + 2 eggs + oats + banana, blueberries on top', p: 50, c: 55, f: 14, k: 540 }
+        ] },
+      { id: 'm3', time: '11:00 · Mid-Morning', name: 'Bridge Snack',
+        options: [
+          { letter: 'A', desc: 'Whey shake + 1 banana + handful almonds', p: 30, c: 35, f: 15, k: 380 },
+          { letter: 'B', desc: 'Tuna packet on rice cakes + apple', p: 30, c: 30, f: 3, k: 280 }
+        ] },
+      { id: 'm4', time: '12:30 · Lunch (Prepped)', name: 'Work Block',
+        options: [
+          { letter: 'A', desc: '7 oz ground turkey burrito bowl: rice, black beans, salsa, lettuce, hot sauce', p: 55, c: 75, f: 10, k: 630 },
+          { letter: 'B', desc: '7 oz chicken breast + sweet potato + roasted veggies (peppers, zucchini) + olive oil', p: 55, c: 55, f: 12, k: 560 }
+        ] },
+      { id: 'm5', time: '16:00 · Afternoon', name: 'Pre-Dinner Hold',
+        options: [
+          { letter: 'A', desc: '3 hard-boiled eggs + 1 oz almonds', p: 25, c: 8, f: 22, k: 320 },
+          { letter: 'B', desc: 'Whey shake + apple', p: 30, c: 25, f: 2, k: 250 }
+        ] },
+      { id: 'm6', time: '19:00 · Dinner', name: 'Recovery Meal',
+        options: [
+          { letter: 'A', desc: '8 oz lean sirloin steak + roasted potatoes + green beans w/ olive oil', p: 56, c: 40, f: 22, k: 610 },
+          { letter: 'B', desc: '7 oz cod or tilapia + couscous + roasted Mediterranean veggies', p: 50, c: 55, f: 12, k: 530 }
+        ] }
+    ]
+  },
+  wednesday: {
+    name: 'WEDNESDAY',
+    split: 'REST · CARDIO + VO2',
+    meals: [
+      { id: 'm2', time: '07:30 · Breakfast', name: 'Morning Anchor',
+        options: [
+          { letter: 'A', desc: '4 eggs + 2 whites + 1 cup oats w/ soy milk + berries (lower carb day)', p: 42, c: 55, f: 20, k: 580 },
+          { letter: 'B', desc: 'Egg white omelet (6 whites + 2 yolks) w/ veggies + 2 chicken sausage links + sourdough', p: 48, c: 35, f: 18, k: 500 }
+        ] },
+      { id: 'm3', time: '11:00 · Mid-Morning', name: 'Bridge Snack',
+        options: [
+          { letter: 'A', desc: 'Whey shake + apple', p: 30, c: 25, f: 2, k: 250 },
+          { letter: 'B', desc: '3 hard-boiled eggs + cucumber slices + hummus', p: 25, c: 12, f: 18, k: 300 }
+        ] },
+      { id: 'm4', time: '12:30 · Lunch (Prepped)', name: 'Work Block',
+        options: [
+          { letter: 'A', desc: '7 oz grilled chicken Caesar (no croutons, light dressing) + ½ cup rice on side', p: 50, c: 40, f: 18, k: 540 },
+          { letter: 'B', desc: '7 oz pork tenderloin + quinoa + roasted Brussels sprouts', p: 50, c: 45, f: 12, k: 510 }
+        ] },
+      { id: 'm5', time: '16:00 · Afternoon', name: 'Pre-Dinner Hold',
+        options: [
+          { letter: 'A', desc: 'Whey shake + banana + almonds', p: 30, c: 35, f: 15, k: 380 },
+          { letter: 'B', desc: 'Beef jerky (2 oz) + apple + handful walnuts', p: 28, c: 20, f: 14, k: 320 }
+        ] },
+      { id: 'm6', time: '19:00 · Dinner', name: 'Recovery Meal',
+        options: [
+          { letter: 'A', desc: '7 oz shrimp stir-fry w/ rice, peppers, snap peas, soy/ginger sauce', p: 50, c: 65, f: 8, k: 560 },
+          { letter: 'B', desc: '7 oz ground beef tacos (3 corn tortillas) w/ guac, lettuce, salsa', p: 52, c: 45, f: 22, k: 600 }
+        ] }
+    ]
+  },
+  thursday: {
+    name: 'THURSDAY',
+    split: 'UPPER · PUSH/PULL',
+    meals: [
+      { id: 'm1', time: '06:00 · Pre-Workout (optional)', name: 'Pre-Lift Fuel',
+        options: [
+          { letter: 'A', desc: 'Whey shake + ½ banana + creatine + caffeine', p: 25, c: 18, f: 1, k: 180 },
+          { letter: 'B', desc: 'Rice cake w/ PB + black coffee + creatine', p: 10, c: 25, f: 10, k: 220 }
+        ] },
+      { id: 'm2', time: '07:30 · Breakfast', name: 'Morning Anchor',
+        options: [
+          { letter: 'A', desc: 'PB & banana oatmeal: 1 cup oats, soy milk, 1 scoop whey, 1 tbsp PB, sliced banana', p: 45, c: 70, f: 18, k: 620 },
+          { letter: 'B', desc: '3 strips turkey bacon + 4 eggs + 2 slices sourdough w/ jam', p: 42, c: 40, f: 24, k: 580 },
+          { letter: 'C', desc: 'Breakfast burrito: 4 eggs + chicken sausage + salsa wrapped in large tortilla', p: 45, c: 50, f: 22, k: 600 }
+        ] },
+      { id: 'm3', time: '11:00 · Mid-Morning', name: 'Bridge Snack',
+        options: [
+          { letter: 'A', desc: 'Whey shake + apple + almonds', p: 30, c: 30, f: 15, k: 360 },
+          { letter: 'B', desc: 'Tuna packet + rice cakes + cucumber', p: 30, c: 25, f: 3, k: 260 }
+        ] },
+      { id: 'm4', time: '12:30 · Lunch (Prepped)', name: 'Work Block',
+        options: [
+          { letter: 'A', desc: '7 oz chicken thighs + 1.5 cups rice + roasted carrots & broccoli', p: 52, c: 70, f: 14, k: 620 },
+          { letter: 'B', desc: '7 oz Asian beef bowl: ground beef, rice, sesame, scallions, soy/ginger sauce', p: 52, c: 65, f: 15, k: 600 }
+        ] },
+      { id: 'm5', time: '16:00 · Afternoon', name: 'Pre-Dinner Hold',
+        options: [
+          { letter: 'A', desc: 'Whey shake + banana', p: 30, c: 35, f: 2, k: 290 },
+          { letter: 'B', desc: '3 hard-boiled eggs + almonds', p: 25, c: 8, f: 22, k: 320 }
+        ] },
+      { id: 'm6', time: '19:00 · Dinner', name: 'Recovery Meal',
+        options: [
+          { letter: 'A', desc: '7 oz pork tenderloin + roasted sweet potato + Brussels sprouts', p: 50, c: 45, f: 14, k: 530 },
+          { letter: 'B', desc: '7 oz tilapia + rice + sautéed spinach w/ garlic', p: 50, c: 55, f: 10, k: 510 },
+          { letter: 'C', desc: '7 oz chicken breast + pasta w/ marinara + side salad', p: 55, c: 65, f: 12, k: 590 }
+        ] }
+    ]
+  },
+  friday: {
+    name: 'FRIDAY',
+    split: 'LOWER · LEGS + INTENTIONAL MEAL',
+    meals: [
+      { id: 'm2', time: '07:30 · Breakfast', name: 'Morning Anchor',
+        options: [
+          { letter: 'A', desc: '4 eggs + 2 whites + 1 cup oats w/ soy milk + berries', p: 45, c: 60, f: 20, k: 600 },
+          { letter: 'B', desc: 'Overnight oats w/ whey, chia, PB, banana', p: 48, c: 60, f: 18, k: 600 }
+        ] },
+      { id: 'm3', time: '11:00 · Mid-Morning', name: 'Bridge Snack',
+        options: [
+          { letter: 'A', desc: 'Whey shake + apple', p: 30, c: 25, f: 2, k: 250 },
+          { letter: 'B', desc: '3 hard-boiled eggs + almonds', p: 25, c: 8, f: 22, k: 320 }
+        ] },
+      { id: 'm4', time: '12:30 · Lunch (Light)', name: 'Strategic Light Lunch',
+        options: [
+          { letter: 'A', desc: '6 oz chicken breast + 1 cup rice + large salad (lighter, saving cals for dinner)', p: 45, c: 50, f: 8, k: 460 },
+          { letter: 'B', desc: 'Big salad w/ 6 oz grilled chicken, mixed veggies, balsamic vinaigrette', p: 45, c: 25, f: 14, k: 400 }
+        ] },
+      { id: 'm5', time: '15:30 · Afternoon', name: 'Pre-Dinner Bridge',
+        options: [
+          { letter: 'A', desc: 'Whey shake + apple', p: 30, c: 25, f: 2, k: 250 },
+          { letter: 'B', desc: '2 hard-boiled eggs + cucumber', p: 14, c: 5, f: 10, k: 170 }
+        ] },
+      { id: 'm6', time: '19:00 · INTENTIONAL MEAL', name: 'Friday Reward',
+        options: [
+          { letter: 'A', desc: 'Restaurant: 8 oz grilled steak + baked potato + side salad + 1 beer or non-alcoholic option', p: 60, c: 60, f: 25, k: 720 },
+          { letter: 'B', desc: 'Smash burger (single patty, lettuce, tomato) + side salad (no fries)', p: 40, c: 35, f: 30, k: 600 },
+          { letter: 'C', desc: 'Grilled chicken sandwich + small fries + water', p: 45, c: 60, f: 18, k: 580 },
+          { letter: 'D', desc: 'Sushi: 12-piece nigiri (salmon, tuna, yellowtail) + edamame + miso (no rolls w/ tempura)', p: 45, c: 55, f: 10, k: 500 }
+        ] }
+    ]
+  },
+  saturday: {
+    name: 'SATURDAY',
+    split: 'ACTIVE REST · 12K STEPS',
+    meals: [
+      { id: 'm2', time: '09:00 · Breakfast', name: 'Weekend Anchor',
+        options: [
+          { letter: 'A', desc: 'Protein pancakes (oats + whey + 2 eggs + banana) w/ berries + 3 strips turkey bacon', p: 55, c: 60, f: 16, k: 600 },
+          { letter: 'B', desc: '5-egg veggie omelet + 2 chicken sausage + sourdough toast', p: 48, c: 35, f: 22, k: 540 },
+          { letter: 'C', desc: 'Breakfast burrito: 4 eggs + chicken sausage + black beans + salsa wrapped in tortilla', p: 45, c: 50, f: 20, k: 580 }
+        ] },
+      { id: 'm3', time: '12:30 · Lunch', name: 'Midday Hold',
+        options: [
+          { letter: 'A', desc: '7 oz grilled chicken wrap w/ veggies + side fruit', p: 50, c: 50, f: 12, k: 510 },
+          { letter: 'B', desc: 'Big chicken salad bowl: 7 oz chicken, mixed greens, quinoa, avocado, vinaigrette', p: 50, c: 35, f: 22, k: 520 }
+        ] },
+      { id: 'm5', time: '16:00 · Afternoon', name: 'Snack Block',
+        options: [
+          { letter: 'A', desc: 'Whey shake + banana + almonds', p: 30, c: 35, f: 15, k: 380 },
+          { letter: 'B', desc: 'Beef jerky + apple + walnuts', p: 28, c: 22, f: 14, k: 320 }
+        ] },
+      { id: 'm6', time: '19:00 · Dinner', name: 'Home-Cooked Meal',
+        options: [
+          { letter: 'A', desc: '8 oz steak + roasted potatoes + asparagus w/ olive oil', p: 58, c: 45, f: 22, k: 620 },
+          { letter: 'B', desc: '7 oz salmon + wild rice + roasted veggies', p: 50, c: 55, f: 20, k: 580 },
+          { letter: 'C', desc: 'Homemade chicken stir-fry: 8 oz chicken, rice, mixed veggies, soy/ginger', p: 55, c: 65, f: 12, k: 600 }
+        ] },
+      { id: 'm7', time: '21:30 · Evening (KITCHEN CLOSES 9PM)', name: 'Optional Light Snack',
+        options: [
+          { letter: 'A', desc: 'Whey shake in water + 1 tsp PB (only if hungry — no eating past 9pm ideally)', p: 26, c: 5, f: 8, k: 200 },
+          { letter: 'SKIP', desc: 'Close the kitchen. Hydrate. Sleep early. This is the discipline that builds the physique.', p: 0, c: 0, f: 0, k: 0 }
+        ] }
+    ]
+  },
+  sunday: {
+    name: 'SUNDAY',
+    split: 'REST · MEAL PREP DAY',
+    meals: [
+      { id: 'm2', time: '09:00 · Breakfast', name: 'Weekend Anchor',
+        options: [
+          { letter: 'A', desc: '4 eggs + 2 whites scrambled w/ chicken sausage + sweet potato hash + sourdough', p: 50, c: 50, f: 22, k: 600 },
+          { letter: 'B', desc: 'Overnight oats w/ whey, chia, berries, PB', p: 45, c: 60, f: 20, k: 600 }
+        ] },
+      { id: 'm3', time: '12:00 · Lunch (Meal Prep Tasting)', name: 'Test Your Prep',
+        options: [
+          { letter: 'A', desc: '7 oz of what you prepped: chicken/beef/turkey + rice + veggies + sauce', p: 52, c: 65, f: 12, k: 580 },
+          { letter: 'B', desc: 'Salmon bowl: 6 oz baked salmon + rice + cucumber + avocado', p: 45, c: 55, f: 22, k: 580 }
+        ] },
+      { id: 'm5', time: '16:00 · Afternoon', name: 'Snack Block',
+        options: [
+          { letter: 'A', desc: 'Whey shake + apple + handful almonds', p: 30, c: 30, f: 15, k: 360 },
+          { letter: 'B', desc: '3 hard-boiled eggs + cucumber + hummus', p: 25, c: 15, f: 18, k: 320 }
+        ] },
+      { id: 'm6', time: '18:30 · Dinner', name: 'Set The Week',
+        options: [
+          { letter: 'A', desc: '7 oz baked chicken + roasted sweet potato + green beans (light, sets up Monday)', p: 52, c: 45, f: 10, k: 500 },
+          { letter: 'B', desc: '8 oz lean steak + cauliflower mash + roasted Brussels sprouts', p: 56, c: 25, f: 22, k: 540 },
+          { letter: 'C', desc: '7 oz cod + jasmine rice + sautéed spinach', p: 48, c: 55, f: 8, k: 500 }
+        ] }
+    ]
+  }
+};
+
+const SUPPLEMENTS = [
+  { id: 's1', name: 'Creatine Monohydrate', dose: '5g', timing: 'ANY TIME' },
+  { id: 's2', name: 'Vitamin D3', dose: '2,000 IU', timing: 'WITH FAT MEAL' },
+  { id: 's3', name: 'Caffeine (pre-workout)', dose: '100–200mg', timing: 'PRE-LIFT ONLY' },
+  { id: 's4', name: 'Whey Isolate', dose: '1–2 scoops', timing: 'AS NEEDED' },
+  { id: 's5', name: 'Fish Oil (optional)', dose: '1–2g EPA+DHA', timing: 'WITH MEAL' },
+  { id: 's6', name: 'Calcium (if dairy avoided)', dose: '500mg', timing: 'WITH MEAL' }
+];
+
+const DAYS_ORDER = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+const DAY_LABELS = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+
+// ============================================================
+// STATE
+// ============================================================
+let currentDay = null; // viewing day
+let actualToday = null; // real today
+let state = { meals: {}, supps: {}, water: 0, selections: {}, date: null };
+
+function getTodayKey() {
+  const d = new Date();
+  const dayIdx = d.getDay(); // 0=Sun ... 6=Sat
+  // Map: 0->sunday, 1->monday, etc
+  return DAYS_ORDER[(dayIdx + 6) % 7];
+}
+
+function getDateStamp() {
+  const d = new Date();
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
+}
+
+function getISODate() {
+  return new Date().toISOString().split('T')[0];
+}
+
+// ============================================================
+// STORAGE
+// ============================================================
+async function loadState() {
+  const today = getISODate();
+  try {
+    const r = await window.storage.get('daily_state');
+    if (r && r.value) {
+      const parsed = JSON.parse(r.value);
+      // Reset if it's a new day
+      if (parsed.date !== today) {
+        state = { meals: {}, supps: {}, water: 0, selections: parsed.selections || {}, date: today };
+        await saveState();
+      } else {
+        state = parsed;
+        if (!state.selections) state.selections = {};
+      }
+    } else {
+      state = { meals: {}, supps: {}, water: 0, selections: {}, date: today };
+    }
+  } catch (e) {
+    state = { meals: {}, supps: {}, water: 0, selections: {}, date: today };
+  }
+}
+
+async function saveState() {
+  try {
+    await window.storage.set('daily_state', JSON.stringify(state));
+  } catch (e) {
+    console.error('Save failed', e);
+  }
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function render() {
+  const dayData = WEEK_PLAN[currentDay];
+  document.getElementById('dayName').textContent = dayData.name;
+  document.getElementById('trainingSplit').textContent = dayData.split;
+  document.getElementById('dateStamp').textContent = getDateStamp();
+
+  // Week tag (week of year, simplified)
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  const diff = now - start;
+  const week = Math.ceil(diff / (1000 * 60 * 60 * 24 * 7));
+  document.getElementById('weekTag').textContent = `WEEK ${String(week).padStart(2,'0')}`;
+
+  renderMeals(dayData);
+  renderSupps();
+  renderWater();
+  renderWeek();
+  updateMacros();
+}
+
+function renderMeals(dayData) {
+  const list = document.getElementById('mealsList');
+  list.innerHTML = '';
+  const isToday = (currentDay === actualToday);
+
+  dayData.meals.forEach((meal, idx) => {
+    const completed = isToday && state.meals[meal.id];
+    const card = document.createElement('div');
+    card.className = `meal ${completed ? 'complete' : ''}`;
+    card.style.animationDelay = `${0.05 + idx * 0.05}s`;
+
+    const selectedOpt = isToday ? (state.selections[meal.id] || meal.options[0].letter) : meal.options[0].letter;
+
+    card.innerHTML = `
+      <div class="meal-header" onclick="toggleMeal(this, event)">
+        <button class="check-btn" onclick="event.stopPropagation(); toggleMealComplete('${meal.id}')"></button>
+        <div class="meal-info">
+          <div class="meal-time">${meal.time}</div>
+          <div class="meal-name">${meal.name}</div>
+        </div>
+        <div class="meal-toggle">▾</div>
+      </div>
+      <div class="meal-body">
+        <div class="options">
+          ${meal.options.map(opt => `
+            <div class="option ${opt.letter === selectedOpt ? 'selected' : ''}"
+                 onclick="selectOption('${meal.id}', '${opt.letter}', event)"
+                 ${!isToday ? 'style="cursor:default;opacity:0.8;"' : ''}>
+              <div class="option-letter">OPTION ${opt.letter}</div>
+              <div class="option-desc">${opt.desc}</div>
+              <div class="option-macros">
+                <div class="macro-pill protein">
+                  <div class="macro-pill-label">Protein</div>
+                  <div class="macro-pill-value">${opt.p}g</div>
+                </div>
+                <div class="macro-pill">
+                  <div class="macro-pill-label">Carbs</div>
+                  <div class="macro-pill-value">${opt.c}g</div>
+                </div>
+                <div class="macro-pill">
+                  <div class="macro-pill-label">Fat</div>
+                  <div class="macro-pill-value">${opt.f}g</div>
+                </div>
+                <div class="macro-pill">
+                  <div class="macro-pill-label">Kcal</div>
+                  <div class="macro-pill-value">${opt.k}</div>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+
+  const completedCount = isToday ? dayData.meals.filter(m => state.meals[m.id]).length : 0;
+  document.getElementById('mealCount').textContent = `${completedCount}/${dayData.meals.length} LOGGED`;
+}
+
+function toggleMeal(headerEl, e) {
+  if (e.target.classList.contains('check-btn')) return;
+  headerEl.parentElement.classList.toggle('open');
+}
+
+async function toggleMealComplete(mealId) {
+  if (currentDay !== actualToday) return; // only mark today
+  state.meals[mealId] = !state.meals[mealId];
+  await saveState();
+  render();
+}
+
+async function selectOption(mealId, letter, e) {
+  e.stopPropagation();
+  if (currentDay !== actualToday) return;
+  state.selections[mealId] = letter;
+  await saveState();
+  renderMeals(WEEK_PLAN[currentDay]);
+  updateMacros();
+}
+
+function renderSupps() {
+  const list = document.getElementById('suppList');
+  list.innerHTML = '';
+  const isToday = (currentDay === actualToday);
+
+  SUPPLEMENTS.forEach(s => {
+    const done = isToday && state.supps[s.id];
+    const row = document.createElement('div');
+    row.className = `supp ${done ? 'done' : ''}`;
+    row.onclick = () => toggleSupp(s.id);
+    row.innerHTML = `
+      <div class="supp-check"></div>
+      <div class="supp-info">
+        <div class="supp-name">${s.name}</div>
+        <div class="supp-dose">${s.dose}</div>
+      </div>
+      <div class="supp-timing">${s.timing}</div>
+    `;
+    list.appendChild(row);
+  });
+}
+
+async function toggleSupp(id) {
+  if (currentDay !== actualToday) return;
+  state.supps[id] = !state.supps[id];
+  await saveState();
+  renderSupps();
+}
+
+function renderWater() {
+  const grid = document.getElementById('waterGrid');
+  grid.innerHTML = '';
+  const water = (currentDay === actualToday) ? state.water : 0;
+  for (let i = 0; i < 16; i++) {
+    const cup = document.createElement('div');
+    cup.className = `water-cup ${i < water ? 'filled' : ''}`;
+    cup.onclick = () => setWater(i + 1);
+    grid.appendChild(cup);
+  }
+  document.getElementById('waterMain').textContent = water;
+  document.getElementById('waterCurrent').textContent = water;
+  document.getElementById('waterBar').style.width = `${Math.min(100, (water/16)*100)}%`;
+}
+
+async function setWater(n) {
+  if (currentDay !== actualToday) return;
+  state.water = (state.water === n) ? n - 1 : n;
+  if (state.water < 0) state.water = 0;
+  await saveState();
+  renderWater();
+}
+
+async function addWater() {
+  if (currentDay !== actualToday) return;
+  state.water = Math.min(16, state.water + 1);
+  await saveState();
+  renderWater();
+}
+
+async function removeWater() {
+  if (currentDay !== actualToday) return;
+  state.water = Math.max(0, state.water - 1);
+  await saveState();
+  renderWater();
+}
+
+function updateMacros() {
+  const isToday = (currentDay === actualToday);
+  let p = 0, k = 0;
+  if (isToday) {
+    const dayData = WEEK_PLAN[currentDay];
+    dayData.meals.forEach(meal => {
+      if (state.meals[meal.id]) {
+        const letter = state.selections[meal.id] || meal.options[0].letter;
+        const opt = meal.options.find(o => o.letter === letter) || meal.options[0];
+        p += opt.p;
+        k += opt.k;
+      }
+    });
+  }
+  document.getElementById('proteinCurrent').textContent = p;
+  document.getElementById('calCurrent').textContent = k;
+  document.getElementById('proteinBar').style.width = `${Math.min(100, (p/220)*100)}%`;
+  document.getElementById('calBar').style.width = `${Math.min(100, (k/2400)*100)}%`;
+}
+
+function renderWeek() {
+  const grid = document.getElementById('weekGrid');
+  grid.innerHTML = '';
+  DAYS_ORDER.forEach((day, i) => {
+    const cell = document.createElement('div');
+    cell.className = `week-day ${day === currentDay ? 'active' : ''}`;
+    cell.onclick = () => { currentDay = day; render(); window.scrollTo({top: 0, behavior: 'smooth'}); };
+    cell.innerHTML = `
+      <div class="week-day-name">${DAY_LABELS[i]}</div>
+      <div class="week-day-num">${i + 1}</div>
+    `;
+    grid.appendChild(cell);
+  });
+}
+
+// ============================================================
+// INIT
+// ============================================================
+(async function init() {
+  actualToday = getTodayKey();
+  currentDay = actualToday;
+  await loadState();
+  render();
+  setTimeout(() => {
+    document.getElementById('loading').classList.add('hidden');
+  }, 300);
+})();
+</script>
+</body>
+</html>
