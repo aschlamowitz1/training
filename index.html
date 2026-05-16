@@ -22,1261 +22,500 @@
     --accent-glow: rgba(244, 165, 35, 0.15);
     --success: #7a9b6e;
     --danger: #c5564a;
-    --grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3CfeColorMatrix values='0 0 0 0 0.2 0 0 0 0 0.18 0 0 0 0 0.15 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --blue: #4a90c2;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-  html, body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Manrope', sans-serif;
-    font-weight: 400;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: var(--grain);
-    opacity: 0.4;
-    pointer-events: none;
-    z-index: 1;
-    mix-blend-mode: overlay;
-  }
-
-  .app {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 24px 20px 120px;
-    position: relative;
-    z-index: 2;
-  }
-
-  /* HEADER */
-  .top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 32px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--border);
-  }
-  .brand {
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 0.3em;
-    color: var(--accent);
-  }
-  .brand-sub {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: var(--text-faint);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-
-  /* HERO */
-  .hero {
-    margin-bottom: 36px;
-    position: relative;
-  }
-  .day-meta {
-    display: flex;
-    gap: 16px;
-    align-items: baseline;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--text-faint);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
+  html, body { background: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; min-height: 100vh; overflow-x: hidden; }
+  .app { max-width: 720px; margin: 0 auto; padding: 24px 20px 120px; position: relative; z-index: 2; }
+  .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .brand { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.3em; color: var(--accent); }
+  .brand-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-faint); letter-spacing: 0.15em; text-transform: uppercase; }
+  .hero { margin-bottom: 36px; position: relative; }
+  .day-meta { display: flex; gap: 16px; align-items: baseline; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; flex-wrap: wrap; }
   .day-meta .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; display: inline-block; }
-  .day-name {
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    font-size: clamp(56px, 14vw, 96px);
-    line-height: 0.9;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    color: var(--text);
-    margin-bottom: 8px;
-  }
-  .session-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
-    background: var(--accent-glow);
-    border: 1px solid var(--accent-dim);
-    color: var(--accent);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-top: 4px;
-  }
-  .session-tag::before {
-    content: '';
-    width: 6px; height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    box-shadow: 0 0 8px var(--accent);
-  }
-
-  /* MACROS PANEL */
-  .macros {
-    background: var(--bg-elevated);
-    border: 1px solid var(--border);
-    padding: 24px 20px;
-    margin-bottom: 32px;
-    position: relative;
-  }
-  .macros::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 32px; height: 1px;
-    background: var(--accent);
-  }
-  .macros-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  .macros-title {
-    font-family: 'Oswald', sans-serif;
-    font-weight: 500;
-    font-size: 13px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-  }
-  .macros-target {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: var(--text-faint);
-    letter-spacing: 0.1em;
-  }
-  .macro-row {
-    margin-bottom: 16px;
-  }
+  .day-name { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: clamp(56px, 14vw, 96px); line-height: 0.9; letter-spacing: -0.02em; text-transform: uppercase; color: var(--text); margin-bottom: 8px; }
+  .session-tag { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: var(--accent-glow); border: 1px solid var(--accent-dim); color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 4px; }
+  .session-tag::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent); }
+  .day-strategy { margin-top: 12px; padding: 12px 14px; background: var(--bg-elevated); border-left: 2px solid var(--accent); font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+  .day-strategy strong { color: var(--accent); font-weight: 600; }
+  .macros { background: var(--bg-elevated); border: 1px solid var(--border); padding: 24px 20px; margin-bottom: 32px; position: relative; }
+  .macros::before { content: ''; position: absolute; top: 0; left: 0; width: 32px; height: 1px; background: var(--accent); }
+  .macros-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .macros-title { font-family: 'Oswald', sans-serif; font-weight: 500; font-size: 13px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim); }
+  .macros-target { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-faint); letter-spacing: 0.1em; }
+  .macro-row { margin-bottom: 16px; }
   .macro-row:last-child { margin-bottom: 0; }
-  .macro-label-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 6px;
-  }
-  .macro-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--text-dim);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-  .macro-values {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-  }
-  .macro-values .target {
-    color: var(--text-faint);
-    font-weight: 400;
-  }
-  .macro-bar {
-    height: 6px;
-    background: var(--bg-card);
-    position: relative;
-    overflow: hidden;
-  }
-  .macro-fill {
-    height: 100%;
-    background: var(--accent);
-    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-  }
+  .macro-label-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+  .macro-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; }
+  .macro-values { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--text); }
+  .macro-values .target { color: var(--text-faint); font-weight: 400; }
+  .macro-bar { height: 6px; background: var(--bg-card); position: relative; overflow: hidden; }
+  .macro-fill { height: 100%; background: var(--accent); transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
   .macro-fill.protein { background: linear-gradient(90deg, var(--accent), #ffc857); }
   .macro-fill.cal { background: linear-gradient(90deg, #d97757, var(--accent)); }
-  .macro-fill.water { background: linear-gradient(90deg, #4a90c2, #6ab0d8); }
-
-  /* SECTION HEADERS */
-  .section-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 32px 0 16px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
-  }
-  .section-title {
-    font-family: 'Oswald', sans-serif;
-    font-weight: 600;
-    font-size: 22px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-  .section-count {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--text-faint);
-    letter-spacing: 0.15em;
-  }
-
-  /* MEAL CARDS */
-  .meal {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    margin-bottom: 12px;
-    transition: all 0.2s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  .meal.complete {
-    background: var(--bg-elevated);
-    border-color: var(--border);
-  }
-  .meal.complete .meal-header {
-    opacity: 0.5;
-  }
-  .meal.complete::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: var(--success);
-  }
-  .meal-header {
-    display: flex;
-    align-items: center;
-    padding: 16px 18px;
-    cursor: pointer;
-    gap: 14px;
-    transition: opacity 0.2s;
-  }
-  .check-btn {
-    width: 26px;
-    height: 26px;
-    border: 1.5px solid var(--border-strong);
-    background: transparent;
-    cursor: pointer;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    border-radius: 2px;
-  }
-  .check-btn:hover {
-    border-color: var(--accent);
-  }
-  .meal.complete .check-btn {
-    background: var(--success);
-    border-color: var(--success);
-  }
-  .check-btn::after {
-    content: '';
-    width: 12px; height: 7px;
-    border-left: 2px solid var(--text);
-    border-bottom: 2px solid var(--text);
-    transform: rotate(-45deg) translate(2px, -1px);
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  .meal.complete .check-btn::after {
-    opacity: 1;
-  }
-  .meal-info {
-    flex: 1;
-    min-width: 0;
-  }
-  .meal-time {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: var(--accent);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-bottom: 2px;
-  }
-  .meal-name {
-    font-family: 'Oswald', sans-serif;
-    font-weight: 600;
-    font-size: 18px;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-  }
-  .meal-toggle {
-    color: var(--text-faint);
-    font-size: 12px;
-    font-family: 'JetBrains Mono', monospace;
-    transition: transform 0.3s ease;
-    flex-shrink: 0;
-  }
-  .meal.open .meal-toggle {
-    transform: rotate(180deg);
-    color: var(--accent);
-  }
-  .meal-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .meal.open .meal-body {
-    max-height: 1200px;
-  }
-  .options {
-    padding: 0 18px 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .option {
-    border: 1px solid var(--border);
-    padding: 14px 16px;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: var(--bg-elevated);
-    position: relative;
-  }
-  .option:hover {
-    border-color: var(--border-strong);
-  }
-  .option.selected {
-    border-color: var(--accent);
-    background: linear-gradient(135deg, var(--accent-glow) 0%, transparent 60%);
-  }
-  .option.selected::after {
-    content: '✓ SELECTED';
-    position: absolute;
-    top: 8px; right: 12px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
-    color: var(--accent);
-    letter-spacing: 0.15em;
-    font-weight: 600;
-  }
-  .option-letter {
-    display: inline-block;
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-    margin-bottom: 6px;
-  }
-  .option-desc {
-    color: var(--text);
-    font-size: 14px;
-    line-height: 1.5;
-    margin-bottom: 12px;
-  }
-  .option-macros {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    padding-top: 10px;
-    border-top: 1px dashed var(--border);
-  }
-  .macro-pill {
-    text-align: center;
-  }
-  .macro-pill-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
-    color: var(--text-faint);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 2px;
-  }
-  .macro-pill-value {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-  }
+  .macro-fill.water { background: linear-gradient(90deg, var(--blue), #6ab0d8); }
+  .micro-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+  .micro-stat { text-align: center; }
+  .micro-stat-val { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; color: var(--text); }
+  .micro-stat-val .target { color: var(--text-faint); font-size: 11px; font-weight: 400; }
+  .micro-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-faint); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+  .section-head { display: flex; justify-content: space-between; align-items: center; margin: 32px 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .section-title { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .section-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); letter-spacing: 0.15em; }
+  .meal { background: var(--bg-card); border: 1px solid var(--border); margin-bottom: 12px; transition: all 0.2s ease; position: relative; overflow: hidden; }
+  .meal.complete { background: var(--bg-elevated); border-color: var(--border); }
+  .meal.complete .meal-header { opacity: 0.5; }
+  .meal.complete::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--success); }
+  .meal-header { display: flex; align-items: center; padding: 16px 18px; cursor: pointer; gap: 14px; transition: opacity 0.2s; }
+  .check-btn { width: 26px; height: 26px; border: 1.5px solid var(--border-strong); background: transparent; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; border-radius: 2px; }
+  .check-btn:hover { border-color: var(--accent); }
+  .meal.complete .check-btn { background: var(--success); border-color: var(--success); }
+  .check-btn::after { content: ''; width: 12px; height: 7px; border-left: 2px solid var(--text); border-bottom: 2px solid var(--text); transform: rotate(-45deg) translate(2px, -1px); opacity: 0; transition: opacity 0.2s; }
+  .meal.complete .check-btn::after { opacity: 1; }
+  .meal-info { flex: 1; min-width: 0; }
+  .meal-time { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2px; }
+  .meal-name { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 18px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .meal-toggle { color: var(--text-faint); font-size: 12px; font-family: 'JetBrains Mono', monospace; transition: transform 0.3s ease; flex-shrink: 0; }
+  .meal.open .meal-toggle { transform: rotate(180deg); color: var(--accent); }
+  .meal-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
+  .meal.open .meal-body { max-height: 4500px; }
+  .options { padding: 0 18px 18px; display: flex; flex-direction: column; gap: 10px; }
+  .option { border: 1px solid var(--border); padding: 14px 16px; cursor: pointer; transition: all 0.2s; background: var(--bg-elevated); position: relative; }
+  .option:hover { border-color: var(--border-strong); }
+  .option.selected { border-color: var(--accent); background: linear-gradient(135deg, var(--accent-glow) 0%, transparent 60%); }
+  .option.selected::after { content: '✓ SELECTED'; position: absolute; top: 8px; right: 12px; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--accent); letter-spacing: 0.15em; font-weight: 600; }
+  .option-letter { display: inline-block; font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 13px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 6px; }
+  .option-desc { color: var(--text); font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-weight: 500; }
+  .ingredients-block { margin-top: 10px; padding: 10px 12px; background: rgba(0,0,0,0.25); border-left: 2px solid var(--text-faint); margin-bottom: 12px; }
+  .ingredients-title { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-faint); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
+  .ingredients-list { font-size: 12px; color: var(--text-dim); line-height: 1.7; font-family: 'Manrope', sans-serif; }
+  .ingredients-list li { list-style: none; padding-left: 14px; position: relative; }
+  .ingredients-list li::before { content: '·'; position: absolute; left: 4px; color: var(--accent); font-weight: 700; }
+  .option-macros { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding-top: 10px; border-top: 1px dashed var(--border); }
+  .option-macros-extra { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding-top: 8px; margin-top: 8px; border-top: 1px dashed var(--border); }
+  .macro-pill { text-align: center; }
+  .macro-pill-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-faint); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2px; }
+  .macro-pill-value { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--text); }
   .macro-pill.protein .macro-pill-value { color: var(--accent); }
-
-  /* SUPPLEMENTS */
-  .supplements {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    padding: 20px;
-  }
-  .supp-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .supp {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-    cursor: pointer;
-  }
+  .macro-pill.potassium .macro-pill-value { color: var(--success); }
+  .macro-pill.sodium .macro-pill-value { color: #d97757; }
+  .supplements { background: var(--bg-card); border: 1px solid var(--border); padding: 20px; }
+  .supp-list { display: flex; flex-direction: column; gap: 10px; }
+  .supp { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
   .supp:last-child { border-bottom: none; }
-  .supp-check {
-    width: 22px; height: 22px;
-    border: 1.5px solid var(--border-strong);
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    border-radius: 2px;
-  }
-  .supp.done .supp-check {
-    background: var(--success);
-    border-color: var(--success);
-  }
-  .supp-check::after {
-    content: '';
-    width: 10px; height: 6px;
-    border-left: 2px solid var(--text);
-    border-bottom: 2px solid var(--text);
-    transform: rotate(-45deg) translate(2px, -1px);
-    opacity: 0;
-  }
+  .supp-check { width: 22px; height: 22px; border: 1.5px solid var(--border-strong); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; border-radius: 2px; }
+  .supp.done .supp-check { background: var(--success); border-color: var(--success); }
+  .supp-check::after { content: ''; width: 10px; height: 6px; border-left: 2px solid var(--text); border-bottom: 2px solid var(--text); transform: rotate(-45deg) translate(2px, -1px); opacity: 0; }
   .supp.done .supp-check::after { opacity: 1; }
   .supp-info { flex: 1; }
-  .supp-name {
-    font-family: 'Oswald', sans-serif;
-    font-weight: 500;
-    font-size: 15px;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-  }
-  .supp.done .supp-name { color: var(--text-dim); text-decoration: line-through; text-decoration-color: var(--text-faint); }
-  .supp-dose {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--text-faint);
-    letter-spacing: 0.05em;
-  }
-  .supp-timing {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  /* WATER */
-  .water-panel {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    padding: 20px;
-  }
-  .water-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 16px;
-  }
-  .water-count {
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    font-size: 42px;
-    line-height: 1;
-    color: var(--text);
-  }
-  .water-count .target {
-    color: var(--text-faint);
-    font-size: 20px;
-  }
-  .water-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: var(--text-faint);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-top: 4px;
-  }
-  .water-grid {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    gap: 6px;
-    margin-bottom: 16px;
-  }
-  .water-cup {
-    aspect-ratio: 1;
-    border: 1.5px solid var(--border-strong);
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-    border-radius: 2px;
-  }
+  .supp-name { font-family: 'Oswald', sans-serif; font-weight: 500; font-size: 15px; letter-spacing: 0.03em; text-transform: uppercase; }
+  .supp.done .supp-name { color: var(--text-dim); text-decoration: line-through; }
+  .supp-dose { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); }
+  .supp-timing { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; text-align: right; }
+  .water-panel { background: var(--bg-card); border: 1px solid var(--border); padding: 20px; }
+  .water-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; }
+  .water-count { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 42px; line-height: 1; color: var(--text); }
+  .water-count .target { color: var(--text-faint); font-size: 20px; }
+  .water-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-faint); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 4px; }
+  .water-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; margin-bottom: 16px; }
+  .water-cup { aspect-ratio: 1; border: 1.5px solid var(--border-strong); cursor: pointer; transition: all 0.2s; position: relative; border-radius: 2px; }
   .water-cup:hover { border-color: var(--accent); }
-  .water-cup.filled {
-    background: linear-gradient(180deg, #4a90c2, #2c6588);
-    border-color: #4a90c2;
-  }
-  .water-cup.filled::after {
-    content: '';
-    position: absolute;
-    inset: 3px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 50%);
-  }
-  .water-actions {
-    display: flex;
-    gap: 8px;
-  }
-  .water-btn {
-    flex: 1;
-    padding: 12px;
-    background: var(--bg-elevated);
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-family: 'Oswald', sans-serif;
-    font-weight: 500;
-    font-size: 12px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .water-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  /* WEEK STRIP */
-  .week-strip {
-    margin-top: 32px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
-  }
-  .week-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 8px;
-  }
-  .week-day {
-    text-align: center;
-    padding: 10px 4px;
-    border: 1px solid var(--border);
-    background: var(--bg-card);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .week-day:hover {
-    border-color: var(--border-strong);
-  }
-  .week-day.active {
-    border-color: var(--accent);
-    background: var(--accent-glow);
-  }
-  .week-day-name {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: var(--text-faint);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
+  .water-cup.filled { background: linear-gradient(180deg, var(--blue), #2c6588); border-color: var(--blue); }
+  .water-actions { display: flex; gap: 8px; }
+  .water-btn { flex: 1; padding: 12px; background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text); font-family: 'Oswald', sans-serif; font-weight: 500; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+  .water-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .week-strip { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+  .week-day { text-align: center; padding: 10px 4px; border: 1px solid var(--border); background: var(--bg-card); cursor: pointer; transition: all 0.2s; }
+  .week-day:hover { border-color: var(--border-strong); }
+  .week-day.active { border-color: var(--accent); background: var(--accent-glow); }
+  .week-day-name { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-faint); letter-spacing: 0.1em; text-transform: uppercase; }
   .week-day.active .week-day-name { color: var(--accent); }
-  .week-day-num {
-    font-family: 'Oswald', sans-serif;
-    font-weight: 600;
-    font-size: 18px;
-    margin-top: 2px;
-  }
-
-  /* FOOTER */
-  .footer-note {
-    margin-top: 40px;
-    padding: 16px;
-    text-align: center;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: var(--text-faint);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    line-height: 1.8;
-  }
+  .week-day-num { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 18px; margin-top: 2px; }
+  .week-day-type { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--text-faint); letter-spacing: 0.1em; margin-top: 4px; }
+  .footer-note { margin-top: 40px; padding: 16px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-faint); letter-spacing: 0.15em; text-transform: uppercase; line-height: 1.8; }
   .footer-note .accent { color: var(--accent); }
-
-  /* LOADING */
-  .loading {
-    position: fixed;
-    inset: 0;
-    background: var(--bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    transition: opacity 0.3s, visibility 0.3s;
-  }
+  .loading { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 100; transition: opacity 0.3s, visibility 0.3s; }
   .loading.hidden { opacity: 0; visibility: hidden; }
-  .loading-text {
-    font-family: 'Oswald', sans-serif;
-    font-size: 14px;
-    letter-spacing: 0.3em;
-    color: var(--accent);
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 480px) {
-    .app { padding: 20px 16px 100px; }
-    .water-grid { grid-template-columns: repeat(8, 1fr); }
-    .option-macros { grid-template-columns: repeat(4, 1fr); }
-  }
-
-  /* SUBTLE ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .meal, .macros, .supplements, .water-panel, .week-strip {
-    animation: fadeUp 0.4s ease-out backwards;
-  }
-  .meal:nth-child(1) { animation-delay: 0.05s; }
-  .meal:nth-child(2) { animation-delay: 0.1s; }
-  .meal:nth-child(3) { animation-delay: 0.15s; }
-  .meal:nth-child(4) { animation-delay: 0.2s; }
-  .meal:nth-child(5) { animation-delay: 0.25s; }
-
+  .loading-text { font-family: 'Oswald', sans-serif; font-size: 14px; letter-spacing: 0.3em; color: var(--accent); }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .meal, .macros, .supplements, .water-panel, .week-strip { animation: fadeUp 0.4s ease-out backwards; }
 </style>
 </head>
 <body>
-
 <div class="loading" id="loading"><div class="loading-text">LOADING PROTOCOL...</div></div>
-
 <div class="app">
   <div class="top-bar">
     <div>
       <div class="brand">THE LOG</div>
-      <div class="brand-sub">Intake Protocol · Wk Rotation</div>
+      <div class="brand-sub">AESTHETIC RECOMP · WK ROTATION</div>
     </div>
     <div class="brand-sub" id="dateStamp">—</div>
   </div>
-
   <div class="hero">
     <div class="day-meta">
       <span class="dot"></span>
       <span id="weekTag">WEEK 01</span>
       <span>·</span>
       <span id="trainingSplit">UPPER · PUSH/PULL</span>
+      <span>·</span>
+      <span id="dayType">HIGH CARB</span>
     </div>
     <div class="day-name" id="dayName">MONDAY</div>
     <div class="session-tag" id="sessionTag">2,400 KCAL · 220G PROTEIN</div>
+    <div class="day-strategy" id="dayStrategy"></div>
   </div>
-
   <div class="macros">
     <div class="macros-head">
       <div class="macros-title">Daily Totals</div>
       <div class="macros-target">live tracking</div>
     </div>
-
     <div class="macro-row">
-      <div class="macro-label-row">
-        <div class="macro-label">Protein</div>
-        <div class="macro-values"><span id="proteinCurrent">0</span><span class="target">/220g</span></div>
-      </div>
+      <div class="macro-label-row"><div class="macro-label">Protein</div><div class="macro-values"><span id="proteinCurrent">0</span><span class="target">/220g</span></div></div>
       <div class="macro-bar"><div class="macro-fill protein" id="proteinBar" style="width:0%"></div></div>
     </div>
-
     <div class="macro-row">
-      <div class="macro-label-row">
-        <div class="macro-label">Calories</div>
-        <div class="macro-values"><span id="calCurrent">0</span><span class="target">/2400</span></div>
-      </div>
+      <div class="macro-label-row"><div class="macro-label">Calories</div><div class="macro-values"><span id="calCurrent">0</span><span class="target">/2400</span></div></div>
       <div class="macro-bar"><div class="macro-fill cal" id="calBar" style="width:0%"></div></div>
     </div>
-
     <div class="macro-row">
-      <div class="macro-label-row">
-        <div class="macro-label">Water</div>
-        <div class="macro-values"><span id="waterCurrent">0</span><span class="target">/16 cups · 1 gal</span></div>
-      </div>
+      <div class="macro-label-row"><div class="macro-label">Water</div><div class="macro-values"><span id="waterCurrent">0</span><span class="target">/20 cups · 1.25 gal</span></div></div>
       <div class="macro-bar"><div class="macro-fill water" id="waterBar" style="width:0%"></div></div>
     </div>
+    <div class="micro-stats">
+      <div class="micro-stat"><div class="micro-stat-val"><span id="carbCurrent">0</span><span class="target"> /<span id="carbTarget">240</span>g</span></div><div class="micro-stat-label">Carbs</div></div>
+      <div class="micro-stat"><div class="micro-stat-val"><span id="fatCurrent">0</span><span class="target"> /<span id="fatTarget">70</span>g</span></div><div class="micro-stat-label">Fat</div></div>
+      <div class="micro-stat"><div class="micro-stat-val"><span id="fiberCurrent">0</span><span class="target"> /35g</span></div><div class="micro-stat-label">Fiber</div></div>
+      <div class="micro-stat"><div class="micro-stat-val"><span id="sodiumCurrent">0</span><span class="target"> /3000mg</span></div><div class="micro-stat-label">Sodium</div></div>
+      <div class="micro-stat"><div class="micro-stat-val"><span id="potassiumCurrent">0</span><span class="target"> /4000mg</span></div><div class="micro-stat-label">Potassium</div></div>
+      <div class="micro-stat"><div class="micro-stat-val"><span id="ratioCurrent">—</span></div><div class="micro-stat-label">K:Na ratio</div></div>
+    </div>
   </div>
-
-  <div class="section-head">
-    <div class="section-title">Meals</div>
-    <div class="section-count" id="mealCount">0/5 LOGGED</div>
-  </div>
-
+  <div class="section-head"><div class="section-title">Meals</div><div class="section-count" id="mealCount">0/5 LOGGED</div></div>
   <div id="mealsList"></div>
-
-  <div class="section-head">
-    <div class="section-title">Supplements</div>
-    <div class="section-count">DAILY STACK</div>
-  </div>
-
-  <div class="supplements">
-    <div class="supp-list" id="suppList"></div>
-  </div>
-
-  <div class="section-head">
-    <div class="section-title">Hydration</div>
-    <div class="section-count">1 GAL TARGET</div>
-  </div>
-
+  <div class="section-head"><div class="section-title">Supplements</div><div class="section-count">DAILY STACK</div></div>
+  <div class="supplements"><div class="supp-list" id="suppList"></div></div>
+  <div class="section-head"><div class="section-title">Hydration</div><div class="section-count">1.25 GAL TARGET</div></div>
   <div class="water-panel">
-    <div class="water-head">
-      <div>
-        <div class="water-count"><span id="waterMain">0</span><span class="target">/16</span></div>
-        <div class="water-label">8 oz cups · ~1 gallon total</div>
-      </div>
-    </div>
+    <div class="water-head"><div><div class="water-count"><span id="waterMain">0</span><span class="target">/20</span></div><div class="water-label">8 oz cups · ~1.25 gallons total</div></div></div>
     <div class="water-grid" id="waterGrid"></div>
-    <div class="water-actions">
-      <button class="water-btn" onclick="addWater()">+ 1 Cup</button>
-      <button class="water-btn" onclick="removeWater()">− 1 Cup</button>
-    </div>
+    <div class="water-actions"><button class="water-btn" onclick="addWater()">+ 1 Cup</button><button class="water-btn" onclick="removeWater()">− 1 Cup</button></div>
   </div>
-
   <div class="week-strip">
-    <div class="section-head" style="margin-top:0;border-bottom:none;padding-bottom:0;">
-      <div class="section-title" style="font-size:16px;">Week View</div>
-      <div class="section-count">TAP TO PREVIEW</div>
-    </div>
+    <div class="section-head" style="margin-top:0;border-bottom:none;padding-bottom:0;"><div class="section-title" style="font-size:16px;">Week View</div><div class="section-count">TAP TO PREVIEW</div></div>
     <div style="margin-top:16px;" class="week-grid" id="weekGrid"></div>
   </div>
-
-  <div class="footer-note">
-    Resets daily at 00:00 · <span class="accent">consistency &gt; perfection</span><br>
-    No dairy · 220g protein · ~2,400 kcal · 1 gal water
-  </div>
+  <div class="footer-note">Resets daily · <span class="accent">consistency &gt; perfection</span><br>Stable sodium · high potassium · 1.25 gal water · sleep 7–9hrs</div>
 </div>
-
 <script>
-// ============================================================
-// MEAL PLAN DATA — 7-day rotation, dairy-minimized, ~2400cal/220p
-// ============================================================
 const WEEK_PLAN = {
-  monday: {
-    name: 'MONDAY',
-    split: 'UPPER · PUSH/PULL',
+  monday: { name: 'MONDAY', split: 'UPPER · PUSH/PULL', dayType: 'HIGH CARB · TRAINING', targets: { carb: 270, fat: 60 },
+    strategy: '<strong>Lift day.</strong> Carbs push up to fuel performance and pack glycogen for fuller muscles. Fat down slightly to keep cals in range. Salmon dinner for omega-3s.',
     meals: [
-      { id: 'm1', time: '06:00 · Pre-Workout (if 4am training)', name: 'Pre-Lift Fuel',
-        options: [
-          { letter: 'A', desc: '1 scoop whey isolate in water + ½ banana + creatine + caffeine pill', p: 25, c: 18, f: 1, k: 180 },
-          { letter: 'B', desc: 'Rice cake w/ PB & banana slices + black coffee + creatine', p: 12, c: 35, f: 10, k: 260 }
-        ] },
-      { id: 'm2', time: '07:30 · Breakfast', name: 'Morning Anchor',
-        options: [
-          { letter: 'A', desc: '4 whole eggs + 2 egg whites scrambled in olive oil, 1 cup oats cooked in unsweetened soy milk, 1 banana, cinnamon', p: 48, c: 65, f: 22, k: 640 },
-          { letter: 'B', desc: 'Overnight oats: ½ cup oats, 1 scoop whey, 1 tbsp chia, ¾ cup soy milk, blueberries, 1 tbsp PB', p: 45, c: 60, f: 20, k: 600 },
-          { letter: 'C', desc: '5-egg veggie scramble + sourdough toast w/ avocado + black coffee', p: 38, c: 35, f: 28, k: 540 }
-        ] },
-      { id: 'm3', time: '11:00 · Mid-Morning', name: 'Bridge Snack',
-        options: [
-          { letter: 'A', desc: 'Whey shake (1 scoop in water) + apple + 1 oz almonds', p: 30, c: 30, f: 15, k: 360 },
-          { letter: 'B', desc: '3 hard-boiled eggs + 1 oz almonds + small apple', p: 25, c: 18, f: 20, k: 340 }
-        ] },
-      { id: 'm4', time: '12:30 · Lunch (Prepped)', name: 'Work Block',
-        options: [
-          { letter: 'A', desc: '7 oz grilled chicken breast + 1.5 cups jasmine rice + roasted broccoli + drizzle olive oil + hot sauce', p: 55, c: 70, f: 10, k: 610 },
-          { letter: 'B', desc: '7 oz lean ground beef (93/7) + 1 large baked potato + sautéed kale w/ garlic', p: 52, c: 60, f: 16, k: 600 }
-        ] },
-      { id: 'm5', time: '16:00 · Afternoon', name: 'Pre-Dinner Hold',
-        options: [
-          { letter: 'A', desc: 'Whey shake in water + 1 banana', p: 30, c: 35, f: 2, k: 290 },
-          { letter: 'B', desc: 'Tuna packet on 4 rice cakes + cucumber slices', p: 30, c: 30, f: 3, k: 280 }
-        ] },
-      { id: 'm6', time: '19:00 · Dinner', name: 'Recovery Meal',
-        options: [
-          { letter: 'A', desc: '7 oz salmon fillet + medium sweet potato + roasted asparagus w/ olive oil', p: 50, c: 45, f: 22, k: 600 },
-          { letter: 'B', desc: '7 oz chicken thighs (boneless skinless) + jasmine rice + bok choy stir-fry', p: 52, c: 55, f: 18, k: 620 },
-          { letter: 'C', desc: '8 oz lean steak + roasted fingerling potatoes + spinach salad', p: 56, c: 35, f: 22, k: 580 }
-        ] }
-    ]
-  },
-  tuesday: {
-    name: 'TUESDAY',
-    split: 'LOWER · LEGS',
+      { id: 'm1', time: '06:00 · PRE-WORKOUT (IF 4AM LIFT)', name: 'Pre-Lift Fuel', options: [
+        { letter: 'A', desc: 'Whey shake + ½ banana + creatine + caffeine', ingredients: ['1 scoop (30g) whey isolate','½ banana sliced','8 oz water','5g creatine monohydrate','100–200mg caffeine pill'], p: 25, c: 18, f: 1, k: 180, fi: 2, na: 80, ka: 380 },
+        { letter: 'B', desc: 'Rice cakes w/ honey + black coffee + creatine', ingredients: ['2 plain rice cakes','1 tsp honey drizzled','12 oz black coffee','5g creatine','100–200mg caffeine pill'], p: 2, c: 25, f: 0.5, k: 110, fi: 0.5, na: 50, ka: 100 } ] },
+      { id: 'm2', time: '07:30 · BREAKFAST', name: 'Morning Anchor', options: [
+        { letter: 'A', desc: 'Eggs scrambled + oats + banana', ingredients: ['4 whole eggs + 2 egg whites','1 tsp olive oil','½ cup rolled oats','¾ cup unsweetened soy milk','1 banana sliced','1 tsp cinnamon','pinch iodized salt'], p: 48, c: 65, f: 22, k: 640, fi: 8, na: 380, ka: 950 },
+        { letter: 'B', desc: 'Overnight oats w/ whey, chia, berries', ingredients: ['½ cup rolled oats','1 scoop (30g) whey isolate','1 tbsp chia seeds','¾ cup unsweetened soy milk','½ cup blueberries','1 tbsp natural peanut butter','pinch cinnamon'], p: 45, c: 60, f: 20, k: 600, fi: 11, na: 220, ka: 720 },
+        { letter: 'C', desc: 'Egg white scramble + sourdough + avocado', ingredients: ['6 egg whites + 2 whole eggs','1 tsp olive oil','½ cup spinach','2 slices sourdough toast','½ medium avocado','salt & pepper'], p: 42, c: 38, f: 24, k: 540, fi: 9, na: 720, ka: 880 } ] },
+      { id: 'm3', time: '11:00 · MID-MORNING', name: 'Bridge Snack', options: [
+        { letter: 'A', desc: 'Whey shake + apple + almonds', ingredients: ['1 scoop (30g) whey isolate','10 oz water','1 medium apple','1 oz raw almonds (23 nuts)'], p: 30, c: 30, f: 15, k: 360, fi: 7, na: 90, ka: 480 },
+        { letter: 'B', desc: 'Hard-boiled eggs + apple + almonds', ingredients: ['3 hard-boiled eggs','1 medium apple','1 oz raw almonds'], p: 25, c: 18, f: 20, k: 340, fi: 7, na: 220, ka: 470 } ] },
+      { id: 'm4', time: '12:30 · LUNCH (PREPPED)', name: 'Work Block', options: [
+        { letter: 'A', desc: 'Chicken + jasmine rice + broccoli', ingredients: ['7 oz cooked chicken breast','1.5 cups cooked jasmine rice','1.5 cups steamed broccoli','1 tsp olive oil','salt, pepper, garlic powder, paprika','1 tbsp hot sauce'], p: 55, c: 70, f: 10, k: 610, fi: 5, na: 480, ka: 980 },
+        { letter: 'B', desc: 'Lean ground beef + baked potato + kale', ingredients: ['7 oz cooked lean ground beef (93/7)','1 large baked potato (~10 oz)','1.5 cups sautéed kale','1 tsp olive oil','2 cloves minced garlic','salt, pepper'], p: 52, c: 60, f: 16, k: 600, fi: 8, na: 420, ka: 1850 },
+        { letter: 'C', desc: 'Chicken biryani (macro-tuned)', ingredients: ['6 oz cooked chicken thigh in biryani spices','1 cup basmati rice','½ caramelized onion','turmeric, garam masala, cumin, ginger, garlic','1 tsp olive oil','cilantro & mint','cucumber slices on side'], p: 54, c: 60, f: 16, k: 600, fi: 4, na: 520, ka: 720 } ] },
+      { id: 'm5', time: '16:00 · AFTERNOON', name: 'Pre-Dinner Hold', options: [
+        { letter: 'A', desc: 'Whey shake + banana', ingredients: ['1 scoop (30g) whey isolate','10 oz water','1 banana'], p: 30, c: 35, f: 2, k: 290, fi: 4, na: 80, ka: 580 },
+        { letter: 'B', desc: 'Tuna packet + rice cakes + cucumber', ingredients: ['1 tuna packet (4 oz)','4 plain rice cakes','½ cucumber sliced','black pepper, squeeze of lemon'], p: 30, c: 30, f: 3, k: 280, fi: 1.5, na: 380, ka: 340 } ] },
+      { id: 'm6', time: '19:00 · DINNER', name: 'Recovery Meal', options: [
+        { letter: 'A', desc: 'Salmon + sweet potato + asparagus', ingredients: ['7 oz salmon fillet','1 medium sweet potato (baked)','1.5 cups roasted asparagus','1 tsp olive oil','lemon, salt, pepper, dill'], p: 50, c: 45, f: 22, k: 600, fi: 8, na: 280, ka: 1480 },
+        { letter: 'B', desc: 'Chicken thighs + rice + bok choy', ingredients: ['7 oz boneless skinless chicken thighs','1 cup jasmine rice','2 heads baby bok choy stir-fried','1 tsp sesame oil','1 tbsp soy sauce','garlic, ginger'], p: 52, c: 55, f: 18, k: 620, fi: 3, na: 720, ka: 850 } ] }
+    ] },
+  tuesday: { name: 'TUESDAY', split: 'LOWER · LEGS', dayType: 'HIGH CARB · TRAINING', targets: { carb: 270, fat: 60 },
+    strategy: '<strong>Leg day.</strong> Carbs high to fuel heavy work. Sweet potato pairing for potassium replacement after lower body session. Steak dinner for creatine and zinc.',
     meals: [
-      { id: 'm1', time: '06:00 · Pre-Workout (optional)', name: 'Pre-Lift Fuel',
-        options: [
-          { letter: 'A', desc: 'Whey shake + ½ banana + creatine + caffeine', p: 25, c: 18, f: 1, k: 180 },
-          { letter: 'B', desc: '2 rice cakes w/ PB + black coffee + creatine', p: 10, c: 30, f: 12, k: 260 }
-        ] },
-      { id: 'm2', time: '07:30 · Breakfast', name: 'Morning Anchor',
-        options: [
-          { letter: 'A', desc: 'Overnight oats: ½ cup oats, 1 scoop whey, chia, soy milk, mixed berries, 1 tbsp PB', p: 45, c: 60, f: 20, k: 600 },
-          { letter: 'B', desc: '4 eggs + 2 whites scrambled w/ spinach + 2 slices sourdough toast w/ avocado', p: 42, c: 38, f: 24, k: 540 },
-          { letter: 'C', desc: 'Protein pancakes: 1 scoop whey + 2 eggs + oats + banana, blueberries on top', p: 50, c: 55, f: 14, k: 540 }
-        ] },
-      { id: 'm3', time: '11:00 · Mid-Morning', name: 'Bridge Snack',
-        options: [
-          { letter: 'A', desc: 'Whey shake + 1 banana + handful almonds', p: 30, c: 35, f: 15, k: 380 },
-          { letter: 'B', desc: 'Tuna packet on rice cakes + apple', p: 30, c: 30, f: 3, k: 280 }
-        ] },
-      { id: 'm4', time: '12:30 · Lunch (Prepped)', name: 'Work Block',
-        options: [
-          { letter: 'A', desc: '7 oz ground turkey burrito bowl: rice, black beans, salsa, lettuce, hot sauce', p: 55, c: 75, f: 10, k: 630 },
-          { letter: 'B', desc: '7 oz chicken breast + sweet potato + roasted veggies (peppers, zucchini) + olive oil', p: 55, c: 55, f: 12, k: 560 }
-        ] },
-      { id: 'm5', time: '16:00 · Afternoon', name: 'Pre-Dinner Hold',
-        options: [
-          { letter: 'A', desc: '3 hard-boiled eggs + 1 oz almonds', p: 25, c: 8, f: 22, k: 320 },
-          { letter: 'B', desc: 'Whey shake + apple', p: 30, c: 25, f: 2, k: 250 }
-        ] },
-      { id: 'm6', time: '19:00 · Dinner', name: 'Recovery Meal',
-        options: [
-          { letter: 'A', desc: '8 oz lean sirloin steak + roasted potatoes + green beans w/ olive oil', p: 56, c: 40, f: 22, k: 610 },
-          { letter: 'B', desc: '7 oz cod or tilapia + couscous + roasted Mediterranean veggies', p: 50, c: 55, f: 12, k: 530 }
-        ] }
-    ]
-  },
-  wednesday: {
-    name: 'WEDNESDAY',
-    split: 'REST · CARDIO + VO2',
+      { id: 'm1', time: '06:00 · PRE-WORKOUT', name: 'Pre-Lift Fuel', options: [
+        { letter: 'A', desc: 'Whey shake + ½ banana + creatine + caffeine', ingredients: ['1 scoop (30g) whey isolate','½ banana','8 oz water','5g creatine','100–200mg caffeine'], p: 25, c: 18, f: 1, k: 180, fi: 2, na: 80, ka: 380 },
+        { letter: 'B', desc: 'Rice cakes w/ honey + coffee', ingredients: ['2 plain rice cakes','1 tsp honey','12 oz black coffee','5g creatine','100–200mg caffeine'], p: 2, c: 25, f: 0.5, k: 110, fi: 0.5, na: 50, ka: 100 } ] },
+      { id: 'm2', time: '07:30 · BREAKFAST', name: 'Morning Anchor', options: [
+        { letter: 'A', desc: 'Overnight oats w/ whey, chia, PB', ingredients: ['½ cup oats','1 scoop whey','1 tbsp chia','¾ cup soy milk','1 tbsp PB','½ banana sliced'], p: 48, c: 60, f: 20, k: 600, fi: 11, na: 220, ka: 800 },
+        { letter: 'B', desc: 'Protein pancakes + berries', ingredients: ['½ cup oat flour (or blended oats)','1 scoop whey','2 whole eggs','½ banana mashed','2 tbsp soy milk','cinnamon','½ cup mixed berries','1 tsp honey'], p: 50, c: 55, f: 14, k: 540, fi: 8, na: 180, ka: 640 },
+        { letter: 'C', desc: 'Eggs + sourdough + avocado', ingredients: ['4 whole eggs + 2 whites','2 slices sourdough','½ avocado','olive oil, salt, pepper','spinach handful'], p: 42, c: 38, f: 24, k: 540, fi: 9, na: 720, ka: 880 } ] },
+      { id: 'm3', time: '11:00 · MID-MORNING', name: 'Bridge Snack', options: [
+        { letter: 'A', desc: 'Whey shake + banana + almonds', ingredients: ['1 scoop whey','10 oz water','1 banana','1 oz almonds'], p: 30, c: 35, f: 15, k: 380, fi: 7, na: 90, ka: 700 },
+        { letter: 'B', desc: 'Tuna packet + rice cakes + apple', ingredients: ['1 tuna packet (4 oz)','3 rice cakes','1 small apple'], p: 30, c: 30, f: 3, k: 280, fi: 4, na: 380, ka: 380 } ] },
+      { id: 'm4', time: '12:30 · LUNCH (PREPPED)', name: 'Work Block', options: [
+        { letter: 'A', desc: 'Ground turkey burrito bowl', ingredients: ['7 oz cooked ground turkey (93/7)','1 cup cooked rice','½ cup black beans','¼ cup salsa','shredded lettuce','taco seasoning (cumin, chili, garlic, paprika)','1 tbsp hot sauce'], p: 55, c: 75, f: 10, k: 630, fi: 11, na: 680, ka: 1250 },
+        { letter: 'B', desc: 'Chicken + sweet potato + roasted veggies', ingredients: ['7 oz cooked chicken breast','1 medium sweet potato cubed & roasted','1.5 cups roasted peppers + zucchini','1 tsp olive oil','paprika, salt, garlic powder'], p: 55, c: 55, f: 12, k: 560, fi: 9, na: 320, ka: 1450 } ] },
+      { id: 'm5', time: '16:00 · AFTERNOON', name: 'Pre-Dinner Hold', options: [
+        { letter: 'A', desc: 'Hard-boiled eggs + almonds', ingredients: ['3 hard-boiled eggs','1 oz almonds'], p: 25, c: 8, f: 22, k: 320, fi: 4, na: 220, ka: 440 },
+        { letter: 'B', desc: 'Whey shake + apple', ingredients: ['1 scoop whey','10 oz water','1 apple'], p: 30, c: 25, f: 2, k: 250, fi: 5, na: 80, ka: 280 } ] },
+      { id: 'm6', time: '19:00 · DINNER', name: 'Recovery Meal', options: [
+        { letter: 'A', desc: 'Lean steak + roasted potatoes + green beans', ingredients: ['8 oz lean sirloin or flank steak','1.5 cups fingerling potatoes (roasted)','1.5 cups green beans (blistered)','1 tsp olive oil','rosemary, garlic, salt, pepper'], p: 56, c: 50, f: 22, k: 640, fi: 7, na: 360, ka: 1820 },
+        { letter: 'B', desc: 'Cod + couscous + Mediterranean veggies', ingredients: ['7 oz cod fillet','¾ cup cooked couscous','1 cup roasted zucchini, peppers, onion','1 tsp olive oil','lemon, oregano, salt'], p: 50, c: 55, f: 12, k: 540, fi: 6, na: 380, ka: 1180 } ] }
+    ] },
+  wednesday: { name: 'WEDNESDAY', split: 'REST · VO2 + WALK', dayType: 'LOW CARB · REST', targets: { carb: 200, fat: 85 },
+    strategy: '<strong>Rest day.</strong> Carbs drop, fat rises — same calories, less subcutaneous water, leaner look. Higher fish/protein quality. Strong potassium intake for visible definition.',
     meals: [
-      { id: 'm2', time: '07:30 · Breakfast', name: 'Morning Anchor',
-        options: [
-          { letter: 'A', desc: '4 eggs + 2 whites + 1 cup oats w/ soy milk + berries (lower carb day)', p: 42, c: 55, f: 20, k: 580 },
-          { letter: 'B', desc: 'Egg white omelet (6 whites + 2 yolks) w/ veggies + 2 chicken sausage links + sourdough', p: 48, c: 35, f: 18, k: 500 }
-        ] },
-      { id: 'm3', time: '11:00 · Mid-Morning', name: 'Bridge Snack',
-        options: [
-          { letter: 'A', desc: 'Whey shake + apple', p: 30, c: 25, f: 2, k: 250 },
-          { letter: 'B', desc: '3 hard-boiled eggs + cucumber slices + hummus', p: 25, c: 12, f: 18, k: 300 }
-        ] },
-      { id: 'm4', time: '12:30 · Lunch (Prepped)', name: 'Work Block',
-        options: [
-          { letter: 'A', desc: '7 oz grilled chicken Caesar (no croutons, light dressing) + ½ cup rice on side', p: 50, c: 40, f: 18, k: 540 },
-          { letter: 'B', desc: '7 oz pork tenderloin + quinoa + roasted Brussels sprouts', p: 50, c: 45, f: 12, k: 510 }
-        ] },
-      { id: 'm5', time: '16:00 · Afternoon', name: 'Pre-Dinner Hold',
-        options: [
-          { letter: 'A', desc: 'Whey shake + banana + almonds', p: 30, c: 35, f: 15, k: 380 },
-          { letter: 'B', desc: 'Beef jerky (2 oz) + apple + handful walnuts', p: 28, c: 20, f: 14, k: 320 }
-        ] },
-      { id: 'm6', time: '19:00 · Dinner', name: 'Recovery Meal',
-        options: [
-          { letter: 'A', desc: '7 oz shrimp stir-fry w/ rice, peppers, snap peas, soy/ginger sauce', p: 50, c: 65, f: 8, k: 560 },
-          { letter: 'B', desc: '7 oz ground beef tacos (3 corn tortillas) w/ guac, lettuce, salsa', p: 52, c: 45, f: 22, k: 600 }
-        ] }
-    ]
-  },
-  thursday: {
-    name: 'THURSDAY',
-    split: 'UPPER · PUSH/PULL',
+      { id: 'm2', time: '07:30 · BREAKFAST', name: 'Morning Anchor', options: [
+        { letter: 'A', desc: 'Eggs + ½ oats + berries (lower carb)', ingredients: ['4 whole eggs + 2 whites','½ cup oats cooked in water','½ cup berries','1 tsp olive oil','cinnamon'], p: 42, c: 45, f: 20, k: 540, fi: 7, na: 320, ka: 750 },
+        { letter: 'B', desc: 'Egg white omelet + sausage + avocado', ingredients: ['6 egg whites + 2 yolks','2 chicken sausage links (sliced, browned)','½ avocado','spinach, peppers, onion sautéed','1 tsp olive oil'], p: 48, c: 18, f: 28, k: 540, fi: 8, na: 720, ka: 1050 } ] },
+      { id: 'm3', time: '11:00 · MID-MORNING', name: 'Bridge Snack', options: [
+        { letter: 'A', desc: 'Whey shake + apple', ingredients: ['1 scoop whey','10 oz water','1 apple'], p: 30, c: 25, f: 2, k: 250, fi: 5, na: 80, ka: 280 },
+        { letter: 'B', desc: 'Hard-boiled eggs + cucumber + hummus', ingredients: ['3 hard-boiled eggs','½ cucumber sliced','2 tbsp hummus'], p: 25, c: 12, f: 18, k: 300, fi: 4, na: 380, ka: 380 } ] },
+      { id: 'm4', time: '12:30 · LUNCH (PREPPED)', name: 'Work Block', options: [
+        { letter: 'A', desc: 'Big chicken salad + olive oil dressing', ingredients: ['7 oz grilled chicken sliced','3 cups mixed greens','½ cup cherry tomatoes','½ cucumber','¼ avocado','1 tbsp olive oil + balsamic','2 tbsp pumpkin seeds','½ cup quinoa'], p: 52, c: 35, f: 22, k: 570, fi: 9, na: 320, ka: 1480 },
+        { letter: 'B', desc: 'Pork tenderloin + quinoa + Brussels', ingredients: ['7 oz roasted pork tenderloin','¾ cup cooked quinoa','1.5 cups roasted Brussels sprouts','1 tsp olive oil','salt, pepper, garlic'], p: 52, c: 40, f: 15, k: 530, fi: 8, na: 320, ka: 1280 } ] },
+      { id: 'm5', time: '16:00 · AFTERNOON', name: 'Pre-Dinner Hold', options: [
+        { letter: 'A', desc: 'Beef jerky + apple + walnuts', ingredients: ['2 oz beef jerky (low-sugar)','1 apple','½ oz walnuts'], p: 28, c: 22, f: 14, k: 320, fi: 5, na: 580, ka: 380 },
+        { letter: 'B', desc: 'Whey + almonds + cucumber', ingredients: ['1 scoop whey in water','1 oz almonds','½ cucumber w/ everything bagel seasoning'], p: 30, c: 12, f: 15, k: 300, fi: 5, na: 180, ka: 470 } ] },
+      { id: 'm6', time: '19:00 · DINNER', name: 'Recovery Meal', options: [
+        { letter: 'A', desc: 'Shrimp stir-fry + small rice portion', ingredients: ['8 oz shrimp peeled','1 bell pepper','1 cup snap peas','2 scallions','½ cup rice','sauce: 2 tbsp soy sauce, 1 tsp sesame oil, 1 tsp honey, ginger, garlic'], p: 52, c: 45, f: 12, k: 510, fi: 5, na: 920, ka: 950 },
+        { letter: 'B', desc: 'Beef tacos (corn tortillas)', ingredients: ['7 oz lean ground beef','taco seasoning','3 small corn tortillas','¼ avocado mashed','¼ cup salsa','shredded romaine','hot sauce'], p: 52, c: 38, f: 22, k: 580, fi: 8, na: 580, ka: 980 } ] }
+    ] },
+  thursday: { name: 'THURSDAY', split: 'UPPER · PUSH/PULL', dayType: 'HIGH CARB · TRAINING', targets: { carb: 270, fat: 60 },
+    strategy: '<strong>Lift day.</strong> Mirror Monday — carbs fueled, salmon or fish dinner for omega-3s. Lift hard, eat to support it.',
     meals: [
-      { id: 'm1', time: '06:00 · Pre-Workout (optional)', name: 'Pre-Lift Fuel',
-        options: [
-          { letter: 'A', desc: 'Whey shake + ½ banana + creatine + caffeine', p: 25, c: 18, f: 1, k: 180 },
-          { letter: 'B', desc: 'Rice cake w/ PB + black coffee + creatine', p: 10, c: 25, f: 10, k: 220 }
-        ] },
-      { id: 'm2', time: '07:30 · Breakfast', name: 'Morning Anchor',
-        options: [
-          { letter: 'A', desc: 'PB & banana oatmeal: 1 cup oats, soy milk, 1 scoop whey, 1 tbsp PB, sliced banana', p: 45, c: 70, f: 18, k: 620 },
-          { letter: 'B', desc: '3 strips turkey bacon + 4 eggs + 2 slices sourdough w/ jam', p: 42, c: 40, f: 24, k: 580 },
-          { letter: 'C', desc: 'Breakfast burrito: 4 eggs + chicken sausage + salsa wrapped in large tortilla', p: 45, c: 50, f: 22, k: 600 }
-        ] },
-      { id: 'm3', time: '11:00 · Mid-Morning', name: 'Bridge Snack',
-        options: [
-          { letter: 'A', desc: 'Whey shake + apple + almonds', p: 30, c: 30, f: 15, k: 360 },
-          { letter: 'B', desc: 'Tuna packet + rice cakes + cucumber', p: 30, c: 25, f: 3, k: 260 }
-        ] },
-      { id: 'm4', time: '12:30 · Lunch (Prepped)', name: 'Work Block',
-        options: [
-          { letter: 'A', desc: '7 oz chicken thighs + 1.5 cups rice + roasted carrots & broccoli', p: 52, c: 70, f: 14, k: 620 },
-          { letter: 'B', desc: '7 oz Asian beef bowl: ground beef, rice, sesame, scallions, soy/ginger sauce', p: 52, c: 65, f: 15, k: 600 }
-        ] },
-      { id: 'm5', time: '16:00 · Afternoon', name: 'Pre-Dinner Hold',
-        options: [
-          { letter: 'A', desc: 'Whey shake + banana', p: 30, c: 35, f: 2, k: 290 },
-          { letter: 'B', desc: '3 hard-boiled eggs + almonds', p: 25, c: 8, f: 22, k: 320 }
-        ] },
-      { id: 'm6', time: '19:00 · Dinner', name: 'Recovery Meal',
-        options: [
-          { letter: 'A', desc: '7 oz pork tenderloin + roasted sweet potato + Brussels sprouts', p: 50, c: 45, f: 14, k: 530 },
-          { letter: 'B', desc: '7 oz tilapia + rice + sautéed spinach w/ garlic', p: 50, c: 55, f: 10, k: 510 },
-          { letter: 'C', desc: '7 oz chicken breast + pasta w/ marinara + side salad', p: 55, c: 65, f: 12, k: 590 }
-        ] }
-    ]
-  },
-  friday: {
-    name: 'FRIDAY',
-    split: 'LOWER · LEGS + INTENTIONAL MEAL',
+      { id: 'm1', time: '06:00 · PRE-WORKOUT', name: 'Pre-Lift Fuel', options: [
+        { letter: 'A', desc: 'Whey + ½ banana + creatine + caffeine', ingredients: ['1 scoop whey isolate','½ banana','8 oz water','5g creatine','100–200mg caffeine'], p: 25, c: 18, f: 1, k: 180, fi: 2, na: 80, ka: 380 },
+        { letter: 'B', desc: 'Rice cake w/ honey + coffee', ingredients: ['2 rice cakes','1 tsp honey','black coffee','5g creatine','caffeine pill'], p: 2, c: 25, f: 0.5, k: 110, fi: 0.5, na: 50, ka: 100 } ] },
+      { id: 'm2', time: '07:30 · BREAKFAST', name: 'Morning Anchor', options: [
+        { letter: 'A', desc: 'PB & banana oatmeal w/ whey', ingredients: ['1 cup oats','1 cup soy milk + ½ cup water','1 scoop whey (stir in off-heat)','1 tbsp natural PB','1 banana sliced','cinnamon'], p: 45, c: 70, f: 18, k: 620, fi: 10, na: 220, ka: 950 },
+        { letter: 'B', desc: 'Turkey bacon + eggs + sourdough', ingredients: ['3 strips turkey bacon','4 whole eggs','2 slices sourdough','1 tbsp jam or honey','½ tsp butter'], p: 42, c: 40, f: 24, k: 580, fi: 4, na: 1100, ka: 480 },
+        { letter: 'C', desc: 'Breakfast burrito', ingredients: ['4 eggs scrambled','1 chicken sausage sliced','¼ cup black beans','2 tbsp salsa','1 large flour tortilla','hot sauce'], p: 45, c: 50, f: 22, k: 600, fi: 8, na: 1080, ka: 720 } ] },
+      { id: 'm3', time: '11:00 · MID-MORNING', name: 'Bridge Snack', options: [
+        { letter: 'A', desc: 'Whey + apple + almonds', ingredients: ['1 scoop whey','10 oz water','1 apple','1 oz almonds'], p: 30, c: 30, f: 15, k: 360, fi: 7, na: 90, ka: 480 },
+        { letter: 'B', desc: 'Tuna + rice cakes', ingredients: ['1 tuna packet','3 rice cakes','cucumber slices'], p: 30, c: 25, f: 3, k: 260, fi: 1, na: 380, ka: 320 } ] },
+      { id: 'm4', time: '12:30 · LUNCH (PREPPED)', name: 'Work Block', options: [
+        { letter: 'A', desc: 'Chicken thighs + rice + carrots & broccoli', ingredients: ['7 oz cooked chicken thighs','1.5 cups jasmine rice','1 cup roasted carrots','½ cup broccoli','1 tsp olive oil','paprika, salt'], p: 52, c: 70, f: 14, k: 620, fi: 6, na: 360, ka: 1180 },
+        { letter: 'B', desc: 'Asian beef bowl', ingredients: ['7 oz lean ground beef browned','1 cup rice','sauce: 2 tbsp soy sauce, 1 tsp sesame oil, 1 tsp honey, ginger, garlic','scallions, sesame seeds','1 cup steamed broccoli on side'], p: 52, c: 65, f: 15, k: 600, fi: 4, na: 920, ka: 980 },
+        { letter: 'C', desc: 'Chicken biryani (variant)', ingredients: ['6 oz biryani-spiced chicken thigh','1 cup basmati rice','caramelized onion','cilantro & mint','1 tsp olive oil','cucumber-tomato salad on side'], p: 54, c: 60, f: 16, k: 600, fi: 4, na: 520, ka: 720 } ] },
+      { id: 'm5', time: '16:00 · AFTERNOON', name: 'Pre-Dinner Hold', options: [
+        { letter: 'A', desc: 'Whey + banana', ingredients: ['1 scoop whey','10 oz water','1 banana'], p: 30, c: 35, f: 2, k: 290, fi: 4, na: 80, ka: 580 },
+        { letter: 'B', desc: 'Hard-boiled eggs + almonds', ingredients: ['3 eggs','1 oz almonds'], p: 25, c: 8, f: 22, k: 320, fi: 4, na: 220, ka: 440 } ] },
+      { id: 'm6', time: '19:00 · DINNER', name: 'Recovery Meal', options: [
+        { letter: 'A', desc: 'Pork tenderloin + sweet potato + Brussels', ingredients: ['7 oz roasted pork tenderloin','1 medium sweet potato baked','1.5 cups roasted Brussels sprouts','1 tsp olive oil','salt, pepper, rosemary'], p: 50, c: 45, f: 14, k: 540, fi: 9, na: 360, ka: 1480 },
+        { letter: 'B', desc: 'Tilapia + rice + spinach', ingredients: ['7 oz tilapia fillet','1 cup rice','2 cups sautéed spinach','1 tsp olive oil','2 cloves garlic','lemon, salt'], p: 50, c: 55, f: 10, k: 510, fi: 5, na: 380, ka: 1380 },
+        { letter: 'C', desc: 'Salmon + jasmine rice + asparagus', ingredients: ['7 oz salmon','1 cup rice','1.5 cups roasted asparagus','1 tsp olive oil','lemon, dill, salt'], p: 50, c: 50, f: 22, k: 610, fi: 5, na: 280, ka: 1280 } ] }
+    ] },
+  friday: { name: 'FRIDAY', split: 'LOWER · LEGS + INTENTIONAL MEAL', dayType: 'STRATEGIC · TRAINING', targets: { carb: 240, fat: 75 },
+    strategy: '<strong>Train AM/midday + intentional dinner.</strong> Eat lighter daytime to save calories for one real, satisfying restaurant meal. The Friday binge replacement — pick one entrée, eat it slow, enjoy it, no shame.',
     meals: [
-      { id: 'm2', time: '07:30 · Breakfast', name: 'Morning Anchor',
-        options: [
-          { letter: 'A', desc: '4 eggs + 2 whites + 1 cup oats w/ soy milk + berries', p: 45, c: 60, f: 20, k: 600 },
-          { letter: 'B', desc: 'Overnight oats w/ whey, chia, PB, banana', p: 48, c: 60, f: 18, k: 600 }
-        ] },
-      { id: 'm3', time: '11:00 · Mid-Morning', name: 'Bridge Snack',
-        options: [
-          { letter: 'A', desc: 'Whey shake + apple', p: 30, c: 25, f: 2, k: 250 },
-          { letter: 'B', desc: '3 hard-boiled eggs + almonds', p: 25, c: 8, f: 22, k: 320 }
-        ] },
-      { id: 'm4', time: '12:30 · Lunch (Light)', name: 'Strategic Light Lunch',
-        options: [
-          { letter: 'A', desc: '6 oz chicken breast + 1 cup rice + large salad (lighter, saving cals for dinner)', p: 45, c: 50, f: 8, k: 460 },
-          { letter: 'B', desc: 'Big salad w/ 6 oz grilled chicken, mixed veggies, balsamic vinaigrette', p: 45, c: 25, f: 14, k: 400 }
-        ] },
-      { id: 'm5', time: '15:30 · Afternoon', name: 'Pre-Dinner Bridge',
-        options: [
-          { letter: 'A', desc: 'Whey shake + apple', p: 30, c: 25, f: 2, k: 250 },
-          { letter: 'B', desc: '2 hard-boiled eggs + cucumber', p: 14, c: 5, f: 10, k: 170 }
-        ] },
-      { id: 'm6', time: '19:00 · INTENTIONAL MEAL', name: 'Friday Reward',
-        options: [
-          { letter: 'A', desc: 'Restaurant: 8 oz grilled steak + baked potato + side salad + 1 beer or non-alcoholic option', p: 60, c: 60, f: 25, k: 720 },
-          { letter: 'B', desc: 'Smash burger (single patty, lettuce, tomato) + side salad (no fries)', p: 40, c: 35, f: 30, k: 600 },
-          { letter: 'C', desc: 'Grilled chicken sandwich + small fries + water', p: 45, c: 60, f: 18, k: 580 },
-          { letter: 'D', desc: 'Sushi: 12-piece nigiri (salmon, tuna, yellowtail) + edamame + miso (no rolls w/ tempura)', p: 45, c: 55, f: 10, k: 500 }
-        ] }
-    ]
-  },
-  saturday: {
-    name: 'SATURDAY',
-    split: 'ACTIVE REST · 12K STEPS',
+      { id: 'm2', time: '07:30 · BREAKFAST', name: 'Morning Anchor', options: [
+        { letter: 'A', desc: 'Eggs + oats + berries', ingredients: ['4 eggs + 2 whites','½ cup oats','¾ cup soy milk','½ cup berries','1 tsp olive oil'], p: 45, c: 55, f: 20, k: 580, fi: 8, na: 320, ka: 820 },
+        { letter: 'B', desc: 'Overnight oats w/ whey + PB', ingredients: ['½ cup oats','1 scoop whey','1 tbsp chia','¾ cup soy milk','1 tbsp PB','½ banana'], p: 48, c: 60, f: 18, k: 600, fi: 11, na: 220, ka: 800 } ] },
+      { id: 'm3', time: '11:00 · MID-MORNING', name: 'Bridge Snack', options: [
+        { letter: 'A', desc: 'Whey + apple', ingredients: ['1 scoop whey','10 oz water','1 apple'], p: 30, c: 25, f: 2, k: 250, fi: 5, na: 80, ka: 280 },
+        { letter: 'B', desc: '3 eggs + almonds', ingredients: ['3 hard-boiled eggs','1 oz almonds'], p: 25, c: 8, f: 22, k: 320, fi: 4, na: 220, ka: 440 } ] },
+      { id: 'm4', time: '12:30 · LIGHT LUNCH', name: 'Strategic Light', options: [
+        { letter: 'A', desc: 'Chicken + small rice + salad (saving cals)', ingredients: ['6 oz cooked chicken breast','¾ cup jasmine rice','large green salad w/ cucumber & tomato','1 tbsp balsamic vinaigrette'], p: 48, c: 45, f: 9, k: 460, fi: 5, na: 320, ka: 880 },
+        { letter: 'B', desc: 'Big chicken salad (low cal density)', ingredients: ['6 oz grilled chicken','3 cups greens','½ cup quinoa','cucumber, tomato, peppers','¼ avocado','1 tbsp olive oil + lemon'], p: 45, c: 30, f: 16, k: 440, fi: 7, na: 280, ka: 1180 } ] },
+      { id: 'm5', time: '15:30 · AFTERNOON', name: 'Pre-Dinner Hold', options: [
+        { letter: 'A', desc: 'Whey + apple', ingredients: ['1 scoop whey','10 oz water','1 apple'], p: 30, c: 25, f: 2, k: 250, fi: 5, na: 80, ka: 280 },
+        { letter: 'B', desc: '2 hard-boiled eggs + cucumber', ingredients: ['2 hard-boiled eggs','½ cucumber sliced','salt, pepper'], p: 14, c: 5, f: 10, k: 170, fi: 1, na: 220, ka: 280 } ] },
+      { id: 'm6', time: '19:00 · INTENTIONAL MEAL', name: 'Friday Reward', options: [
+        { letter: 'A', desc: 'Restaurant steak + baked potato + side salad', ingredients: ['8 oz grilled steak','1 baked potato w/ 1 tsp butter','side salad w/ vinaigrette','water (no soda/cocktail)','optional: 1 beer or wine glass'], p: 60, c: 60, f: 25, k: 720, fi: 6, na: 980, ka: 1820 },
+        { letter: 'B', desc: 'Smash burger + side salad (no fries)', ingredients: ['Single smash burger (4 oz beef patty) w/ bun, lettuce, tomato, onion','side house salad w/ vinaigrette','water'], p: 40, c: 35, f: 30, k: 600, fi: 4, na: 1180, ka: 780 },
+        { letter: 'C', desc: 'Grilled chicken sandwich + small fries', ingredients: ['Grilled chicken sandwich (whole wheat bun)','small fries (~3 oz)','water'], p: 45, c: 60, f: 18, k: 580, fi: 5, na: 1280, ka: 720 },
+        { letter: 'D', desc: 'Sushi: 12pc nigiri + edamame + miso', ingredients: ['12 pieces nigiri (salmon, tuna, yellowtail)','1 cup edamame in pods','1 cup miso soup','soy sauce, wasabi, ginger','water or green tea'], p: 50, c: 55, f: 12, k: 540, fi: 6, na: 1480, ka: 880 },
+        { letter: 'E', desc: 'Chipotle bowl (lean build)', ingredients: ['Double chicken (8 oz)','brown rice','black beans','fajita veggies','salsa','lettuce','NO sour cream, NO cheese, NO guac (save for treat days)'], p: 65, c: 70, f: 12, k: 660, fi: 14, na: 1480, ka: 1380 } ] }
+    ] },
+  saturday: { name: 'SATURDAY', split: 'ACTIVE REST · 12K STEPS', dayType: 'MODERATE · ACTIVE', targets: { carb: 230, fat: 75 },
+    strategy: '<strong>Active recovery.</strong> Walk a lot — aim for 12k+ steps. Bigger breakfast for the weekend vibe, kitchen closes at 9pm. This is the day Saturday binges used to ruin.',
     meals: [
-      { id: 'm2', time: '09:00 · Breakfast', name: 'Weekend Anchor',
-        options: [
-          { letter: 'A', desc: 'Protein pancakes (oats + whey + 2 eggs + banana) w/ berries + 3 strips turkey bacon', p: 55, c: 60, f: 16, k: 600 },
-          { letter: 'B', desc: '5-egg veggie omelet + 2 chicken sausage + sourdough toast', p: 48, c: 35, f: 22, k: 540 },
-          { letter: 'C', desc: 'Breakfast burrito: 4 eggs + chicken sausage + black beans + salsa wrapped in tortilla', p: 45, c: 50, f: 20, k: 580 }
-        ] },
-      { id: 'm3', time: '12:30 · Lunch', name: 'Midday Hold',
-        options: [
-          { letter: 'A', desc: '7 oz grilled chicken wrap w/ veggies + side fruit', p: 50, c: 50, f: 12, k: 510 },
-          { letter: 'B', desc: 'Big chicken salad bowl: 7 oz chicken, mixed greens, quinoa, avocado, vinaigrette', p: 50, c: 35, f: 22, k: 520 }
-        ] },
-      { id: 'm5', time: '16:00 · Afternoon', name: 'Snack Block',
-        options: [
-          { letter: 'A', desc: 'Whey shake + banana + almonds', p: 30, c: 35, f: 15, k: 380 },
-          { letter: 'B', desc: 'Beef jerky + apple + walnuts', p: 28, c: 22, f: 14, k: 320 }
-        ] },
-      { id: 'm6', time: '19:00 · Dinner', name: 'Home-Cooked Meal',
-        options: [
-          { letter: 'A', desc: '8 oz steak + roasted potatoes + asparagus w/ olive oil', p: 58, c: 45, f: 22, k: 620 },
-          { letter: 'B', desc: '7 oz salmon + wild rice + roasted veggies', p: 50, c: 55, f: 20, k: 580 },
-          { letter: 'C', desc: 'Homemade chicken stir-fry: 8 oz chicken, rice, mixed veggies, soy/ginger', p: 55, c: 65, f: 12, k: 600 }
-        ] },
-      { id: 'm7', time: '21:30 · Evening (KITCHEN CLOSES 9PM)', name: 'Optional Light Snack',
-        options: [
-          { letter: 'A', desc: 'Whey shake in water + 1 tsp PB (only if hungry — no eating past 9pm ideally)', p: 26, c: 5, f: 8, k: 200 },
-          { letter: 'SKIP', desc: 'Close the kitchen. Hydrate. Sleep early. This is the discipline that builds the physique.', p: 0, c: 0, f: 0, k: 0 }
-        ] }
-    ]
-  },
-  sunday: {
-    name: 'SUNDAY',
-    split: 'REST · MEAL PREP DAY',
+      { id: 'm2', time: '09:00 · BREAKFAST', name: 'Weekend Anchor', options: [
+        { letter: 'A', desc: 'Protein pancakes + turkey bacon + berries', ingredients: ['Oat flour pancakes (½ cup oats blended)','1 scoop whey','2 eggs','½ banana','3 strips turkey bacon','½ cup mixed berries','1 tsp honey or maple syrup'], p: 55, c: 60, f: 16, k: 620, fi: 7, na: 880, ka: 720 },
+        { letter: 'B', desc: '5-egg veggie omelet + sausage + toast', ingredients: ['3 whole eggs + 4 whites','½ cup spinach','¼ cup peppers + onion','2 chicken sausage links','1 slice sourdough','1 tsp olive oil'], p: 50, c: 30, f: 24, k: 540, fi: 4, na: 1180, ka: 880 },
+        { letter: 'C', desc: 'Breakfast burrito', ingredients: ['4 eggs','1 chicken sausage','¼ cup black beans','salsa','1 large tortilla','hot sauce'], p: 45, c: 50, f: 20, k: 580, fi: 8, na: 1080, ka: 720 } ] },
+      { id: 'm3', time: '12:30 · LUNCH', name: 'Midday Hold', options: [
+        { letter: 'A', desc: 'Grilled chicken wrap + fruit', ingredients: ['6 oz grilled chicken sliced','1 large whole-wheat tortilla','lettuce, tomato, peppers','1 tbsp light dressing','1 apple on side'], p: 50, c: 50, f: 12, k: 510, fi: 7, na: 720, ka: 850 },
+        { letter: 'B', desc: 'Chicken & quinoa power bowl', ingredients: ['7 oz grilled chicken','¾ cup quinoa','2 cups greens','¼ avocado','cherry tomatoes, cucumber','1 tbsp olive oil + balsamic'], p: 52, c: 40, f: 20, k: 540, fi: 8, na: 320, ka: 1380 } ] },
+      { id: 'm5', time: '16:00 · AFTERNOON', name: 'Snack Block', options: [
+        { letter: 'A', desc: 'Whey + banana + almonds', ingredients: ['1 scoop whey','10 oz water','1 banana','1 oz almonds'], p: 30, c: 35, f: 15, k: 380, fi: 7, na: 90, ka: 700 },
+        { letter: 'B', desc: 'Jerky + apple + walnuts', ingredients: ['2 oz beef jerky','1 apple','½ oz walnuts'], p: 28, c: 22, f: 14, k: 320, fi: 5, na: 580, ka: 380 } ] },
+      { id: 'm6', time: '19:00 · DINNER', name: 'Home-Cooked Meal', options: [
+        { letter: 'A', desc: 'Steak + roasted potatoes + asparagus', ingredients: ['8 oz lean sirloin','1.5 cups fingerling potatoes','1.5 cups asparagus','1 tsp olive oil','garlic, rosemary'], p: 58, c: 45, f: 22, k: 620, fi: 7, na: 360, ka: 1820 },
+        { letter: 'B', desc: 'Salmon + wild rice + roasted veggies', ingredients: ['7 oz salmon','¾ cup cooked wild rice','1.5 cups roasted bell peppers + zucchini','1 tsp olive oil','lemon, dill'], p: 50, c: 50, f: 20, k: 580, fi: 6, na: 280, ka: 1380 },
+        { letter: 'C', desc: 'Chicken stir-fry', ingredients: ['8 oz chicken breast cubed','2 cups mixed stir-fry veggies','1 cup rice','soy sauce, sesame oil, ginger, garlic'], p: 55, c: 65, f: 12, k: 600, fi: 5, na: 920, ka: 980 } ] },
+      { id: 'm7', time: '21:30 · EVENING (KITCHEN CLOSES 9PM)', name: 'Optional Light', options: [
+        { letter: 'SKIP', desc: '⚡ CLOSE THE KITCHEN. This is the discipline that builds the physique. Hydrate, sleep early.', ingredients: ['No food after 9pm','16 oz water','sleep by 11pm'], p: 0, c: 0, f: 0, k: 0, fi: 0, na: 0, ka: 0 },
+        { letter: 'A', desc: 'Whey shake (only if genuinely hungry)', ingredients: ['1 scoop whey isolate','10 oz water','1 tsp natural peanut butter'], p: 26, c: 5, f: 8, k: 200, fi: 1, na: 80, ka: 280 } ] }
+    ] },
+  sunday: { name: 'SUNDAY', split: 'REST · MEAL PREP DAY', dayType: 'LOW CARB · REST', targets: { carb: 200, fat: 85 },
+    strategy: '<strong>Prep day.</strong> Lower carb, higher quality protein and fats. Use today to cook the week\'s lunches, set up for Monday. Walking + meal prep + early sleep.',
     meals: [
-      { id: 'm2', time: '09:00 · Breakfast', name: 'Weekend Anchor',
-        options: [
-          { letter: 'A', desc: '4 eggs + 2 whites scrambled w/ chicken sausage + sweet potato hash + sourdough', p: 50, c: 50, f: 22, k: 600 },
-          { letter: 'B', desc: 'Overnight oats w/ whey, chia, berries, PB', p: 45, c: 60, f: 20, k: 600 }
-        ] },
-      { id: 'm3', time: '12:00 · Lunch (Meal Prep Tasting)', name: 'Test Your Prep',
-        options: [
-          { letter: 'A', desc: '7 oz of what you prepped: chicken/beef/turkey + rice + veggies + sauce', p: 52, c: 65, f: 12, k: 580 },
-          { letter: 'B', desc: 'Salmon bowl: 6 oz baked salmon + rice + cucumber + avocado', p: 45, c: 55, f: 22, k: 580 }
-        ] },
-      { id: 'm5', time: '16:00 · Afternoon', name: 'Snack Block',
-        options: [
-          { letter: 'A', desc: 'Whey shake + apple + handful almonds', p: 30, c: 30, f: 15, k: 360 },
-          { letter: 'B', desc: '3 hard-boiled eggs + cucumber + hummus', p: 25, c: 15, f: 18, k: 320 }
-        ] },
-      { id: 'm6', time: '18:30 · Dinner', name: 'Set The Week',
-        options: [
-          { letter: 'A', desc: '7 oz baked chicken + roasted sweet potato + green beans (light, sets up Monday)', p: 52, c: 45, f: 10, k: 500 },
-          { letter: 'B', desc: '8 oz lean steak + cauliflower mash + roasted Brussels sprouts', p: 56, c: 25, f: 22, k: 540 },
-          { letter: 'C', desc: '7 oz cod + jasmine rice + sautéed spinach', p: 48, c: 55, f: 8, k: 500 }
-        ] }
-    ]
-  }
+      { id: 'm2', time: '09:00 · BREAKFAST', name: 'Weekend Anchor', options: [
+        { letter: 'A', desc: 'Big scramble: eggs + sausage + sweet potato hash', ingredients: ['4 eggs + 2 whites scrambled','2 chicken sausage links sliced','1 small sweet potato diced & roasted','1 tsp olive oil','½ cup spinach','1 slice sourdough'], p: 50, c: 45, f: 22, k: 600, fi: 8, na: 1080, ka: 1180 },
+        { letter: 'B', desc: 'Overnight oats w/ whey + berries', ingredients: ['½ cup oats','1 scoop whey','1 tbsp chia','¾ cup soy milk','½ cup berries','1 tbsp PB'], p: 48, c: 60, f: 18, k: 600, fi: 11, na: 220, ka: 720 } ] },
+      { id: 'm3', time: '12:00 · LUNCH (PREP TASTE)', name: 'Test Your Prep', options: [
+        { letter: 'A', desc: '7oz of what you just prepped', ingredients: ['7 oz cooked chicken or beef','1 cup cooked rice','1.5 cups roasted veggies','sauce of choice','1 tsp olive oil drizzle'], p: 52, c: 60, f: 12, k: 580, fi: 6, na: 480, ka: 980 },
+        { letter: 'B', desc: 'Salmon poke-style bowl', ingredients: ['6 oz baked salmon (or sashimi-grade if you can)','¾ cup rice','½ cucumber sliced','¼ avocado','1 tsp sesame seeds','soy sauce, sesame oil drizzle'], p: 45, c: 50, f: 22, k: 580, fi: 4, na: 720, ka: 1180 } ] },
+      { id: 'm5', time: '16:00 · AFTERNOON', name: 'Snack Block', options: [
+        { letter: 'A', desc: 'Whey + apple + almonds', ingredients: ['1 scoop whey','10 oz water','1 apple','1 oz almonds'], p: 30, c: 30, f: 15, k: 360, fi: 7, na: 90, ka: 480 },
+        { letter: 'B', desc: '3 eggs + cucumber + hummus', ingredients: ['3 hard-boiled eggs','½ cucumber sliced','2 tbsp hummus'], p: 25, c: 15, f: 18, k: 320, fi: 4, na: 380, ka: 380 } ] },
+      { id: 'm6', time: '18:30 · DINNER', name: 'Set The Week', options: [
+        { letter: 'A', desc: 'Chicken + sweet potato + green beans (light)', ingredients: ['7 oz baked chicken breast','1 medium sweet potato','1.5 cups green beans','1 tsp olive oil','salt, paprika, garlic'], p: 52, c: 45, f: 10, k: 500, fi: 8, na: 320, ka: 1380 },
+        { letter: 'B', desc: 'Lean steak + cauliflower mash + Brussels', ingredients: ['8 oz lean sirloin','1.5 cups steamed cauliflower mashed w/ olive oil','1 cup roasted Brussels','garlic powder, salt'], p: 56, c: 25, f: 22, k: 540, fi: 8, na: 320, ka: 1480 },
+        { letter: 'C', desc: 'Cod + jasmine rice + sautéed spinach', ingredients: ['7 oz cod','¾ cup rice','2 cups sautéed spinach','1 tsp olive oil','2 cloves garlic','lemon'], p: 48, c: 50, f: 8, k: 500, fi: 5, na: 380, ka: 1380 } ] }
+    ] }
 };
-
 const SUPPLEMENTS = [
-  { id: 's1', name: 'Creatine Monohydrate', dose: '5g', timing: 'ANY TIME' },
-  { id: 's2', name: 'Vitamin D3', dose: '2,000 IU', timing: 'WITH FAT MEAL' },
-  { id: 's3', name: 'Caffeine (pre-workout)', dose: '100–200mg', timing: 'PRE-LIFT ONLY' },
-  { id: 's4', name: 'Whey Isolate', dose: '1–2 scoops', timing: 'AS NEEDED' },
-  { id: 's5', name: 'Fish Oil (optional)', dose: '1–2g EPA+DHA', timing: 'WITH MEAL' },
-  { id: 's6', name: 'Calcium (if dairy avoided)', dose: '500mg', timing: 'WITH MEAL' }
+  { id: 's1', name: 'Creatine Monohydrate', dose: '5g', timing: 'ANY TIME · DAILY' },
+  { id: 's2', name: 'Vitamin D3', dose: '2,000 IU', timing: 'W/ FAT MEAL' },
+  { id: 's3', name: 'Fish Oil (EPA+DHA)', dose: '1–2g', timing: 'W/ DINNER · DAILY' },
+  { id: 's4', name: 'Magnesium Glycinate', dose: '300mg', timing: 'EVENING · SLEEP' },
+  { id: 's5', name: 'Ashwagandha (KSM-66)', dose: '600mg', timing: 'EVENING · STRESS' },
+  { id: 's6', name: 'Caffeine Pill', dose: '100–200mg', timing: 'PRE-LIFT ONLY' },
+  { id: 's7', name: 'Whey Isolate', dose: '1–2 scoops', timing: 'AS NEEDED' },
+  { id: 's8', name: 'Iodized Salt (cooking)', dose: 'normal use', timing: 'COOK W/ IT' }
 ];
-
 const DAYS_ORDER = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
 const DAY_LABELS = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
-
-// ============================================================
-// STATE
-// ============================================================
-let currentDay = null; // viewing day
-let actualToday = null; // real today
+const DAY_TYPES_SHORT = ['LIFT','LIFT','REST','LIFT','LIFT','ACTIVE','PREP'];
+let currentDay = null;
+let actualToday = null;
 let state = { meals: {}, supps: {}, water: 0, selections: {}, date: null };
-
-function getTodayKey() {
-  const d = new Date();
-  const dayIdx = d.getDay(); // 0=Sun ... 6=Sat
-  // Map: 0->sunday, 1->monday, etc
-  return DAYS_ORDER[(dayIdx + 6) % 7];
-}
-
-function getDateStamp() {
-  const d = new Date();
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
-}
-
-function getISODate() {
-  return new Date().toISOString().split('T')[0];
-}
-
-// ============================================================
-// STORAGE
-// ============================================================
+function getTodayKey() { const d = new Date(); const dayIdx = d.getDay(); return DAYS_ORDER[(dayIdx + 6) % 7]; }
+function getDateStamp() { return new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase(); }
+function getISODate() { return new Date().toISOString().split('T')[0]; }
 async function loadState() {
   const today = getISODate();
   try {
     const r = await window.storage.get('daily_state');
     if (r && r.value) {
       const parsed = JSON.parse(r.value);
-      // Reset if it's a new day
-      if (parsed.date !== today) {
-        state = { meals: {}, supps: {}, water: 0, selections: parsed.selections || {}, date: today };
-        await saveState();
-      } else {
-        state = parsed;
-        if (!state.selections) state.selections = {};
-      }
-    } else {
-      state = { meals: {}, supps: {}, water: 0, selections: {}, date: today };
-    }
-  } catch (e) {
-    state = { meals: {}, supps: {}, water: 0, selections: {}, date: today };
-  }
+      if (parsed.date !== today) { state = { meals: {}, supps: {}, water: 0, selections: parsed.selections || {}, date: today }; await saveState(); }
+      else { state = parsed; if (!state.selections) state.selections = {}; }
+    } else { state = { meals: {}, supps: {}, water: 0, selections: {}, date: today }; }
+  } catch (e) { state = { meals: {}, supps: {}, water: 0, selections: {}, date: today }; }
 }
-
-async function saveState() {
-  try {
-    await window.storage.set('daily_state', JSON.stringify(state));
-  } catch (e) {
-    console.error('Save failed', e);
-  }
-}
-
-// ============================================================
-// RENDER
-// ============================================================
+async function saveState() { try { await window.storage.set('daily_state', JSON.stringify(state)); } catch (e) { console.error('Save failed', e); } }
 function render() {
   const dayData = WEEK_PLAN[currentDay];
   document.getElementById('dayName').textContent = dayData.name;
   document.getElementById('trainingSplit').textContent = dayData.split;
+  document.getElementById('dayType').textContent = dayData.dayType;
   document.getElementById('dateStamp').textContent = getDateStamp();
-
-  // Week tag (week of year, simplified)
-  const now = new Date();
-  const start = new Date(now.getFullYear(), 0, 0);
-  const diff = now - start;
+  document.getElementById('dayStrategy').innerHTML = dayData.strategy;
+  document.getElementById('carbTarget').textContent = dayData.targets.carb;
+  document.getElementById('fatTarget').textContent = dayData.targets.fat;
+  const now = new Date(); const start = new Date(now.getFullYear(), 0, 0); const diff = now - start;
   const week = Math.ceil(diff / (1000 * 60 * 60 * 24 * 7));
   document.getElementById('weekTag').textContent = `WEEK ${String(week).padStart(2,'0')}`;
-
-  renderMeals(dayData);
-  renderSupps();
-  renderWater();
-  renderWeek();
-  updateMacros();
+  renderMeals(dayData); renderSupps(); renderWater(); renderWeek(); updateMacros();
 }
-
 function renderMeals(dayData) {
   const list = document.getElementById('mealsList');
   list.innerHTML = '';
   const isToday = (currentDay === actualToday);
-
   dayData.meals.forEach((meal, idx) => {
     const completed = isToday && state.meals[meal.id];
     const card = document.createElement('div');
     card.className = `meal ${completed ? 'complete' : ''}`;
     card.style.animationDelay = `${0.05 + idx * 0.05}s`;
-
     const selectedOpt = isToday ? (state.selections[meal.id] || meal.options[0].letter) : meal.options[0].letter;
-
     card.innerHTML = `
       <div class="meal-header" onclick="toggleMeal(this, event)">
         <button class="check-btn" onclick="event.stopPropagation(); toggleMealComplete('${meal.id}')"></button>
-        <div class="meal-info">
-          <div class="meal-time">${meal.time}</div>
-          <div class="meal-name">${meal.name}</div>
-        </div>
+        <div class="meal-info"><div class="meal-time">${meal.time}</div><div class="meal-name">${meal.name}</div></div>
         <div class="meal-toggle">▾</div>
       </div>
-      <div class="meal-body">
-        <div class="options">
-          ${meal.options.map(opt => `
-            <div class="option ${opt.letter === selectedOpt ? 'selected' : ''}"
-                 onclick="selectOption('${meal.id}', '${opt.letter}', event)"
-                 ${!isToday ? 'style="cursor:default;opacity:0.8;"' : ''}>
-              <div class="option-letter">OPTION ${opt.letter}</div>
-              <div class="option-desc">${opt.desc}</div>
-              <div class="option-macros">
-                <div class="macro-pill protein">
-                  <div class="macro-pill-label">Protein</div>
-                  <div class="macro-pill-value">${opt.p}g</div>
-                </div>
-                <div class="macro-pill">
-                  <div class="macro-pill-label">Carbs</div>
-                  <div class="macro-pill-value">${opt.c}g</div>
-                </div>
-                <div class="macro-pill">
-                  <div class="macro-pill-label">Fat</div>
-                  <div class="macro-pill-value">${opt.f}g</div>
-                </div>
-                <div class="macro-pill">
-                  <div class="macro-pill-label">Kcal</div>
-                  <div class="macro-pill-value">${opt.k}</div>
-                </div>
-              </div>
+      <div class="meal-body"><div class="options">
+        ${meal.options.map(opt => `
+          <div class="option ${opt.letter === selectedOpt ? 'selected' : ''}" onclick="selectOption('${meal.id}', '${opt.letter}', event)">
+            <div class="option-letter">OPTION ${opt.letter}</div>
+            <div class="option-desc">${opt.desc}</div>
+            <div class="ingredients-block">
+              <div class="ingredients-title">Ingredients · Exact Amounts</div>
+              <ul class="ingredients-list">${opt.ingredients.map(i => `<li>${i}</li>`).join('')}</ul>
             </div>
-          `).join('')}
-        </div>
-      </div>
-    `;
+            <div class="option-macros">
+              <div class="macro-pill protein"><div class="macro-pill-label">Protein</div><div class="macro-pill-value">${opt.p}g</div></div>
+              <div class="macro-pill"><div class="macro-pill-label">Carbs</div><div class="macro-pill-value">${opt.c}g</div></div>
+              <div class="macro-pill"><div class="macro-pill-label">Fat</div><div class="macro-pill-value">${opt.f}g</div></div>
+              <div class="macro-pill"><div class="macro-pill-label">Kcal</div><div class="macro-pill-value">${opt.k}</div></div>
+            </div>
+            <div class="option-macros-extra">
+              <div class="macro-pill"><div class="macro-pill-label">Fiber</div><div class="macro-pill-value">${opt.fi}g</div></div>
+              <div class="macro-pill sodium"><div class="macro-pill-label">Sodium</div><div class="macro-pill-value">${opt.na}mg</div></div>
+              <div class="macro-pill potassium"><div class="macro-pill-label">Potassium</div><div class="macro-pill-value">${opt.ka}mg</div></div>
+            </div>
+          </div>`).join('')}
+      </div></div>`;
     list.appendChild(card);
   });
-
   const completedCount = isToday ? dayData.meals.filter(m => state.meals[m.id]).length : 0;
   document.getElementById('mealCount').textContent = `${completedCount}/${dayData.meals.length} LOGGED`;
 }
-
-function toggleMeal(headerEl, e) {
-  if (e.target.classList.contains('check-btn')) return;
-  headerEl.parentElement.classList.toggle('open');
-}
-
-async function toggleMealComplete(mealId) {
-  if (currentDay !== actualToday) return; // only mark today
-  state.meals[mealId] = !state.meals[mealId];
-  await saveState();
-  render();
-}
-
-async function selectOption(mealId, letter, e) {
-  e.stopPropagation();
-  if (currentDay !== actualToday) return;
-  state.selections[mealId] = letter;
-  await saveState();
-  renderMeals(WEEK_PLAN[currentDay]);
-  updateMacros();
-}
-
+function toggleMeal(headerEl, e) { if (e.target.classList.contains('check-btn')) return; headerEl.parentElement.classList.toggle('open'); }
+async function toggleMealComplete(mealId) { if (currentDay !== actualToday) return; state.meals[mealId] = !state.meals[mealId]; await saveState(); render(); }
+async function selectOption(mealId, letter, e) { e.stopPropagation(); if (currentDay !== actualToday) return; state.selections[mealId] = letter; await saveState(); renderMeals(WEEK_PLAN[currentDay]); updateMacros(); }
 function renderSupps() {
-  const list = document.getElementById('suppList');
-  list.innerHTML = '';
+  const list = document.getElementById('suppList'); list.innerHTML = '';
   const isToday = (currentDay === actualToday);
-
   SUPPLEMENTS.forEach(s => {
     const done = isToday && state.supps[s.id];
-    const row = document.createElement('div');
-    row.className = `supp ${done ? 'done' : ''}`;
+    const row = document.createElement('div'); row.className = `supp ${done ? 'done' : ''}`;
     row.onclick = () => toggleSupp(s.id);
-    row.innerHTML = `
-      <div class="supp-check"></div>
-      <div class="supp-info">
-        <div class="supp-name">${s.name}</div>
-        <div class="supp-dose">${s.dose}</div>
-      </div>
-      <div class="supp-timing">${s.timing}</div>
-    `;
+    row.innerHTML = `<div class="supp-check"></div><div class="supp-info"><div class="supp-name">${s.name}</div><div class="supp-dose">${s.dose}</div></div><div class="supp-timing">${s.timing}</div>`;
     list.appendChild(row);
   });
 }
-
-async function toggleSupp(id) {
-  if (currentDay !== actualToday) return;
-  state.supps[id] = !state.supps[id];
-  await saveState();
-  renderSupps();
-}
-
+async function toggleSupp(id) { if (currentDay !== actualToday) return; state.supps[id] = !state.supps[id]; await saveState(); renderSupps(); }
 function renderWater() {
-  const grid = document.getElementById('waterGrid');
-  grid.innerHTML = '';
+  const grid = document.getElementById('waterGrid'); grid.innerHTML = '';
   const water = (currentDay === actualToday) ? state.water : 0;
-  for (let i = 0; i < 16; i++) {
-    const cup = document.createElement('div');
-    cup.className = `water-cup ${i < water ? 'filled' : ''}`;
-    cup.onclick = () => setWater(i + 1);
-    grid.appendChild(cup);
+  for (let i = 0; i < 20; i++) {
+    const cup = document.createElement('div'); cup.className = `water-cup ${i < water ? 'filled' : ''}`;
+    cup.onclick = () => setWater(i + 1); grid.appendChild(cup);
   }
   document.getElementById('waterMain').textContent = water;
   document.getElementById('waterCurrent').textContent = water;
-  document.getElementById('waterBar').style.width = `${Math.min(100, (water/16)*100)}%`;
+  document.getElementById('waterBar').style.width = `${Math.min(100, (water/20)*100)}%`;
 }
-
-async function setWater(n) {
-  if (currentDay !== actualToday) return;
-  state.water = (state.water === n) ? n - 1 : n;
-  if (state.water < 0) state.water = 0;
-  await saveState();
-  renderWater();
-}
-
-async function addWater() {
-  if (currentDay !== actualToday) return;
-  state.water = Math.min(16, state.water + 1);
-  await saveState();
-  renderWater();
-}
-
-async function removeWater() {
-  if (currentDay !== actualToday) return;
-  state.water = Math.max(0, state.water - 1);
-  await saveState();
-  renderWater();
-}
-
+async function setWater(n) { if (currentDay !== actualToday) return; state.water = (state.water === n) ? n - 1 : n; if (state.water < 0) state.water = 0; await saveState(); renderWater(); }
+async function addWater() { if (currentDay !== actualToday) return; state.water = Math.min(20, state.water + 1); await saveState(); renderWater(); }
+async function removeWater() { if (currentDay !== actualToday) return; state.water = Math.max(0, state.water - 1); await saveState(); renderWater(); }
 function updateMacros() {
   const isToday = (currentDay === actualToday);
-  let p = 0, k = 0;
+  let p=0, c=0, f=0, k=0, fi=0, na=0, ka=0;
   if (isToday) {
     const dayData = WEEK_PLAN[currentDay];
     dayData.meals.forEach(meal => {
       if (state.meals[meal.id]) {
         const letter = state.selections[meal.id] || meal.options[0].letter;
         const opt = meal.options.find(o => o.letter === letter) || meal.options[0];
-        p += opt.p;
-        k += opt.k;
+        p += opt.p; c += opt.c; f += opt.f; k += opt.k; fi += opt.fi; na += opt.na; ka += opt.ka;
       }
     });
   }
   document.getElementById('proteinCurrent').textContent = p;
   document.getElementById('calCurrent').textContent = k;
+  document.getElementById('carbCurrent').textContent = c;
+  document.getElementById('fatCurrent').textContent = f;
+  document.getElementById('fiberCurrent').textContent = fi;
+  document.getElementById('sodiumCurrent').textContent = na;
+  document.getElementById('potassiumCurrent').textContent = ka;
+  const ratio = na > 0 ? (ka / na).toFixed(1) : '—';
+  document.getElementById('ratioCurrent').textContent = ratio;
   document.getElementById('proteinBar').style.width = `${Math.min(100, (p/220)*100)}%`;
   document.getElementById('calBar').style.width = `${Math.min(100, (k/2400)*100)}%`;
 }
-
 function renderWeek() {
-  const grid = document.getElementById('weekGrid');
-  grid.innerHTML = '';
+  const grid = document.getElementById('weekGrid'); grid.innerHTML = '';
   DAYS_ORDER.forEach((day, i) => {
-    const cell = document.createElement('div');
-    cell.className = `week-day ${day === currentDay ? 'active' : ''}`;
+    const cell = document.createElement('div'); cell.className = `week-day ${day === currentDay ? 'active' : ''}`;
     cell.onclick = () => { currentDay = day; render(); window.scrollTo({top: 0, behavior: 'smooth'}); };
-    cell.innerHTML = `
-      <div class="week-day-name">${DAY_LABELS[i]}</div>
-      <div class="week-day-num">${i + 1}</div>
-    `;
+    cell.innerHTML = `<div class="week-day-name">${DAY_LABELS[i]}</div><div class="week-day-num">${i + 1}</div><div class="week-day-type">${DAY_TYPES_SHORT[i]}</div>`;
     grid.appendChild(cell);
   });
 }
-
-// ============================================================
-// INIT
-// ============================================================
 (async function init() {
-  actualToday = getTodayKey();
-  currentDay = actualToday;
-  await loadState();
-  render();
-  setTimeout(() => {
-    document.getElementById('loading').classList.add('hidden');
-  }, 300);
+  actualToday = getTodayKey(); currentDay = actualToday;
+  await loadState(); render();
+  setTimeout(() => { document.getElementById('loading').classList.add('hidden'); }, 300);
 })();
 </script>
 </body>
