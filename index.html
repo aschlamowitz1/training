@@ -9,20 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0907;
-    --bg-elevated: #131210;
-    --bg-card: #1a1815;
-    --border: #2a2722;
-    --border-strong: #3a362f;
-    --text: #f5f1e8;
-    --text-dim: #a8a292;
-    --text-faint: #6b665c;
-    --accent: #f4a523;
-    --accent-dim: #c98718;
-    --accent-glow: rgba(244, 165, 35, 0.15);
-    --success: #7a9b6e;
-    --danger: #c5564a;
-    --blue: #4a90c2;
+    --bg: #0a0907; --bg-elevated: #131210; --bg-card: #1a1815;
+    --border: #2a2722; --border-strong: #3a362f;
+    --text: #f5f1e8; --text-dim: #a8a292; --text-faint: #6b665c;
+    --accent: #f4a523; --accent-dim: #c98718; --accent-glow: rgba(244, 165, 35, 0.15);
+    --success: #7a9b6e; --danger: #c5564a; --blue: #4a90c2;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { background: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; min-height: 100vh; overflow-x: hidden; }
@@ -66,6 +57,8 @@
   .meal.complete { background: var(--bg-elevated); border-color: var(--border); }
   .meal.complete .meal-header { opacity: 0.5; }
   .meal.complete::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--success); }
+  .meal.intentional { border-color: var(--accent-dim); }
+  .meal.intentional::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent); }
   .meal-header { display: flex; align-items: center; padding: 16px 18px; cursor: pointer; gap: 14px; transition: opacity 0.2s; }
   .check-btn { width: 26px; height: 26px; border: 1.5px solid var(--border-strong); background: transparent; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; border-radius: 2px; }
   .check-btn:hover { border-color: var(--accent); }
@@ -78,8 +71,10 @@
   .meal-toggle { color: var(--text-faint); font-size: 12px; font-family: 'JetBrains Mono', monospace; transition: transform 0.3s ease; flex-shrink: 0; }
   .meal.open .meal-toggle { transform: rotate(180deg); color: var(--accent); }
   .meal-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
-  .meal.open .meal-body { max-height: 4500px; }
+  .meal.open .meal-body { max-height: 5500px; }
   .options { padding: 0 18px 18px; display: flex; flex-direction: column; gap: 10px; }
+  .meal-note { margin: 0 18px 14px; padding: 10px 12px; background: var(--accent-glow); border-left: 2px solid var(--accent); font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+  .meal-note strong { color: var(--accent); }
   .option { border: 1px solid var(--border); padding: 14px 16px; cursor: pointer; transition: all 0.2s; background: var(--bg-elevated); position: relative; }
   .option:hover { border-color: var(--border-strong); }
   .option.selected { border-color: var(--accent); background: linear-gradient(135deg, var(--accent-glow) 0%, transparent 60%); }
@@ -205,26 +200,26 @@
     <div class="section-head" style="margin-top:0;border-bottom:none;padding-bottom:0;"><div class="section-title" style="font-size:16px;">Week View</div><div class="section-count">TAP TO PREVIEW</div></div>
     <div style="margin-top:16px;" class="week-grid" id="weekGrid"></div>
   </div>
-  <div class="footer-note">Resets daily · <span class="accent">consistency &gt; perfection</span><br>Stable sodium · high potassium · 1.25 gal water · sleep 7–9hrs</div>
+  <div class="footer-note">Resets daily · <span class="accent">consistency &gt; perfection</span><br>Train 3:45 AM · stable sodium · high potassium · 1.25 gal water · sleep 7–9hrs</div>
 </div>
 <script>
 const WEEK_PLAN = {
   monday: { name: 'MONDAY', split: 'UPPER · PUSH/PULL', dayType: 'HIGH CARB · TRAINING', targets: { carb: 270, fat: 60 },
-    strategy: '<strong>Lift day.</strong> Carbs push up to fuel performance and pack glycogen for fuller muscles. Fat down slightly to keep cals in range. Salmon dinner for omega-3s.',
+    strategy: '<strong>Lift day — 3:45 AM.</strong> Earliest slot, emptiest gym. Carbs up to fuel performance and pack glycogen for fuller muscles. Salmon dinner for omega-3s.',
     meals: [
-      { id: 'm1', time: '06:00 · PRE-WORKOUT (IF 4AM LIFT)', name: 'Pre-Lift Fuel', options: [
-        { letter: 'A', desc: 'Whey shake + ½ banana + creatine + caffeine', ingredients: ['1 scoop (30g) whey isolate','½ banana sliced','8 oz water','5g creatine monohydrate','100–200mg caffeine pill'], p: 25, c: 18, f: 1, k: 180, fi: 2, na: 80, ka: 380 },
+      { id: 'm1', time: '03:30 · PRE-WORKOUT', name: 'Pre-Lift Fuel', options: [
+        { letter: 'A', desc: 'Whey shake + ½ banana + creatine + caffeine', ingredients: ['1 scoop (30g) whey isolate','½ banana sliced','8 oz water','5g creatine monohydrate','100–200mg caffeine pill (take at 4:00, not now)'], p: 25, c: 18, f: 1, k: 180, fi: 2, na: 80, ka: 380 },
         { letter: 'B', desc: 'Rice cakes w/ honey + black coffee + creatine', ingredients: ['2 plain rice cakes','1 tsp honey drizzled','12 oz black coffee','5g creatine','100–200mg caffeine pill'], p: 2, c: 25, f: 0.5, k: 110, fi: 0.5, na: 50, ka: 100 } ] },
       { id: 'm2', time: '07:30 · BREAKFAST', name: 'Morning Anchor', options: [
         { letter: 'A', desc: 'Eggs scrambled + oats + banana', ingredients: ['4 whole eggs + 2 egg whites','1 tsp olive oil','½ cup rolled oats','¾ cup unsweetened soy milk','1 banana sliced','1 tsp cinnamon','pinch iodized salt'], p: 48, c: 65, f: 22, k: 640, fi: 8, na: 380, ka: 950 },
         { letter: 'B', desc: 'Overnight oats w/ whey, chia, berries', ingredients: ['½ cup rolled oats','1 scoop (30g) whey isolate','1 tbsp chia seeds','¾ cup unsweetened soy milk','½ cup blueberries','1 tbsp natural peanut butter','pinch cinnamon'], p: 45, c: 60, f: 20, k: 600, fi: 11, na: 220, ka: 720 },
-        { letter: 'C', desc: 'Egg white scramble + sourdough + avocado', ingredients: ['6 egg whites + 2 whole eggs','1 tsp olive oil','½ cup spinach','2 slices sourdough toast','½ medium avocado','salt & pepper'], p: 42, c: 38, f: 24, k: 540, fi: 9, na: 720, ka: 880 } ] },
+        { letter: 'C', desc: 'Ground beef & egg breakfast scramble', ingredients: ['4 oz lean ground beef (93/7) browned','3 whole eggs scrambled','½ cup diced potatoes (pan-fried)','¼ cup peppers & onion','1 tsp olive oil','salt, pepper, paprika, hot sauce'], p: 46, c: 32, f: 26, k: 560, fi: 4, na: 420, ka: 760 } ] },
       { id: 'm3', time: '11:00 · MID-MORNING', name: 'Bridge Snack', options: [
         { letter: 'A', desc: 'Whey shake + apple + almonds', ingredients: ['1 scoop (30g) whey isolate','10 oz water','1 medium apple','1 oz raw almonds (23 nuts)'], p: 30, c: 30, f: 15, k: 360, fi: 7, na: 90, ka: 480 },
-        { letter: 'B', desc: 'Hard-boiled eggs + apple + almonds', ingredients: ['3 hard-boiled eggs','1 medium apple','1 oz raw almonds'], p: 25, c: 18, f: 20, k: 340, fi: 7, na: 220, ka: 470 } ] },
+        { letter: 'B', desc: 'Sliced chicken breast + rice cakes', ingredients: ['4 oz cold prepped chicken breast, sliced','3 plain rice cakes','1 tbsp hot sauce or mustard'], p: 32, c: 24, f: 4, k: 270, fi: 1, na: 320, ka: 360 } ] },
       { id: 'm4', time: '12:30 · LUNCH (PREPPED)', name: 'Work Block', options: [
         { letter: 'A', desc: 'Chicken + jasmine rice + broccoli', ingredients: ['7 oz cooked chicken breast','1.5 cups cooked jasmine rice','1.5 cups steamed broccoli','1 tsp olive oil','salt, pepper, garlic powder, paprika','1 tbsp hot sauce'], p: 55, c: 70, f: 10, k: 610, fi: 5, na: 480, ka: 980 },
-        { letter: 'B', desc: 'Lean ground beef + baked potato + kale', ingredients: ['7 oz cooked lean ground beef (93/7)','1 large baked potato (~10 oz)','1.5 cups sautéed kale','1 tsp olive oil','2 cloves minced garlic','salt, pepper'], p: 52, c: 60, f: 16, k: 600, fi: 8, na: 420, ka: 1850 },
+        { letter: 'B', desc: 'Honey-garlic chicken + rice + green beans', ingredients: ['7 oz chicken breast','1.5 cups jasmine rice','1.5 cups green beans','sauce: 1 tbsp honey, 1 tbsp low-sodium soy, 2 cloves garlic, splash rice vinegar','1 tsp sesame seeds'], p: 54, c: 72, f: 9, k: 615, fi: 5, na: 560, ka: 1050 },
         { letter: 'C', desc: 'Chicken biryani (macro-tuned)', ingredients: ['6 oz cooked chicken thigh in biryani spices','1 cup basmati rice','½ caramelized onion','turmeric, garam masala, cumin, ginger, garlic','1 tsp olive oil','cilantro & mint','cucumber slices on side'], p: 54, c: 60, f: 16, k: 600, fi: 4, na: 520, ka: 720 } ] },
       { id: 'm5', time: '16:00 · AFTERNOON', name: 'Pre-Dinner Hold', options: [
         { letter: 'A', desc: 'Whey shake + banana', ingredients: ['1 scoop (30g) whey isolate','10 oz water','1 banana'], p: 30, c: 35, f: 2, k: 290, fi: 4, na: 80, ka: 580 },
@@ -234,30 +229,31 @@ const WEEK_PLAN = {
         { letter: 'B', desc: 'Chicken thighs + rice + bok choy', ingredients: ['7 oz boneless skinless chicken thighs','1 cup jasmine rice','2 heads baby bok choy stir-fried','1 tsp sesame oil','1 tbsp soy sauce','garlic, ginger'], p: 52, c: 55, f: 18, k: 620, fi: 3, na: 720, ka: 850 } ] }
     ] },
   tuesday: { name: 'TUESDAY', split: 'LOWER · LEGS', dayType: 'HIGH CARB · TRAINING', targets: { carb: 270, fat: 60 },
-    strategy: '<strong>Leg day.</strong> Carbs high to fuel heavy work. Sweet potato pairing for potassium replacement after lower body session. Steak dinner for creatine and zinc.',
+    strategy: '<strong>Leg day — 3:45 AM.</strong> Carbs high to fuel heavy work. Sweet potato pairing for potassium replacement after lower body. Steak dinner for creatine and zinc.',
     meals: [
-      { id: 'm1', time: '06:00 · PRE-WORKOUT', name: 'Pre-Lift Fuel', options: [
-        { letter: 'A', desc: 'Whey shake + ½ banana + creatine + caffeine', ingredients: ['1 scoop (30g) whey isolate','½ banana','8 oz water','5g creatine','100–200mg caffeine'], p: 25, c: 18, f: 1, k: 180, fi: 2, na: 80, ka: 380 },
+      { id: 'm1', time: '03:30 · PRE-WORKOUT', name: 'Pre-Lift Fuel', options: [
+        { letter: 'A', desc: 'Whey shake + ⅓ banana + creatine + caffeine', ingredients: ['1 scoop (30g) whey isolate','⅓ banana (less to digest before legs)','8 oz water','5g creatine','100–200mg caffeine pill at 4:00'], p: 25, c: 15, f: 1, k: 165, fi: 1.5, na: 80, ka: 320 },
         { letter: 'B', desc: 'Rice cakes w/ honey + coffee', ingredients: ['2 plain rice cakes','1 tsp honey','12 oz black coffee','5g creatine','100–200mg caffeine'], p: 2, c: 25, f: 0.5, k: 110, fi: 0.5, na: 50, ka: 100 } ] },
       { id: 'm2', time: '07:30 · BREAKFAST', name: 'Morning Anchor', options: [
         { letter: 'A', desc: 'Overnight oats w/ whey, chia, PB', ingredients: ['½ cup oats','1 scoop whey','1 tbsp chia','¾ cup soy milk','1 tbsp PB','½ banana sliced'], p: 48, c: 60, f: 20, k: 600, fi: 11, na: 220, ka: 800 },
         { letter: 'B', desc: 'Protein pancakes + berries', ingredients: ['½ cup oat flour (or blended oats)','1 scoop whey','2 whole eggs','½ banana mashed','2 tbsp soy milk','cinnamon','½ cup mixed berries','1 tsp honey'], p: 50, c: 55, f: 14, k: 540, fi: 8, na: 180, ka: 640 },
-        { letter: 'C', desc: 'Eggs + sourdough + avocado', ingredients: ['4 whole eggs + 2 whites','2 slices sourdough','½ avocado','olive oil, salt, pepper','spinach handful'], p: 42, c: 38, f: 24, k: 540, fi: 9, na: 720, ka: 880 } ] },
+        { letter: 'C', desc: 'Steak & egg breakfast bowl', ingredients: ['5 oz lean sirloin (sliced thin, seared)','3 whole eggs','½ cup jasmine rice','½ cup spinach wilted','1 tsp olive oil','salt, pepper, garlic powder, hot sauce'], p: 50, c: 38, f: 22, k: 580, fi: 2, na: 380, ka: 720 } ] },
       { id: 'm3', time: '11:00 · MID-MORNING', name: 'Bridge Snack', options: [
         { letter: 'A', desc: 'Whey shake + banana + almonds', ingredients: ['1 scoop whey','10 oz water','1 banana','1 oz almonds'], p: 30, c: 35, f: 15, k: 380, fi: 7, na: 90, ka: 700 },
-        { letter: 'B', desc: 'Tuna packet + rice cakes + apple', ingredients: ['1 tuna packet (4 oz)','3 rice cakes','1 small apple'], p: 30, c: 30, f: 3, k: 280, fi: 4, na: 380, ka: 380 } ] },
+        { letter: 'B', desc: 'Sliced chicken breast + rice cakes', ingredients: ['4 oz cold prepped chicken breast, sliced','3 plain rice cakes','1 tbsp hot sauce or mustard'], p: 32, c: 24, f: 4, k: 270, fi: 1, na: 320, ka: 360 } ] },
       { id: 'm4', time: '12:30 · LUNCH (PREPPED)', name: 'Work Block', options: [
         { letter: 'A', desc: 'Ground turkey burrito bowl', ingredients: ['7 oz cooked ground turkey (93/7)','1 cup cooked rice','½ cup black beans','¼ cup salsa','shredded lettuce','taco seasoning (cumin, chili, garlic, paprika)','1 tbsp hot sauce'], p: 55, c: 75, f: 10, k: 630, fi: 11, na: 680, ka: 1250 },
-        { letter: 'B', desc: 'Chicken + sweet potato + roasted veggies', ingredients: ['7 oz cooked chicken breast','1 medium sweet potato cubed & roasted','1.5 cups roasted peppers + zucchini','1 tsp olive oil','paprika, salt, garlic powder'], p: 55, c: 55, f: 12, k: 560, fi: 9, na: 320, ka: 1450 } ] },
+        { letter: 'B', desc: 'Korean-style beef bowl', ingredients: ['7 oz lean ground beef (93/7) browned','1 cup rice','sauce: 1 tbsp low-sodium soy, 1 tsp sesame oil, 1 tsp honey, ginger, garlic','scallions, sesame seeds','1 cup steamed broccoli on side'], p: 52, c: 68, f: 15, k: 615, fi: 4, na: 620, ka: 980 },
+        { letter: 'C', desc: 'Chicken + sweet potato + roasted veggies', ingredients: ['7 oz cooked chicken breast','1 medium sweet potato cubed & roasted','1.5 cups roasted peppers + zucchini','1 tsp olive oil','paprika, salt, garlic powder'], p: 55, c: 55, f: 12, k: 560, fi: 9, na: 320, ka: 1450 } ] },
       { id: 'm5', time: '16:00 · AFTERNOON', name: 'Pre-Dinner Hold', options: [
         { letter: 'A', desc: 'Hard-boiled eggs + almonds', ingredients: ['3 hard-boiled eggs','1 oz almonds'], p: 25, c: 8, f: 22, k: 320, fi: 4, na: 220, ka: 440 },
-        { letter: 'B', desc: 'Whey shake + apple', ingredients: ['1 scoop whey','10 oz water','1 apple'], p: 30, c: 25, f: 2, k: 250, fi: 5, na: 80, ka: 280 } ] },
+        { letter: 'B', desc: 'Cottage cheese + pineapple', ingredients: ['1 cup low-fat cottage cheese','½ cup pineapple chunks'], p: 28, c: 22, f: 5, k: 250, fi: 1, na: 380, ka: 320 } ] },
       { id: 'm6', time: '19:00 · DINNER', name: 'Recovery Meal', options: [
         { letter: 'A', desc: 'Lean steak + roasted potatoes + green beans', ingredients: ['8 oz lean sirloin or flank steak','1.5 cups fingerling potatoes (roasted)','1.5 cups green beans (blistered)','1 tsp olive oil','rosemary, garlic, salt, pepper'], p: 56, c: 50, f: 22, k: 640, fi: 7, na: 360, ka: 1820 },
-        { letter: 'B', desc: 'Cod + couscous + Mediterranean veggies', ingredients: ['7 oz cod fillet','¾ cup cooked couscous','1 cup roasted zucchini, peppers, onion','1 tsp olive oil','lemon, oregano, salt'], p: 50, c: 55, f: 12, k: 540, fi: 6, na: 380, ka: 1180 } ] }
+        { letter: 'B', desc: 'Garlic shrimp + rice + broccoli', ingredients: ['8 oz shrimp peeled','1 cup jasmine rice','1.5 cups steamed broccoli','1 tsp olive oil','3 cloves garlic, lemon, parsley, chili flakes'], p: 50, c: 55, f: 10, k: 530, fi: 5, na: 540, ka: 920 } ] }
     ] },
   wednesday: { name: 'WEDNESDAY', split: 'REST · VO2 + WALK', dayType: 'LOW CARB · REST', targets: { carb: 200, fat: 85 },
-    strategy: '<strong>Rest day.</strong> Carbs drop, fat rises — same calories, less subcutaneous water, leaner look. Higher fish/protein quality. Strong potassium intake for visible definition.',
+    strategy: '<strong>Rest day.</strong> Mid-week reset. Carbs drop, fat rises — same calories, less subcutaneous water, leaner look. Strong potassium intake for visible definition. Optional VO2 session + walk.',
     meals: [
       { id: 'm2', time: '07:30 · BREAKFAST', name: 'Morning Anchor', options: [
         { letter: 'A', desc: 'Eggs + ½ oats + berries (lower carb)', ingredients: ['4 whole eggs + 2 whites','½ cup oats cooked in water','½ cup berries','1 tsp olive oil','cinnamon'], p: 42, c: 45, f: 20, k: 540, fi: 7, na: 320, ka: 750 },
@@ -272,25 +268,25 @@ const WEEK_PLAN = {
         { letter: 'A', desc: 'Beef jerky + apple + walnuts', ingredients: ['2 oz beef jerky (low-sugar)','1 apple','½ oz walnuts'], p: 28, c: 22, f: 14, k: 320, fi: 5, na: 580, ka: 380 },
         { letter: 'B', desc: 'Whey + almonds + cucumber', ingredients: ['1 scoop whey in water','1 oz almonds','½ cucumber w/ everything bagel seasoning'], p: 30, c: 12, f: 15, k: 300, fi: 5, na: 180, ka: 470 } ] },
       { id: 'm6', time: '19:00 · DINNER', name: 'Recovery Meal', options: [
-        { letter: 'A', desc: 'Shrimp stir-fry + small rice portion', ingredients: ['8 oz shrimp peeled','1 bell pepper','1 cup snap peas','2 scallions','½ cup rice','sauce: 2 tbsp soy sauce, 1 tsp sesame oil, 1 tsp honey, ginger, garlic'], p: 52, c: 45, f: 12, k: 510, fi: 5, na: 920, ka: 950 },
+        { letter: 'A', desc: 'Baked cod + cauliflower mash + asparagus', ingredients: ['8 oz cod fillet','1.5 cups steamed cauliflower mashed w/ 1 tsp olive oil','1.5 cups roasted asparagus','lemon, garlic, dill, salt'], p: 50, c: 22, f: 12, k: 420, fi: 8, na: 360, ka: 1450 },
         { letter: 'B', desc: 'Beef tacos (corn tortillas)', ingredients: ['7 oz lean ground beef','taco seasoning','3 small corn tortillas','¼ avocado mashed','¼ cup salsa','shredded romaine','hot sauce'], p: 52, c: 38, f: 22, k: 580, fi: 8, na: 580, ka: 980 } ] }
     ] },
   thursday: { name: 'THURSDAY', split: 'UPPER · PUSH/PULL', dayType: 'HIGH CARB · TRAINING', targets: { carb: 270, fat: 60 },
-    strategy: '<strong>Lift day.</strong> Mirror Monday — carbs fueled, salmon or fish dinner for omega-3s. Lift hard, eat to support it.',
+    strategy: '<strong>Lift day — 3:45 AM.</strong> Mirror Monday. Pull up Monday\'s numbers and try to beat one lift. Fish dinner for omega-3s.',
     meals: [
-      { id: 'm1', time: '06:00 · PRE-WORKOUT', name: 'Pre-Lift Fuel', options: [
-        { letter: 'A', desc: 'Whey + ½ banana + creatine + caffeine', ingredients: ['1 scoop whey isolate','½ banana','8 oz water','5g creatine','100–200mg caffeine'], p: 25, c: 18, f: 1, k: 180, fi: 2, na: 80, ka: 380 },
+      { id: 'm1', time: '03:30 · PRE-WORKOUT', name: 'Pre-Lift Fuel', options: [
+        { letter: 'A', desc: 'Whey + ½ banana + creatine + caffeine', ingredients: ['1 scoop whey isolate','½ banana','8 oz water','5g creatine','100–200mg caffeine at 4:00'], p: 25, c: 18, f: 1, k: 180, fi: 2, na: 80, ka: 380 },
         { letter: 'B', desc: 'Rice cake w/ honey + coffee', ingredients: ['2 rice cakes','1 tsp honey','black coffee','5g creatine','caffeine pill'], p: 2, c: 25, f: 0.5, k: 110, fi: 0.5, na: 50, ka: 100 } ] },
       { id: 'm2', time: '07:30 · BREAKFAST', name: 'Morning Anchor', options: [
         { letter: 'A', desc: 'PB & banana oatmeal w/ whey', ingredients: ['1 cup oats','1 cup soy milk + ½ cup water','1 scoop whey (stir in off-heat)','1 tbsp natural PB','1 banana sliced','cinnamon'], p: 45, c: 70, f: 18, k: 620, fi: 10, na: 220, ka: 950 },
         { letter: 'B', desc: 'Turkey bacon + eggs + sourdough', ingredients: ['3 strips turkey bacon','4 whole eggs','2 slices sourdough','1 tbsp jam or honey','½ tsp butter'], p: 42, c: 40, f: 24, k: 580, fi: 4, na: 1100, ka: 480 },
-        { letter: 'C', desc: 'Breakfast burrito', ingredients: ['4 eggs scrambled','1 chicken sausage sliced','¼ cup black beans','2 tbsp salsa','1 large flour tortilla','hot sauce'], p: 45, c: 50, f: 22, k: 600, fi: 8, na: 1080, ka: 720 } ] },
+        { letter: 'C', desc: 'QUICK: Greek yogurt bowl + granola + berries', ingredients: ['1.5 cups plain 0% Greek yogurt','⅓ cup low-sugar granola','½ cup mixed berries','1 tbsp honey','1 tbsp chia seeds'], p: 42, c: 55, f: 10, k: 500, fi: 8, na: 120, ka: 560 } ] },
       { id: 'm3', time: '11:00 · MID-MORNING', name: 'Bridge Snack', options: [
         { letter: 'A', desc: 'Whey + apple + almonds', ingredients: ['1 scoop whey','10 oz water','1 apple','1 oz almonds'], p: 30, c: 30, f: 15, k: 360, fi: 7, na: 90, ka: 480 },
-        { letter: 'B', desc: 'Tuna + rice cakes', ingredients: ['1 tuna packet','3 rice cakes','cucumber slices'], p: 30, c: 25, f: 3, k: 260, fi: 1, na: 380, ka: 320 } ] },
+        { letter: 'B', desc: 'Cottage cheese + pineapple', ingredients: ['1 cup low-fat cottage cheese','½ cup pineapple chunks'], p: 28, c: 22, f: 5, k: 250, fi: 1, na: 380, ka: 320 } ] },
       { id: 'm4', time: '12:30 · LUNCH (PREPPED)', name: 'Work Block', options: [
         { letter: 'A', desc: 'Chicken thighs + rice + carrots & broccoli', ingredients: ['7 oz cooked chicken thighs','1.5 cups jasmine rice','1 cup roasted carrots','½ cup broccoli','1 tsp olive oil','paprika, salt'], p: 52, c: 70, f: 14, k: 620, fi: 6, na: 360, ka: 1180 },
-        { letter: 'B', desc: 'Asian beef bowl', ingredients: ['7 oz lean ground beef browned','1 cup rice','sauce: 2 tbsp soy sauce, 1 tsp sesame oil, 1 tsp honey, ginger, garlic','scallions, sesame seeds','1 cup steamed broccoli on side'], p: 52, c: 65, f: 15, k: 600, fi: 4, na: 920, ka: 980 },
+        { letter: 'B', desc: 'Cajun chicken pasta', ingredients: ['7 oz chicken breast sliced','2 oz dry penne (cooked)','1 cup bell peppers + onion','½ cup light tomato sauce','1 tsp olive oil','Cajun seasoning, garlic'], p: 54, c: 62, f: 12, k: 580, fi: 6, na: 540, ka: 980 },
         { letter: 'C', desc: 'Chicken biryani (variant)', ingredients: ['6 oz biryani-spiced chicken thigh','1 cup basmati rice','caramelized onion','cilantro & mint','1 tsp olive oil','cucumber-tomato salad on side'], p: 54, c: 60, f: 16, k: 600, fi: 4, na: 520, ka: 720 } ] },
       { id: 'm5', time: '16:00 · AFTERNOON', name: 'Pre-Dinner Hold', options: [
         { letter: 'A', desc: 'Whey + banana', ingredients: ['1 scoop whey','10 oz water','1 banana'], p: 30, c: 35, f: 2, k: 290, fi: 4, na: 80, ka: 580 },
@@ -300,9 +296,12 @@ const WEEK_PLAN = {
         { letter: 'B', desc: 'Tilapia + rice + spinach', ingredients: ['7 oz tilapia fillet','1 cup rice','2 cups sautéed spinach','1 tsp olive oil','2 cloves garlic','lemon, salt'], p: 50, c: 55, f: 10, k: 510, fi: 5, na: 380, ka: 1380 },
         { letter: 'C', desc: 'Salmon + jasmine rice + asparagus', ingredients: ['7 oz salmon','1 cup rice','1.5 cups roasted asparagus','1 tsp olive oil','lemon, dill, salt'], p: 50, c: 50, f: 22, k: 610, fi: 5, na: 280, ka: 1280 } ] }
     ] },
-  friday: { name: 'FRIDAY', split: 'LOWER · LEGS + INTENTIONAL MEAL', dayType: 'STRATEGIC · TRAINING', targets: { carb: 240, fat: 75 },
-    strategy: '<strong>Train AM/midday + intentional dinner.</strong> Eat lighter daytime to save calories for one real, satisfying restaurant meal. The Friday binge replacement — pick one entrée, eat it slow, enjoy it, no shame.',
+  friday: { name: 'FRIDAY', split: 'LOWER · LEGS', dayType: 'STRATEGIC · TRAINING', targets: { carb: 240, fat: 75 },
+    strategy: '<strong>Leg day — 3:45 AM + intentional dinner.</strong> Eat normally through the day — do NOT skip meals to "save up." The Friday meal is ONE planned, chosen entrée. Decide it in advance. Planned indulgence beats an unplanned binge every time.',
     meals: [
+      { id: 'm1', time: '03:30 · PRE-WORKOUT', name: 'Pre-Lift Fuel', options: [
+        { letter: 'A', desc: 'Whey shake + ⅓ banana + creatine + caffeine', ingredients: ['1 scoop whey isolate','⅓ banana','8 oz water','5g creatine','100–200mg caffeine at 4:00'], p: 25, c: 15, f: 1, k: 165, fi: 1.5, na: 80, ka: 320 },
+        { letter: 'B', desc: 'Rice cakes w/ honey + coffee', ingredients: ['2 rice cakes','1 tsp honey','black coffee','5g creatine','caffeine pill'], p: 2, c: 25, f: 0.5, k: 110, fi: 0.5, na: 50, ka: 100 } ] },
       { id: 'm2', time: '07:30 · BREAKFAST', name: 'Morning Anchor', options: [
         { letter: 'A', desc: 'Eggs + oats + berries', ingredients: ['4 eggs + 2 whites','½ cup oats','¾ cup soy milk','½ cup berries','1 tsp olive oil'], p: 45, c: 55, f: 20, k: 580, fi: 8, na: 320, ka: 820 },
         { letter: 'B', desc: 'Overnight oats w/ whey + PB', ingredients: ['½ cup oats','1 scoop whey','1 tbsp chia','¾ cup soy milk','1 tbsp PB','½ banana'], p: 48, c: 60, f: 18, k: 600, fi: 11, na: 220, ka: 800 } ] },
@@ -310,20 +309,22 @@ const WEEK_PLAN = {
         { letter: 'A', desc: 'Whey + apple', ingredients: ['1 scoop whey','10 oz water','1 apple'], p: 30, c: 25, f: 2, k: 250, fi: 5, na: 80, ka: 280 },
         { letter: 'B', desc: '3 eggs + almonds', ingredients: ['3 hard-boiled eggs','1 oz almonds'], p: 25, c: 8, f: 22, k: 320, fi: 4, na: 220, ka: 440 } ] },
       { id: 'm4', time: '12:30 · LIGHT LUNCH', name: 'Strategic Light', options: [
-        { letter: 'A', desc: 'Chicken + small rice + salad (saving cals)', ingredients: ['6 oz cooked chicken breast','¾ cup jasmine rice','large green salad w/ cucumber & tomato','1 tbsp balsamic vinaigrette'], p: 48, c: 45, f: 9, k: 460, fi: 5, na: 320, ka: 880 },
+        { letter: 'A', desc: 'Chicken + small rice + salad (room for dinner)', ingredients: ['6 oz cooked chicken breast','¾ cup jasmine rice','large green salad w/ cucumber & tomato','1 tbsp balsamic vinaigrette'], p: 48, c: 45, f: 9, k: 460, fi: 5, na: 320, ka: 880 },
         { letter: 'B', desc: 'Big chicken salad (low cal density)', ingredients: ['6 oz grilled chicken','3 cups greens','½ cup quinoa','cucumber, tomato, peppers','¼ avocado','1 tbsp olive oil + lemon'], p: 45, c: 30, f: 16, k: 440, fi: 7, na: 280, ka: 1180 } ] },
       { id: 'm5', time: '15:30 · AFTERNOON', name: 'Pre-Dinner Hold', options: [
         { letter: 'A', desc: 'Whey + apple', ingredients: ['1 scoop whey','10 oz water','1 apple'], p: 30, c: 25, f: 2, k: 250, fi: 5, na: 80, ka: 280 },
         { letter: 'B', desc: '2 hard-boiled eggs + cucumber', ingredients: ['2 hard-boiled eggs','½ cucumber sliced','salt, pepper'], p: 14, c: 5, f: 10, k: 170, fi: 1, na: 220, ka: 280 } ] },
-      { id: 'm6', time: '19:00 · INTENTIONAL MEAL', name: 'Friday Reward', options: [
-        { letter: 'A', desc: 'Restaurant steak + baked potato + side salad', ingredients: ['8 oz grilled steak','1 baked potato w/ 1 tsp butter','side salad w/ vinaigrette','water (no soda/cocktail)','optional: 1 beer or wine glass'], p: 60, c: 60, f: 25, k: 720, fi: 6, na: 980, ka: 1820 },
-        { letter: 'B', desc: 'Smash burger + side salad (no fries)', ingredients: ['Single smash burger (4 oz beef patty) w/ bun, lettuce, tomato, onion','side house salad w/ vinaigrette','water'], p: 40, c: 35, f: 30, k: 600, fi: 4, na: 1180, ka: 780 },
-        { letter: 'C', desc: 'Grilled chicken sandwich + small fries', ingredients: ['Grilled chicken sandwich (whole wheat bun)','small fries (~3 oz)','water'], p: 45, c: 60, f: 18, k: 580, fi: 5, na: 1280, ka: 720 },
+      { id: 'm6', time: '19:00 · INTENTIONAL MEAL', name: 'Friday Reward', intentional: true,
+        note: '<strong>This is the plan, not a free-for-all.</strong> Pick ONE option below before Friday arrives. Eat it slow, eat it without guilt, then close the kitchen. A chosen meal that fits your day is the whole point — it is not a binge.',
+        options: [
+        { letter: 'A', desc: 'Taco Bell — planned order (~1,100 cal)', ingredients: ['2 Chicken Power Menu Bowls (no sauce, extra chicken if available) OR','1 Power Bowl + 1 regular Crunchy Taco + 1 Black Bean Burrito','water — no soda','eat slow, this is the whole order, no add-ons'], p: 50, c: 110, f: 38, k: 1100, fi: 16, na: 2100, ka: 900 },
+        { letter: 'B', desc: 'Restaurant steak + baked potato + side salad', ingredients: ['8 oz grilled steak','1 baked potato w/ 1 tsp butter','side salad w/ vinaigrette','water'], p: 60, c: 60, f: 25, k: 720, fi: 6, na: 980, ka: 1820 },
+        { letter: 'C', desc: 'Smash burger + side salad (no fries)', ingredients: ['Single smash burger (4 oz beef patty) w/ bun, lettuce, tomato, onion','side house salad w/ vinaigrette','water'], p: 40, c: 35, f: 30, k: 600, fi: 4, na: 1180, ka: 780 },
         { letter: 'D', desc: 'Sushi: 12pc nigiri + edamame + miso', ingredients: ['12 pieces nigiri (salmon, tuna, yellowtail)','1 cup edamame in pods','1 cup miso soup','soy sauce, wasabi, ginger','water or green tea'], p: 50, c: 55, f: 12, k: 540, fi: 6, na: 1480, ka: 880 },
-        { letter: 'E', desc: 'Chipotle bowl (lean build)', ingredients: ['Double chicken (8 oz)','brown rice','black beans','fajita veggies','salsa','lettuce','NO sour cream, NO cheese, NO guac (save for treat days)'], p: 65, c: 70, f: 12, k: 660, fi: 14, na: 1480, ka: 1380 } ] }
+        { letter: 'E', desc: 'Chipotle bowl (lean build)', ingredients: ['Double chicken (8 oz)','brown rice','black beans','fajita veggies','salsa','lettuce','NO sour cream, NO cheese, NO guac'], p: 65, c: 70, f: 12, k: 660, fi: 14, na: 1480, ka: 1380 } ] }
     ] },
   saturday: { name: 'SATURDAY', split: 'ACTIVE REST · 12K STEPS', dayType: 'MODERATE · ACTIVE', targets: { carb: 230, fat: 75 },
-    strategy: '<strong>Active recovery.</strong> Walk a lot — aim for 12k+ steps. Bigger breakfast for the weekend vibe, kitchen closes at 9pm. This is the day Saturday binges used to ruin.',
+    strategy: '<strong>Active recovery.</strong> Walk a lot — 12k+ steps. Kitchen closes at 9 PM. This was the day binges used to ruin — eat normal, structured meals and own it.',
     meals: [
       { id: 'm2', time: '09:00 · BREAKFAST', name: 'Weekend Anchor', options: [
         { letter: 'A', desc: 'Protein pancakes + turkey bacon + berries', ingredients: ['Oat flour pancakes (½ cup oats blended)','1 scoop whey','2 eggs','½ banana','3 strips turkey bacon','½ cup mixed berries','1 tsp honey or maple syrup'], p: 55, c: 60, f: 16, k: 620, fi: 7, na: 880, ka: 720 },
@@ -344,14 +345,14 @@ const WEEK_PLAN = {
         { letter: 'A', desc: 'Whey shake (only if genuinely hungry)', ingredients: ['1 scoop whey isolate','10 oz water','1 tsp natural peanut butter'], p: 26, c: 5, f: 8, k: 200, fi: 1, na: 80, ka: 280 } ] }
     ] },
   sunday: { name: 'SUNDAY', split: 'REST · MEAL PREP DAY', dayType: 'LOW CARB · REST', targets: { carb: 200, fat: 85 },
-    strategy: '<strong>Prep day.</strong> Lower carb, higher quality protein and fats. Use today to cook the week\'s lunches, set up for Monday. Walking + meal prep + early sleep.',
+    strategy: '<strong>Prep day.</strong> Lower carb, higher quality protein and fats. Cook the week\'s lunches, set up for Monday\'s 3:45 AM lift. Walking + meal prep + early sleep.',
     meals: [
       { id: 'm2', time: '09:00 · BREAKFAST', name: 'Weekend Anchor', options: [
         { letter: 'A', desc: 'Big scramble: eggs + sausage + sweet potato hash', ingredients: ['4 eggs + 2 whites scrambled','2 chicken sausage links sliced','1 small sweet potato diced & roasted','1 tsp olive oil','½ cup spinach','1 slice sourdough'], p: 50, c: 45, f: 22, k: 600, fi: 8, na: 1080, ka: 1180 },
         { letter: 'B', desc: 'Overnight oats w/ whey + berries', ingredients: ['½ cup oats','1 scoop whey','1 tbsp chia','¾ cup soy milk','½ cup berries','1 tbsp PB'], p: 48, c: 60, f: 18, k: 600, fi: 11, na: 220, ka: 720 } ] },
       { id: 'm3', time: '12:00 · LUNCH (PREP TASTE)', name: 'Test Your Prep', options: [
         { letter: 'A', desc: '7oz of what you just prepped', ingredients: ['7 oz cooked chicken or beef','1 cup cooked rice','1.5 cups roasted veggies','sauce of choice','1 tsp olive oil drizzle'], p: 52, c: 60, f: 12, k: 580, fi: 6, na: 480, ka: 980 },
-        { letter: 'B', desc: 'Salmon poke-style bowl', ingredients: ['6 oz baked salmon (or sashimi-grade if you can)','¾ cup rice','½ cucumber sliced','¼ avocado','1 tsp sesame seeds','soy sauce, sesame oil drizzle'], p: 45, c: 50, f: 22, k: 580, fi: 4, na: 720, ka: 1180 } ] },
+        { letter: 'B', desc: 'Salmon poke-style bowl', ingredients: ['6 oz baked salmon','¾ cup rice','½ cucumber sliced','¼ avocado','1 tsp sesame seeds','soy sauce, sesame oil drizzle'], p: 45, c: 50, f: 22, k: 580, fi: 4, na: 720, ka: 1180 } ] },
       { id: 'm5', time: '16:00 · AFTERNOON', name: 'Snack Block', options: [
         { letter: 'A', desc: 'Whey + apple + almonds', ingredients: ['1 scoop whey','10 oz water','1 apple','1 oz almonds'], p: 30, c: 30, f: 15, k: 360, fi: 7, na: 90, ka: 480 },
         { letter: 'B', desc: '3 eggs + cucumber + hummus', ingredients: ['3 hard-boiled eggs','½ cucumber sliced','2 tbsp hummus'], p: 25, c: 15, f: 18, k: 320, fi: 4, na: 380, ka: 380 } ] },
@@ -367,13 +368,13 @@ const SUPPLEMENTS = [
   { id: 's3', name: 'Fish Oil (EPA+DHA)', dose: '1–2g', timing: 'W/ DINNER · DAILY' },
   { id: 's4', name: 'Magnesium Glycinate', dose: '300mg', timing: 'EVENING · SLEEP' },
   { id: 's5', name: 'Ashwagandha (KSM-66)', dose: '600mg', timing: 'EVENING · STRESS' },
-  { id: 's6', name: 'Caffeine Pill', dose: '100–200mg', timing: 'PRE-LIFT ONLY' },
+  { id: 's6', name: 'Caffeine Pill', dose: '100–200mg', timing: 'PRE-LIFT · 4:00 AM' },
   { id: 's7', name: 'Whey Isolate', dose: '1–2 scoops', timing: 'AS NEEDED' },
   { id: 's8', name: 'Iodized Salt (cooking)', dose: 'normal use', timing: 'COOK W/ IT' }
 ];
 const DAYS_ORDER = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
 const DAY_LABELS = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
-const DAY_TYPES_SHORT = ['LIFT','LIFT','REST','LIFT','LIFT','ACTIVE','PREP'];
+const DAY_TYPES_SHORT = ['UPPER','LOWER','REST','UPPER','LOWER','ACTIVE','PREP'];
 let currentDay = null;
 let actualToday = null;
 let state = { meals: {}, supps: {}, water: 0, selections: {}, date: null };
@@ -413,7 +414,7 @@ function renderMeals(dayData) {
   dayData.meals.forEach((meal, idx) => {
     const completed = isToday && state.meals[meal.id];
     const card = document.createElement('div');
-    card.className = `meal ${completed ? 'complete' : ''}`;
+    card.className = `meal ${completed ? 'complete' : ''} ${meal.intentional ? 'intentional' : ''}`;
     card.style.animationDelay = `${0.05 + idx * 0.05}s`;
     const selectedOpt = isToday ? (state.selections[meal.id] || meal.options[0].letter) : meal.options[0].letter;
     card.innerHTML = `
@@ -422,7 +423,9 @@ function renderMeals(dayData) {
         <div class="meal-info"><div class="meal-time">${meal.time}</div><div class="meal-name">${meal.name}</div></div>
         <div class="meal-toggle">▾</div>
       </div>
-      <div class="meal-body"><div class="options">
+      <div class="meal-body">
+        ${meal.note ? `<div class="meal-note">${meal.note}</div>` : ''}
+        <div class="options">
         ${meal.options.map(opt => `
           <div class="option ${opt.letter === selectedOpt ? 'selected' : ''}" onclick="selectOption('${meal.id}', '${opt.letter}', event)">
             <div class="option-letter">OPTION ${opt.letter}</div>
