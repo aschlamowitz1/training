@@ -6,147 +6,194 @@
 <title>THE LOG — Daily Intake Protocol</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0907; --bg-elevated: #131210; --bg-card: #1a1815;
-    --border: #2a2722; --border-strong: #3a362f;
-    --text: #f5f1e8; --text-dim: #a8a292; --text-faint: #6b665c;
-    --accent: #f4a523; --accent-dim: #c98718; --accent-glow: rgba(244, 165, 35, 0.15);
-    --success: #7a9b6e; --danger: #c5564a; --blue: #4a90c2;
+    --bg: #faf6ed;
+    --bg-soft: #fffaf0;
+    --bg-elevated: #ffffff;
+    --bg-card: #ffffff;
+    --border: #ede5d3;
+    --border-strong: #ddd3bd;
+    --text: #3a342b;
+    --text-dim: #847a68;
+    --text-faint: #b3a995;
+    --accent: #8fa67a;
+    --accent-dim: #768a64;
+    --accent-soft: #b8c8a8;
+    --accent-glow: rgba(143, 166, 122, 0.12);
+    --warm: #e0936c;
+    --warm-soft: #f0bfa3;
+    --sky: #87a8c4;
+    --sky-soft: #b8d0e4;
+    --lavender: #b5a3c8;
+    --sunshine: #e8c876;
+    --success: #8fa67a;
+    --danger: #c97a6e;
+    --shadow-soft: 0 2px 12px rgba(58, 52, 43, 0.04);
+    --shadow-md: 0 4px 20px rgba(58, 52, 43, 0.06);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html, body { background: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; min-height: 100vh; overflow-x: hidden; }
+  html, body { background: var(--bg); color: var(--text); font-family: 'Nunito', sans-serif; min-height: 100vh; overflow-x: hidden; }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background:
+      radial-gradient(circle at 20% 0%, rgba(232, 200, 118, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 10%, rgba(184, 208, 228, 0.12) 0%, transparent 45%),
+      radial-gradient(circle at 50% 100%, rgba(184, 200, 168, 0.10) 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
+  }
   .app { max-width: 720px; margin: 0 auto; padding: 24px 20px 120px; position: relative; z-index: 2; }
-  .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
-  .brand { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 14px; letter-spacing: 0.3em; color: var(--accent); }
-  .brand-sub { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-faint); letter-spacing: 0.15em; text-transform: uppercase; }
+  .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .brand { font-family: 'Fraunces', serif; font-style: italic; font-weight: 400; font-size: 22px; letter-spacing: -0.01em; color: var(--accent-dim); }
+  .brand-sub { font-family: 'Nunito', sans-serif; font-weight: 500; font-size: 11px; color: var(--text-faint); letter-spacing: 0.08em; text-transform: lowercase; font-style: italic; }
+  .sun {
+    width: 36px; height: 36px; position: relative;
+    background: radial-gradient(circle, var(--sunshine) 0%, var(--warm-soft) 70%, transparent 100%);
+    border-radius: 50%; opacity: 0.85;
+    animation: glow 4s ease-in-out infinite;
+  }
+  @keyframes glow {
+    0%, 100% { transform: scale(1); opacity: 0.85; }
+    50% { transform: scale(1.05); opacity: 1; }
+  }
   .hero { margin-bottom: 36px; position: relative; }
-  .day-meta { display: flex; gap: 16px; align-items: baseline; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; flex-wrap: wrap; }
+  .day-meta { display: flex; gap: 14px; align-items: baseline; font-family: 'Nunito', sans-serif; font-size: 12px; color: var(--text-dim); font-weight: 500; margin-bottom: 12px; flex-wrap: wrap; letter-spacing: 0.02em; text-transform: lowercase; }
   .day-meta .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; display: inline-block; }
-  .day-name { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: clamp(56px, 14vw, 96px); line-height: 0.9; letter-spacing: -0.02em; text-transform: uppercase; color: var(--text); margin-bottom: 8px; }
-  .session-tag { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: var(--accent-glow); border: 1px solid var(--accent-dim); color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 4px; }
-  .session-tag::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 8px var(--accent); }
-  .day-strategy { margin-top: 12px; padding: 12px 14px; background: var(--bg-elevated); border-left: 2px solid var(--accent); font-size: 13px; color: var(--text-dim); line-height: 1.5; }
-  .day-strategy strong { color: var(--accent); font-weight: 600; }
-  .macros { background: var(--bg-elevated); border: 1px solid var(--border); padding: 24px 20px; margin-bottom: 32px; position: relative; }
-  .macros::before { content: ''; position: absolute; top: 0; left: 0; width: 32px; height: 1px; background: var(--accent); }
-  .macros-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-  .macros-title { font-family: 'Oswald', sans-serif; font-weight: 500; font-size: 13px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--text-dim); }
-  .macros-target { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-faint); letter-spacing: 0.1em; }
-  .macro-row { margin-bottom: 16px; }
+  .day-name { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-size: clamp(52px, 13vw, 88px); line-height: 1.0; letter-spacing: -0.025em; color: var(--text); margin-bottom: 12px; font-variation-settings: "opsz" 144; text-transform: lowercase; }
+  .session-tag { display: inline-flex; align-items: center; gap: 8px; padding: 7px 16px; background: var(--accent-glow); border: 1px solid var(--accent-soft); color: var(--accent-dim); font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.02em; margin-top: 4px; border-radius: 100px; text-transform: lowercase; }
+  .session-tag::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+  .day-strategy { margin-top: 18px; padding: 16px 18px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; font-size: 14px; color: var(--text-dim); line-height: 1.6; box-shadow: var(--shadow-soft); position: relative; }
+  .day-strategy::before { content: ''; position: absolute; top: 16px; left: 0; width: 3px; height: 28px; background: linear-gradient(180deg, var(--accent), var(--accent-soft)); border-radius: 0 3px 3px 0; }
+  .day-strategy strong { color: var(--accent-dim); font-weight: 700; }
+  .macros { background: var(--bg-card); border: 1px solid var(--border); padding: 24px 22px; margin-bottom: 32px; border-radius: 16px; box-shadow: var(--shadow-soft); }
+  .macros-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
+  .macros-title { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 18px; color: var(--text); letter-spacing: -0.01em; }
+  .macros-target { font-family: 'Nunito', sans-serif; font-size: 11px; color: var(--text-faint); letter-spacing: 0.02em; font-style: italic; }
+  .macro-row { margin-bottom: 18px; }
   .macro-row:last-child { margin-bottom: 0; }
-  .macro-label-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
-  .macro-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; }
-  .macro-values { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--text); }
+  .macro-label-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .macro-label { font-family: 'Nunito', sans-serif; font-size: 12px; color: var(--text-dim); font-weight: 600; letter-spacing: 0.02em; }
+  .macro-values { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; color: var(--text); }
   .macro-values .target { color: var(--text-faint); font-weight: 400; }
-  .macro-bar { height: 6px; background: var(--bg-card); position: relative; overflow: hidden; }
-  .macro-fill { height: 100%; background: var(--accent); transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-  .macro-fill.protein { background: linear-gradient(90deg, var(--accent), #ffc857); }
-  .macro-fill.cal { background: linear-gradient(90deg, #d97757, var(--accent)); }
-  .macro-fill.water { background: linear-gradient(90deg, var(--blue), #6ab0d8); }
-  .micro-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border); }
+  .macro-bar { height: 8px; background: var(--bg); border-radius: 100px; position: relative; overflow: hidden; }
+  .macro-fill { height: 100%; background: var(--accent); transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 100px; }
+  .macro-fill.protein { background: linear-gradient(90deg, var(--accent), var(--accent-soft)); }
+  .macro-fill.cal { background: linear-gradient(90deg, var(--warm), var(--sunshine)); }
+  .macro-fill.water { background: linear-gradient(90deg, var(--sky), var(--sky-soft)); }
+  .micro-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); }
   .micro-stat { text-align: center; }
-  .micro-stat-val { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; color: var(--text); }
-  .micro-stat-val .target { color: var(--text-faint); font-size: 11px; font-weight: 400; }
-  .micro-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-faint); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
-  .section-head { display: flex; justify-content: space-between; align-items: center; margin: 32px 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
-  .section-title { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: 0.05em; text-transform: uppercase; }
-  .section-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); letter-spacing: 0.15em; }
-  .meal { background: var(--bg-card); border: 1px solid var(--border); margin-bottom: 12px; transition: all 0.2s ease; position: relative; overflow: hidden; }
-  .meal.complete { background: var(--bg-elevated); border-color: var(--border); }
-  .meal.complete .meal-header { opacity: 0.5; }
-  .meal.complete::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--success); }
-  .meal.intentional { border-color: var(--accent-dim); }
-  .meal.intentional::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent); }
-  .meal-header { display: flex; align-items: center; padding: 16px 18px; cursor: pointer; gap: 14px; transition: opacity 0.2s; }
-  .check-btn { width: 26px; height: 26px; border: 1.5px solid var(--border-strong); background: transparent; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; border-radius: 2px; }
+  .micro-stat-val { font-family: 'Fraunces', serif; font-weight: 600; font-size: 20px; color: var(--text); font-variation-settings: "opsz" 144; }
+  .micro-stat-val .target { color: var(--text-faint); font-size: 12px; font-weight: 400; font-family: 'Nunito', sans-serif; }
+  .micro-stat-label { font-family: 'Nunito', sans-serif; font-size: 10px; color: var(--text-faint); font-weight: 500; letter-spacing: 0.02em; margin-top: 4px; }
+  .section-head { display: flex; justify-content: space-between; align-items: baseline; margin: 36px 0 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+  .section-title { font-family: 'Fraunces', serif; font-style: italic; font-weight: 500; font-size: 26px; letter-spacing: -0.015em; color: var(--text); font-variation-settings: "opsz" 144; }
+  .section-count { font-family: 'Nunito', sans-serif; font-size: 11px; color: var(--text-faint); font-weight: 500; font-style: italic; }
+  .meal { background: var(--bg-card); border: 1px solid var(--border); margin-bottom: 12px; transition: all 0.25s ease; position: relative; overflow: hidden; border-radius: 14px; box-shadow: var(--shadow-soft); }
+  .meal:hover { border-color: var(--border-strong); }
+  .meal.complete { background: var(--bg-soft); border-color: var(--border); }
+  .meal.complete .meal-header { opacity: 0.55; }
+  .meal.complete::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--accent); border-radius: 4px 0 0 4px; }
+  .meal.intentional { border-color: var(--warm-soft); background: linear-gradient(135deg, #fff8ee 0%, var(--bg-card) 60%); }
+  .meal.intentional::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--warm); border-radius: 4px 0 0 4px; }
+  .meal-header { display: flex; align-items: center; padding: 18px 20px; cursor: pointer; gap: 14px; transition: opacity 0.2s; }
+  .check-btn { width: 28px; height: 28px; border: 2px solid var(--border-strong); background: transparent; cursor: pointer; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.25s; border-radius: 50%; }
   .check-btn:hover { border-color: var(--accent); }
-  .meal.complete .check-btn { background: var(--success); border-color: var(--success); }
-  .check-btn::after { content: ''; width: 12px; height: 7px; border-left: 2px solid var(--text); border-bottom: 2px solid var(--text); transform: rotate(-45deg) translate(2px, -1px); opacity: 0; transition: opacity 0.2s; }
+  .meal.complete .check-btn { background: var(--accent); border-color: var(--accent); }
+  .check-btn::after { content: ''; width: 11px; height: 6px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg) translate(2px, -1px); opacity: 0; transition: opacity 0.2s; }
   .meal.complete .check-btn::after { opacity: 1; }
   .meal-info { flex: 1; min-width: 0; }
-  .meal-time { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2px; }
-  .meal-name { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 18px; letter-spacing: 0.02em; text-transform: uppercase; }
-  .meal-toggle { color: var(--text-faint); font-size: 12px; font-family: 'JetBrains Mono', monospace; transition: transform 0.3s ease; flex-shrink: 0; }
+  .meal-time { font-family: 'Nunito', sans-serif; font-size: 11px; color: var(--accent-dim); letter-spacing: 0.02em; font-weight: 600; margin-bottom: 3px; }
+  .meal-name { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-size: 22px; letter-spacing: -0.01em; color: var(--text); font-variation-settings: "opsz" 144; }
+  .meal-toggle { color: var(--text-faint); font-size: 14px; transition: transform 0.3s ease; flex-shrink: 0; }
   .meal.open .meal-toggle { transform: rotate(180deg); color: var(--accent); }
   .meal-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
-  .meal.open .meal-body { max-height: 5500px; }
-  .options { padding: 0 18px 18px; display: flex; flex-direction: column; gap: 10px; }
-  .meal-note { margin: 0 18px 14px; padding: 10px 12px; background: var(--accent-glow); border-left: 2px solid var(--accent); font-size: 12px; color: var(--text-dim); line-height: 1.5; }
-  .meal-note strong { color: var(--accent); }
-  .option { border: 1px solid var(--border); padding: 14px 16px; cursor: pointer; transition: all 0.2s; background: var(--bg-elevated); position: relative; }
-  .option:hover { border-color: var(--border-strong); }
-  .option.selected { border-color: var(--accent); background: linear-gradient(135deg, var(--accent-glow) 0%, transparent 60%); }
-  .option.selected::after { content: '✓ SELECTED'; position: absolute; top: 8px; right: 12px; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--accent); letter-spacing: 0.15em; font-weight: 600; }
-  .option-letter { display: inline-block; font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 13px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 6px; }
-  .option-desc { color: var(--text); font-size: 14px; line-height: 1.5; margin-bottom: 12px; font-weight: 500; }
-  .ingredients-block { margin-top: 10px; padding: 10px 12px; background: rgba(0,0,0,0.25); border-left: 2px solid var(--text-faint); margin-bottom: 12px; }
-  .ingredients-title { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-faint); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
-  .ingredients-list { font-size: 12px; color: var(--text-dim); line-height: 1.7; font-family: 'Manrope', sans-serif; }
+  .meal.open .meal-body { max-height: 6000px; }
+  .options { padding: 0 20px 20px; display: flex; flex-direction: column; gap: 12px; }
+  .meal-note { margin: 0 20px 16px; padding: 14px 16px; background: linear-gradient(135deg, #fff8ee 0%, #fefbf3 100%); border: 1px solid var(--warm-soft); border-radius: 12px; font-size: 13px; color: var(--text-dim); line-height: 1.6; }
+  .meal-note strong { color: var(--warm); font-weight: 700; }
+  .option { border: 1px solid var(--border); padding: 16px 18px; cursor: pointer; transition: all 0.25s; background: var(--bg-soft); position: relative; border-radius: 12px; }
+  .option:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+  .option.selected { border-color: var(--accent); background: linear-gradient(135deg, var(--accent-glow) 0%, var(--bg-soft) 70%); box-shadow: 0 2px 8px rgba(143, 166, 122, 0.08); }
+  .option.selected::after { content: '✓ chosen'; position: absolute; top: 10px; right: 14px; font-family: 'Nunito', sans-serif; font-size: 11px; color: var(--accent-dim); font-weight: 700; font-style: italic; }
+  .option-letter { display: inline-block; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 11px; color: var(--accent-dim); background: var(--accent-glow); padding: 3px 10px; border-radius: 100px; margin-bottom: 8px; letter-spacing: 0.04em; }
+  .option-desc { color: var(--text); font-size: 15px; line-height: 1.5; margin-bottom: 12px; font-weight: 500; }
+  .ingredients-block { margin-top: 12px; padding: 12px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 12px; }
+  .ingredients-title { font-family: 'Nunito', sans-serif; font-size: 10px; color: var(--text-faint); font-weight: 600; letter-spacing: 0.04em; margin-bottom: 8px; font-style: italic; }
+  .ingredients-list { font-size: 13px; color: var(--text-dim); line-height: 1.7; font-family: 'Nunito', sans-serif; }
   .ingredients-list li { list-style: none; padding-left: 14px; position: relative; }
   .ingredients-list li::before { content: '·'; position: absolute; left: 4px; color: var(--accent); font-weight: 700; }
-  .option-macros { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding-top: 10px; border-top: 1px dashed var(--border); }
-  .option-macros-extra { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding-top: 8px; margin-top: 8px; border-top: 1px dashed var(--border); }
-  .macro-pill { text-align: center; }
-  .macro-pill-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-faint); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2px; }
-  .macro-pill-value { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; color: var(--text); }
-  .macro-pill.protein .macro-pill-value { color: var(--accent); }
-  .macro-pill.potassium .macro-pill-value { color: var(--success); }
-  .macro-pill.sodium .macro-pill-value { color: #d97757; }
-  .supplements { background: var(--bg-card); border: 1px solid var(--border); padding: 20px; }
-  .supp-list { display: flex; flex-direction: column; gap: 10px; }
-  .supp { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
+  .option-macros { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding-top: 12px; border-top: 1px dashed var(--border); }
+  .option-macros-extra { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding-top: 10px; margin-top: 10px; border-top: 1px dashed var(--border); }
+  .macro-pill { text-align: center; padding: 4px 2px; }
+  .macro-pill-label { font-family: 'Nunito', sans-serif; font-size: 10px; color: var(--text-faint); font-weight: 500; margin-bottom: 3px; }
+  .macro-pill-value { font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; color: var(--text); }
+  .macro-pill.protein .macro-pill-value { color: var(--accent-dim); }
+  .macro-pill.potassium .macro-pill-value { color: var(--accent-dim); }
+  .macro-pill.sodium .macro-pill-value { color: var(--warm); }
+  .supplements { background: var(--bg-card); border: 1px solid var(--border); padding: 22px; border-radius: 16px; box-shadow: var(--shadow-soft); }
+  .supp-list { display: flex; flex-direction: column; gap: 8px; }
+  .supp { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: opacity 0.2s; }
   .supp:last-child { border-bottom: none; }
-  .supp-check { width: 22px; height: 22px; border: 1.5px solid var(--border-strong); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; border-radius: 2px; }
-  .supp.done .supp-check { background: var(--success); border-color: var(--success); }
-  .supp-check::after { content: ''; width: 10px; height: 6px; border-left: 2px solid var(--text); border-bottom: 2px solid var(--text); transform: rotate(-45deg) translate(2px, -1px); opacity: 0; }
+  .supp-check { width: 24px; height: 24px; border: 2px solid var(--border-strong); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.25s; border-radius: 50%; }
+  .supp.done .supp-check { background: var(--accent); border-color: var(--accent); }
+  .supp-check::after { content: ''; width: 10px; height: 5px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg) translate(2px, -1px); opacity: 0; }
   .supp.done .supp-check::after { opacity: 1; }
+  .supp.done { opacity: 0.55; }
   .supp-info { flex: 1; }
-  .supp-name { font-family: 'Oswald', sans-serif; font-weight: 500; font-size: 15px; letter-spacing: 0.03em; text-transform: uppercase; }
-  .supp.done .supp-name { color: var(--text-dim); text-decoration: line-through; }
-  .supp-dose { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-faint); }
-  .supp-timing { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; text-align: right; }
-  .water-panel { background: var(--bg-card); border: 1px solid var(--border); padding: 20px; }
-  .water-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; }
-  .water-count { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 42px; line-height: 1; color: var(--text); }
-  .water-count .target { color: var(--text-faint); font-size: 20px; }
-  .water-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-faint); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 4px; }
-  .water-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; margin-bottom: 16px; }
-  .water-cup { aspect-ratio: 1; border: 1.5px solid var(--border-strong); cursor: pointer; transition: all 0.2s; position: relative; border-radius: 2px; }
-  .water-cup:hover { border-color: var(--accent); }
-  .water-cup.filled { background: linear-gradient(180deg, var(--blue), #2c6588); border-color: var(--blue); }
-  .water-actions { display: flex; gap: 8px; }
-  .water-btn { flex: 1; padding: 12px; background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text); font-family: 'Oswald', sans-serif; font-weight: 500; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
-  .water-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .week-strip { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border); }
+  .supp-name { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-size: 17px; color: var(--text); font-variation-settings: "opsz" 144; }
+  .supp.done .supp-name { color: var(--text-dim); }
+  .supp-dose { font-family: 'Nunito', sans-serif; font-size: 12px; color: var(--text-faint); margin-top: 1px; }
+  .supp-timing { font-family: 'Nunito', sans-serif; font-size: 11px; color: var(--accent-dim); font-weight: 600; text-align: right; font-style: italic; }
+  .water-panel { background: linear-gradient(135deg, var(--bg-card) 0%, #f4f9fc 100%); border: 1px solid var(--border); padding: 22px; border-radius: 16px; box-shadow: var(--shadow-soft); }
+  .water-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; }
+  .water-count { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-size: 48px; line-height: 1; color: var(--sky); font-variation-settings: "opsz" 144; }
+  .water-count .target { color: var(--text-faint); font-size: 22px; font-style: normal; }
+  .water-label { font-family: 'Nunito', sans-serif; font-size: 11px; color: var(--text-faint); font-style: italic; margin-top: 6px; }
+  .water-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; margin-bottom: 18px; }
+  .water-cup { aspect-ratio: 1; border: 2px solid var(--border-strong); cursor: pointer; transition: all 0.25s; position: relative; border-radius: 50%; }
+  .water-cup:hover { border-color: var(--sky); }
+  .water-cup.filled { background: linear-gradient(180deg, var(--sky-soft), var(--sky)); border-color: var(--sky); box-shadow: 0 1px 4px rgba(135, 168, 196, 0.25); }
+  .water-actions { display: flex; gap: 10px; }
+  .water-btn { flex: 1; padding: 13px; background: var(--bg-soft); border: 1px solid var(--border); color: var(--text); font-family: 'Nunito', sans-serif; font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.25s; border-radius: 100px; }
+  .water-btn:hover { border-color: var(--sky); color: var(--sky); background: var(--bg-card); }
+  .week-strip { margin-top: 36px; padding-top: 26px; border-top: 1px solid var(--border); }
   .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
-  .week-day { text-align: center; padding: 10px 4px; border: 1px solid var(--border); background: var(--bg-card); cursor: pointer; transition: all 0.2s; }
-  .week-day:hover { border-color: var(--border-strong); }
+  .week-day { text-align: center; padding: 12px 4px; border: 1px solid var(--border); background: var(--bg-card); cursor: pointer; transition: all 0.25s; border-radius: 12px; }
+  .week-day:hover { border-color: var(--border-strong); transform: translateY(-1px); }
   .week-day.active { border-color: var(--accent); background: var(--accent-glow); }
-  .week-day-name { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-faint); letter-spacing: 0.1em; text-transform: uppercase; }
-  .week-day.active .week-day-name { color: var(--accent); }
-  .week-day-num { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 18px; margin-top: 2px; }
-  .week-day-type { font-family: 'JetBrains Mono', monospace; font-size: 8px; color: var(--text-faint); letter-spacing: 0.1em; margin-top: 4px; }
-  .footer-note { margin-top: 40px; padding: 16px; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-faint); letter-spacing: 0.15em; text-transform: uppercase; line-height: 1.8; }
-  .footer-note .accent { color: var(--accent); }
-  .loading { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 100; transition: opacity 0.3s, visibility 0.3s; }
+  .week-day-name { font-family: 'Nunito', sans-serif; font-size: 11px; color: var(--text-dim); font-weight: 600; }
+  .week-day.active .week-day-name { color: var(--accent-dim); }
+  .week-day-num { font-family: 'Fraunces', serif; font-weight: 500; font-style: italic; font-size: 20px; margin-top: 3px; color: var(--text); font-variation-settings: "opsz" 144; }
+  .week-day-type { font-family: 'Nunito', sans-serif; font-size: 9px; color: var(--text-faint); font-weight: 500; margin-top: 4px; font-style: italic; }
+  .principles-block { background: linear-gradient(135deg, var(--bg-card) 0%, #fefbf3 100%); border: 1px solid var(--border); padding: 26px 24px; margin-bottom: 28px; border-radius: 16px; box-shadow: var(--shadow-soft); }
+  .principles-list { display: flex; flex-direction: column; gap: 18px; }
+  .principle { display: flex; gap: 14px; align-items: flex-start; }
+  .principle-marker { width: 28px; height: 28px; min-width: 28px; border-radius: 50%; background: var(--accent-glow); display: flex; align-items: center; justify-content: center; color: var(--accent-dim); font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; font-size: 13px; font-variation-settings: "opsz" 144; }
+  .principle-text { font-size: 14px; color: var(--text-dim); line-height: 1.6; padding-top: 3px; }
+  .principle-text strong { color: var(--text); font-family: 'Fraunces', serif; font-style: italic; font-weight: 600; font-size: 16px; display: block; margin-bottom: 4px; font-variation-settings: "opsz" 144; }
+  .footer-note { margin-top: 40px; padding: 24px 18px; text-align: center; font-family: 'Nunito', sans-serif; font-size: 12px; color: var(--text-dim); line-height: 1.8; font-style: italic; }
+  .footer-note .accent { color: var(--accent-dim); font-weight: 600; font-style: normal; }
+  .footer-note .quote { font-family: 'Fraunces', serif; font-style: italic; font-size: 15px; color: var(--text); display: block; margin-bottom: 8px; font-variation-settings: "opsz" 144; }
+  .loading { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 100; transition: opacity 0.3s, visibility 0.3s; flex-direction: column; gap: 14px; }
   .loading.hidden { opacity: 0; visibility: hidden; }
-  .loading-text { font-family: 'Oswald', sans-serif; font-size: 14px; letter-spacing: 0.3em; color: var(--accent); }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  .meal, .macros, .supplements, .water-panel, .week-strip { animation: fadeUp 0.4s ease-out backwards; }
+  .loading-sun { width: 48px; height: 48px; background: radial-gradient(circle, var(--sunshine) 0%, var(--warm-soft) 70%, transparent 100%); border-radius: 50%; animation: glow 2s ease-in-out infinite; }
+  .loading-text { font-family: 'Fraunces', serif; font-style: italic; font-size: 16px; color: var(--accent-dim); font-variation-settings: "opsz" 144; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .meal, .macros, .supplements, .water-panel, .week-strip, .principles-block { animation: fadeUp 0.5s ease-out backwards; }
 </style>
 </head>
 <body>
-<div class="loading" id="loading"><div class="loading-text">LOADING PROTOCOL...</div></div>
+<div class="loading" id="loading"><div class="loading-sun"></div><div class="loading-text">good morning</div></div>
 <div class="app">
   <div class="top-bar">
     <div>
-      <div class="brand">THE LOG</div>
-      <div class="brand-sub">AESTHETIC RECOMP · WK ROTATION</div>
+      <div class="brand">the log</div>
+      <div class="brand-sub">small steps · kept gently</div>
     </div>
-    <div class="brand-sub" id="dateStamp">—</div>
+    <div class="sun"></div>
   </div>
+  <div class="brand-sub" id="dateStamp" style="text-align:right;margin-top:-20px;margin-bottom:24px;">—</div>
   <div class="hero">
     <div class="day-meta">
       <span class="dot"></span>
@@ -186,33 +233,38 @@
       <div class="micro-stat"><div class="micro-stat-val"><span id="ratioCurrent">—</span></div><div class="micro-stat-label">K:Na ratio</div></div>
     </div>
   </div>
-  <div class="section-head"><div class="section-title">Meals</div><div class="section-count" id="mealCount">0/5 LOGGED</div></div>
+  <div class="section-head"><div class="section-title">today's meals</div><div class="section-count" id="mealCount">0 of 5 kept</div></div>
   <div id="mealsList"></div>
-  <div class="section-head"><div class="section-title">Supplements</div><div class="section-count">DAILY STACK</div></div>
+  <div class="section-head"><div class="section-title">your stack</div><div class="section-count">daily support</div></div>
   <div class="supplements"><div class="supp-list" id="suppList"></div></div>
-  <div class="section-head"><div class="section-title">Hydration</div><div class="section-count">1.25 GAL TARGET</div></div>
+  <div class="section-head"><div class="section-title">a steady stream</div><div class="section-count">20 cups · sips through the day</div></div>
   <div class="water-panel">
-    <div class="water-head"><div><div class="water-count"><span id="waterMain">0</span><span class="target">/20</span></div><div class="water-label">8 oz cups · ~1.25 gallons total</div></div></div>
+    <div class="water-head"><div><div class="water-count"><span id="waterMain">0</span><span class="target">/20</span></div><div class="water-label">eight ounces at a time</div></div></div>
     <div class="water-grid" id="waterGrid"></div>
-    <div class="water-actions"><button class="water-btn" onclick="addWater()">+ 1 Cup</button><button class="water-btn" onclick="removeWater()">− 1 Cup</button></div>
+    <div class="water-actions"><button class="water-btn" onclick="addWater()">+ one cup</button><button class="water-btn" onclick="removeWater()">− one cup</button></div>
   </div>
   <div class="week-strip">
-    <div class="section-head" style="margin-top:0;border-bottom:none;padding-bottom:0;"><div class="section-title" style="font-size:16px;">Week View</div><div class="section-count">TAP TO PREVIEW</div></div>
-    <div style="margin-top:16px;" class="week-grid" id="weekGrid"></div>
+    <div class="section-head" style="margin-top:0;border-bottom:none;padding-bottom:0;"><div class="section-title" style="font-size:20px;">the week ahead</div><div class="section-count">tap to look forward</div></div>
+    <div style="margin-top:18px;" class="week-grid" id="weekGrid"></div>
   </div>
-  <div class="section-head"><div class="section-title">Earned Principles</div><div class="section-count">YOUR OWN RULES</div></div>
-  <div style="background:var(--bg-card);border:1px solid var(--border);padding:18px 20px;margin-bottom:24px;">
-    <div style="display:flex;flex-direction:column;gap:14px;">
-      <div style="display:flex;gap:12px;align-items:flex-start;"><span style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:0.1em;min-width:32px;">01</span><div style="font-size:13px;color:var(--text-dim);line-height:1.5;"><strong style="color:var(--text);">Habit beats motivation.</strong> Motivation is weather. Habit is climate. You said it — you're a creature of habit, and that wins more often than not.</div></div>
-      <div style="display:flex;gap:12px;align-items:flex-start;"><span style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:0.1em;min-width:32px;">02</span><div style="font-size:13px;color:var(--text-dim);line-height:1.5;"><strong style="color:var(--text);">A meal is not a binge.</strong> Eating a planned, intentional meal — even a big one — is not the same thing as losing control. Don't conflate them. Don't punish them the same way.</div></div>
-      <div style="display:flex;gap:12px;align-items:flex-start;"><span style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:0.1em;min-width:32px;">03</span><div style="font-size:13px;color:var(--text-dim);line-height:1.5;"><strong style="color:var(--text);">Structure protects against overcorrection.</strong> Don't restrict the day after to "make up." Don't add cardio out of guilt. Stick to the plan. The plan is the plan because it works.</div></div>
-      <div style="display:flex;gap:12px;align-items:flex-start;"><span style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:0.1em;min-width:32px;">04</span><div style="font-size:13px;color:var(--text-dim);line-height:1.5;"><strong style="color:var(--text);">The data is one input, not a verdict.</strong> A 38% recovery is information. A 240.3 reading is information. Neither is a judgment about you. Trends over time, not snapshots.</div></div>
-      <div style="display:flex;gap:12px;align-items:flex-start;"><span style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:0.1em;min-width:32px;">05</span><div style="font-size:13px;color:var(--text-dim);line-height:1.5;"><strong style="color:var(--text);">No caffeine after 11 AM.</strong> Permanent rule. Data-validated multiple times. Late caffeine costs you HRV, sleep depth, and the next day's recovery. Not negotiable.</div></div>
-      <div style="display:flex;gap:12px;align-items:flex-start;"><span style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:0.1em;min-width:32px;">06</span><div style="font-size:13px;color:var(--text-dim);line-height:1.5;"><strong style="color:var(--text);">70/30.</strong> Seventy percent of this is becoming someone who can do hard things sustainably. Thirty percent is how you look. Lead with the seventy and the thirty will follow.</div></div>
-      <div style="display:flex;gap:12px;align-items:flex-start;"><span style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:0.1em;min-width:32px;">07</span><div style="font-size:13px;color:var(--text-dim);line-height:1.5;"><strong style="color:var(--text);">Things that are good are worth waiting for.</strong> You won't see the body you want in 60 days. You'll see it in 12-18 months of this. That's not a delay — that's the timeline.</div></div>
+  <div class="section-head"><div class="section-title">what you've learned</div><div class="section-count">earned, kept, returned to</div></div>
+  <div class="principles-block">
+    <div class="principles-list">
+      <div class="principle"><div class="principle-marker">i</div><div class="principle-text"><strong>Habit beats motivation.</strong>Motivation is weather. Habit is climate. You're a creature of habit, and that wins more often than not.</div></div>
+      <div class="principle"><div class="principle-marker">ii</div><div class="principle-text"><strong>A meal is not a binge.</strong>An intentional meal — even a big one — is not the same as losing control. Don't conflate them. Don't punish them the same way.</div></div>
+      <div class="principle"><div class="principle-marker">iii</div><div class="principle-text"><strong>Structure protects against overcorrection.</strong>Don't restrict the day after. Don't add cardio from guilt. The plan is the plan because it works.</div></div>
+      <div class="principle"><div class="principle-marker">iv</div><div class="principle-text"><strong>The data is one input, not a verdict.</strong>A 38% recovery is information. A 240.3 reading is information. Neither is a judgment about you.</div></div>
+      <div class="principle"><div class="principle-marker">v</div><div class="principle-text"><strong>No caffeine after 11 AM.</strong>Permanent. Data-validated. Late caffeine costs you HRV, sleep depth, and tomorrow's recovery.</div></div>
+      <div class="principle"><div class="principle-marker">vi</div><div class="principle-text"><strong>Seventy / thirty.</strong>Seventy percent of this is becoming someone who can do hard things sustainably. Thirty percent is how you look. Lead with the seventy.</div></div>
+      <div class="principle"><div class="principle-marker">vii</div><div class="principle-text"><strong>Things that are good are worth waiting for.</strong>You won't see the body you want in 60 days. You'll see it in 12–18 months of this. That's not a delay — that's the timeline.</div></div>
+      <div class="principle"><div class="principle-marker">viii</div><div class="principle-text"><strong>Working with yourself, not against.</strong>The current you isn't the enemy. They're the one doing the work. Be kind to them. Stewardship over combat.</div></div>
     </div>
   </div>
-  <div class="footer-note">Resets daily · <span class="accent">show up &gt; feel ready</span><br>Train 3:45 AM · caffeine cutoff 11 AM · 1.25 gal water · kitchen closes 9 PM · sleep 65–68°F</div>
+  <div class="footer-note">
+    <span class="quote">"the day you plant the seed is not the day you eat the fruit."</span>
+    resets at dawn · <span class="accent">show up, gently</span><br>
+    3:45 AM lift · caffeine cutoff 11 AM · 20 cups · kitchen closes 9 PM · sleep cool, 65–68°F
+  </div>
 </div>
 <script>
 const WEEK_PLAN = {
@@ -225,7 +277,8 @@ const WEEK_PLAN = {
       { id: 'm2', time: '07:30 · BREAKFAST', name: 'Morning Anchor', options: [
         { letter: 'A', desc: 'Eggs scrambled + oats + banana', ingredients: ['4 whole eggs + 2 egg whites','1 tsp olive oil','½ cup rolled oats','¾ cup unsweetened soy milk','1 banana sliced','1 tsp cinnamon','pinch iodized salt'], p: 48, c: 65, f: 22, k: 640, fi: 8, na: 380, ka: 950 },
         { letter: 'B', desc: 'Overnight oats w/ whey, chia, berries', ingredients: ['½ cup rolled oats','1 scoop (30g) whey isolate','1 tbsp chia seeds','¾ cup unsweetened soy milk','½ cup blueberries','1 tbsp natural peanut butter','pinch cinnamon'], p: 45, c: 60, f: 20, k: 600, fi: 11, na: 220, ka: 720 },
-        { letter: 'C', desc: 'Ground beef & egg breakfast scramble', ingredients: ['4 oz lean ground beef (93/7) browned','3 whole eggs scrambled','½ cup diced potatoes (pan-fried)','¼ cup peppers & onion','1 tsp olive oil','salt, pepper, paprika, hot sauce'], p: 46, c: 32, f: 26, k: 560, fi: 4, na: 420, ka: 760 } ] },
+        { letter: 'C', desc: 'Ground beef & egg breakfast scramble', ingredients: ['4 oz lean ground beef (93/7) browned','3 whole eggs scrambled','½ cup diced potatoes (pan-fried)','¼ cup peppers & onion','1 tsp olive oil','salt, pepper, paprika, hot sauce'], p: 46, c: 32, f: 26, k: 560, fi: 4, na: 420, ka: 760 },
+        { letter: 'D', desc: 'Sunrise smoothie bowl', ingredients: ['1 scoop (30g) whey isolate','½ frozen banana','½ cup frozen mixed berries','1 tbsp chia seeds','¾ cup unsweetened soy milk','2 tbsp granola sprinkled on top','½ tsp honey','blend thick, eat with spoon'], p: 40, c: 55, f: 12, k: 480, fi: 10, na: 180, ka: 700 } ] },
       { id: 'm3', time: '11:00 · MID-MORNING', name: 'Bridge Snack', options: [
         { letter: 'A', desc: 'Whey shake + apple + almonds', ingredients: ['1 scoop (30g) whey isolate','10 oz water','1 medium apple','1 oz raw almonds (23 nuts)'], p: 30, c: 30, f: 15, k: 360, fi: 7, na: 90, ka: 480 },
         { letter: 'B', desc: 'Sliced chicken breast + rice cakes', ingredients: ['4 oz cold prepped chicken breast, sliced','3 plain rice cakes','1 tbsp hot sauce or mustard'], p: 32, c: 24, f: 4, k: 270, fi: 1, na: 320, ka: 360 } ] },
@@ -235,7 +288,8 @@ const WEEK_PLAN = {
         { letter: 'C', desc: 'Chicken biryani (macro-tuned)', ingredients: ['6 oz cooked chicken thigh in biryani spices','1 cup basmati rice','½ caramelized onion','turmeric, garam masala, cumin, ginger, garlic','1 tsp olive oil','cilantro & mint','cucumber slices on side'], p: 54, c: 60, f: 16, k: 600, fi: 4, na: 520, ka: 720 } ] },
       { id: 'm5', time: '16:00 · AFTERNOON', name: 'Pre-Dinner Hold', options: [
         { letter: 'A', desc: 'Whey shake + banana', ingredients: ['1 scoop (30g) whey isolate','10 oz water','1 banana'], p: 30, c: 35, f: 2, k: 290, fi: 4, na: 80, ka: 580 },
-        { letter: 'B', desc: 'Tuna packet + rice cakes + cucumber', ingredients: ['1 tuna packet (4 oz)','4 plain rice cakes','½ cucumber sliced','black pepper, squeeze of lemon'], p: 30, c: 30, f: 3, k: 280, fi: 1.5, na: 380, ka: 340 } ] },
+        { letter: 'B', desc: 'Tuna packet + rice cakes + cucumber', ingredients: ['1 tuna packet (4 oz)','4 plain rice cakes','½ cucumber sliced','black pepper, squeeze of lemon'], p: 30, c: 30, f: 3, k: 280, fi: 1.5, na: 380, ka: 340 },
+        { letter: 'C', desc: 'Frozen berry whey blend (sorbet-style)', ingredients: ['1 scoop (30g) whey isolate','1 cup frozen mixed berries','¼ cup unsweetened soy milk','½ tsp honey','blend thick, eat with spoon'], p: 28, c: 22, f: 2, k: 220, fi: 6, na: 100, ka: 320 } ] },
       { id: 'm6', time: '19:00 · DINNER', name: 'Recovery Meal', options: [
         { letter: 'A', desc: 'Salmon + sweet potato + asparagus', ingredients: ['7 oz salmon fillet','1 medium sweet potato (baked)','1.5 cups roasted asparagus','1 tsp olive oil','lemon, salt, pepper, dill'], p: 50, c: 45, f: 22, k: 600, fi: 8, na: 280, ka: 1480 },
         { letter: 'B', desc: 'Chicken thighs + rice + bok choy', ingredients: ['7 oz boneless skinless chicken thighs','1 cup jasmine rice','2 heads baby bok choy stir-fried','1 tsp sesame oil','1 tbsp soy sauce','garlic, ginger'], p: 52, c: 55, f: 18, k: 620, fi: 3, na: 720, ka: 850 } ] }
@@ -271,7 +325,8 @@ const WEEK_PLAN = {
       { id: 'm2', time: '07:30 · BREAKFAST', name: 'Morning Anchor', options: [
         { letter: 'A', desc: 'Eggs + ½ oats + berries (lower carb)', ingredients: ['3 whole eggs + 2 whites','½ cup oats cooked in water','½ cup berries','1 tsp olive oil','cinnamon'], p: 36, c: 45, f: 17, k: 490, fi: 7, na: 280, ka: 720 },
         { letter: 'B', desc: 'Egg white omelet + sausage + avocado', ingredients: ['6 egg whites + 2 yolks','2 chicken sausage links (sliced, browned)','½ avocado','spinach, peppers, onion sautéed','1 tsp olive oil'], p: 48, c: 18, f: 28, k: 540, fi: 8, na: 720, ka: 1050 },
-        { letter: 'C', desc: 'Ground beef hash + sweet potato + spinach (no eggs)', ingredients: ['5 oz lean ground beef (93/7) browned','1 small sweet potato diced & pan-roasted','1 cup sautéed spinach','¼ avocado','1 tsp olive oil','salt, pepper, paprika, turmeric pinch','hot sauce'], p: 38, c: 28, f: 22, k: 480, fi: 7, na: 380, ka: 1080 } ] },
+        { letter: 'C', desc: 'Ground beef hash + sweet potato + spinach (no eggs)', ingredients: ['5 oz lean ground beef (93/7) browned','1 small sweet potato diced & pan-roasted','1 cup sautéed spinach','¼ avocado','1 tsp olive oil','salt, pepper, paprika, turmeric pinch','hot sauce'], p: 38, c: 28, f: 22, k: 480, fi: 7, na: 380, ka: 1080 },
+        { letter: 'D', desc: 'Berry chia pudding bowl', ingredients: ['3 tbsp chia seeds','1 cup unsweetened soy milk','1 scoop (30g) whey isolate','½ cup mixed berries','2 tbsp sliced almonds','½ tsp honey','½ tsp cinnamon','soak overnight, top with berries & almonds'], p: 38, c: 22, f: 20, k: 440, fi: 14, na: 200, ka: 580 } ] },
       { id: 'm3', time: '11:00 · MID-MORNING', name: 'Bridge Snack', options: [
         { letter: 'A', desc: 'Whey shake + apple', ingredients: ['1 scoop whey','10 oz water','1 apple'], p: 30, c: 25, f: 2, k: 250, fi: 5, na: 80, ka: 280 },
         { letter: 'B', desc: 'Hard-boiled eggs + cucumber + hummus', ingredients: ['3 hard-boiled eggs','½ cucumber sliced','2 tbsp hummus'], p: 25, c: 12, f: 18, k: 300, fi: 4, na: 380, ka: 380 } ] },
@@ -464,7 +519,7 @@ function renderMeals(dayData) {
     list.appendChild(card);
   });
   const completedCount = isToday ? dayData.meals.filter(m => state.meals[m.id]).length : 0;
-  document.getElementById('mealCount').textContent = `${completedCount}/${dayData.meals.length} LOGGED`;
+  document.getElementById('mealCount').textContent = `${completedCount} of ${dayData.meals.length} kept`;
 }
 function toggleMeal(headerEl, e) { if (e.target.classList.contains('check-btn')) return; headerEl.parentElement.classList.toggle('open'); }
 async function toggleMealComplete(mealId) { if (currentDay !== actualToday) return; state.meals[mealId] = !state.meals[mealId]; await saveState(); render(); }
